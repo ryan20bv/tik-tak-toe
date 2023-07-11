@@ -1,40 +1,48 @@
 import React from "react";
+import { ISaveGame } from "@/data/modelTypes";
+import TableBody from "./TableBody";
 
-const Table = () => {
+interface PropsType {
+	savedGames: ISaveGame[];
+}
+
+const Table: React.FC<PropsType> = ({ savedGames }) => {
 	return (
-		<table>
-			<thead>
-				<tr>
-					<th rowSpan={2}></th>
-					<th rowSpan={2}>Players name:</th>
-					<th colSpan={3}>score</th>
-					<th rowSpan={2}>action</th>
-				</tr>
-				<tr>
-					<td>W</td>
-					<td>L</td>
-					<td>D</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td rowSpan={2}>1</td>
-					<td>ray</td>
-					<td>2</td>
-					<td>1</td>
-					<td>0</td>
-					<td rowSpan={2}>
-						<button className='bg-blue-400 border border-blue-400 '>continue</button>
-					</td>
-				</tr>
-				<tr>
-					<td>jake</td>
-					<td>2</td>
-					<td>1</td>
-					<td>0</td>
-				</tr>
-			</tbody>
-		</table>
+		<section>
+			<h3>List of saved game</h3>
+
+			<div className='border border-black max-h-[75%] overflow-y-scroll  mt-1'>
+				{!savedGames ||
+					(savedGames.length === 0 && (
+						<div className='w-[300px] text-center'>No saved Games</div>
+					))}
+				{savedGames && savedGames.length > 0 && (
+					<table>
+						<thead>
+							<tr>
+								<th rowSpan={2}></th>
+								<th rowSpan={2}>Players name:</th>
+								<th colSpan={3}>score</th>
+								<th rowSpan={2}>action</th>
+							</tr>
+							<tr>
+								<td>W</td>
+								<td>L</td>
+								<td>D</td>
+							</tr>
+						</thead>
+
+						{savedGames.map((eachGame: ISaveGame, index: number) => (
+							<TableBody
+								key={eachGame.id}
+								eachGame={eachGame}
+								index={index}
+							/>
+						))}
+					</table>
+				)}
+			</div>
+		</section>
 	);
 };
 
