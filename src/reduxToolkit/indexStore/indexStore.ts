@@ -4,12 +4,24 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 import tikTakToeSlice from "../tiktak/tiktakSlice";
 
+// for redux persistence
+import storage from "redux-persist/lib/storage";
+import { persistReducer, persistStore } from "redux-persist";
+
 const reducers = combineReducers({
 	tikTakToeReducer: tikTakToeSlice.reducer,
 });
 
+const persistConfig = {
+	key: "root",
+	storage,
+	blacklist: [],
+	// storageSession,
+};
+const persistedReducer = persistReducer(persistConfig, reducers);
+
 export const indexStore = configureStore({
-	reducer: reducers,
+	reducer: persistedReducer,
 	// middleware: [thunk],
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
@@ -23,4 +35,6 @@ export type AppDispatch = typeof indexStore.dispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export const useAppDispatch: () => AppDispatch = useDispatch;
 
-export default indexStore;
+// export default indexStore;
+
+export const persistor = persistStore(indexStore);

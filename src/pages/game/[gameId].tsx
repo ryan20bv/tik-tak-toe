@@ -14,7 +14,7 @@ interface PropsTypes {
 }
 
 const SpecificGamePage: React.FC<PropsTypes> = ({ gameDetail }) => {
-	return <SpecificGame gameDetail={gameDetail} />;
+	return <SpecificGame />;
 };
 
 export const getStaticPaths: GetStaticPaths = async () => {
