@@ -9,3 +9,8 @@ export interface IPlayer {
 	name: string;
 	win: number;
 }
+export interface IGameTileData {
+	id: string;
+	filled: boolean;
+	item: string;
+}
