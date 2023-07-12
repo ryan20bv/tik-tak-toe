@@ -30,10 +30,10 @@ export const updateSaveGameAction =
 		if (foundGameIndex < 0) {
 			return;
 		}
-		console.log(savedGames);
+
 		const updatedSaveGame = [...savedGames];
 		updatedSaveGame[foundGameIndex] = updatedSelectedGame;
-		console.log(updatedSaveGame);
+
 		dispatch(getAllSavedGamesRed({ savedGames: updatedSaveGame }));
 	};
 
@@ -72,5 +72,33 @@ export const updateSelectedGameHistoryAction =
 		copyOfSelectedGame.gameHistory = [...copyOfGameHistory];
 		copyOfSelectedGame.playerTurn = newPlayerTurn;
 		await dispatch(updateSaveGameAction(copyOfSelectedGame));
-		dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+		await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+		dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
 	};
+
+export const checkIfThereIsAWinnerAction =
+	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
+		console.log(updatedSelectedGame);
+		const areAllTilesFilled: boolean = await dispatch(
+			checkIfAllTilesAreFilled(updatedSelectedGame.gameHistory)
+		);
+		console.log(areAllTilesFilled);
+		if (areAllTilesFilled) {
+			// game is DRAW
+			return;
+		}
+	};
+
+export const checkIfAllTilesAreFilled =
+	(gameHistory: IGameTileData[][]) => async (dispatch: any, getState: any) => {
+		for (const row of gameHistory) {
+			for (const cell of row) {
+				if (!cell.filled) {
+					return false;
+				}
+			}
+		}
+		return true;
+	};
+
+// if game is Draw
