@@ -20,11 +20,14 @@ const SpecificGame = () => {
 	const stopGameHandler = () => {
 		router.push("/");
 	};
+	const addedInfo = selectedGame.playerTurn === "1" ? "X" : "O";
 	return (
 		<section>
 			<PlayersInfo gameDetail={selectedGame} />
-			<div className='text-center my-2'> Player 2 turn</div>
-			<GameBoard />
+			<div className='text-center my-2'>
+				{`Player ${selectedGame.playerTurn} turn " ${addedInfo} "`}
+			</div>
+			<GameBoard selectedGame={selectedGame} />
 			<div className=' my-4 flex justify-center'>
 				<button
 					className='bg-red-400 '

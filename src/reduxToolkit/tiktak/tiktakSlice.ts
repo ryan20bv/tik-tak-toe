@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { ISaveGame } from "@/data/modelTypes";
+import { dummyData } from "@/data/dummydata";
 
 interface ITikTakToeState {
 	savedGames: ISaveGame[];
@@ -7,7 +8,7 @@ interface ITikTakToeState {
 }
 
 const initialTikTakState: ITikTakToeState = {
-	savedGames: [],
+	savedGames: [...dummyData],
 	selectedGame: {} as ISaveGame,
 };
 

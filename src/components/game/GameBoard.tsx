@@ -1,18 +1,32 @@
 import React from "react";
-import { IGameTileData } from "@/data/modelTypes";
-import { gameData } from "@/data/dummydata";
+import { IGameTileData, ISaveGame } from "@/data/modelTypes";
 import GameTile from "./GameTile";
+// for redux purposes
+import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
+import { updateSelectedGameHistoryAction } from "@/reduxToolkit/tiktak/tiktakAction";
 
-const GameBoard = () => {
+interface PropsType {
+	selectedGame: ISaveGame;
+}
+
+const GameBoard: React.FC<PropsType> = ({ selectedGame }) => {
+	const dispatch = useAppDispatch();
+
+	const updateGameHistory = (tileData: IGameTileData) => {
+		dispatch(updateSelectedGameHistoryAction(tileData));
+	};
 	return (
 		<main className='border-2 border-black max-w-max '>
 			<section className='flex w-[12rem] flex-wrap'>
-				{gameData.map((tileData: IGameTileData) => (
-					<GameTile
-						tileData={tileData}
-						key={tileData.id}
-					/>
-				))}
+				{selectedGame.gameHistory.map((rowTile: IGameTileData[]) =>
+					rowTile.map((tileData: IGameTileData) => (
+						<GameTile
+							tileData={tileData}
+							key={tileData.id}
+							updateGameHistory={updateGameHistory}
+						/>
+					))
+				)}
 			</section>
 		</main>
 	);
