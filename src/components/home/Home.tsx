@@ -13,7 +13,7 @@ const Home: React.FC<PropsType> = ({ savedGames }) => {
 		router.push("/game");
 	};
 	return (
-		<section className='flex items-center border  flex-col  overflow-hidden'>
+		<section className='flex items-center border border-red-500 flex-col  overflow-hidden h-[80%]'>
 			<div className=' mb-4'>
 				<button
 					className='bg-green-300 border border-green-300'
@@ -22,7 +22,11 @@ const Home: React.FC<PropsType> = ({ savedGames }) => {
 					Start New Game
 				</button>
 			</div>
-			<Table savedGames={savedGames} />
+			{!savedGames ||
+				(savedGames.length === 0 && (
+					<div className='w-[300px] text-center mt-20 text-2xl'>No saved Games</div>
+				))}
+			{savedGames && savedGames.length > 0 && <Table savedGames={savedGames} />}
 		</section>
 	);
 };

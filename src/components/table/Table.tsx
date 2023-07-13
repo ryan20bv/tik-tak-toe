@@ -10,13 +10,8 @@ const Table: React.FC<PropsType> = ({ savedGames }) => {
 	return (
 		<section>
 			<h3>List of saved game</h3>
-
-			<div className='border border-black max-h-[75%] overflow-y-scroll  mt-1'>
-				{!savedGames ||
-					(savedGames.length === 0 && (
-						<div className='w-[300px] text-center'>No saved Games</div>
-					))}
-				{savedGames && savedGames.length > 0 && (
+			<div className=' overflow-y-scroll '>
+				<div className=' mt-1'>
 					<table>
 						<thead>
 							<tr>
@@ -34,13 +29,13 @@ const Table: React.FC<PropsType> = ({ savedGames }) => {
 
 						{savedGames.map((eachGame: ISaveGame, index: number) => (
 							<TableBody
-								key={eachGame.id}
+								key={eachGame._id}
 								eachGame={eachGame}
 								index={index}
 							/>
 						))}
 					</table>
-				)}
+				</div>
 			</div>
 		</section>
 	);

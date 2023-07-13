@@ -13,10 +13,10 @@ interface PropsType {
 const TableBody: React.FC<PropsType> = ({ eachGame, index }) => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-	const { player1, player2, id, draw } = eachGame;
+	const { player1, player2, _id, draw } = eachGame;
 	const goToGamePageHandler = (game: ISaveGame) => {
 		dispatch(setSelectedGameAction(game));
-		router.push("/game/" + game.id);
+		router.push(`/game/${player1.name}vs${player2.name}`);
 	};
 	const addedClass = index % 2 === 0 ? "bg-blue-100" : "bg-white";
 	return (
