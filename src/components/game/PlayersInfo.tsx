@@ -7,7 +7,7 @@ interface PropsType {
 }
 
 const PlayersInfo: React.FC<PropsType> = ({ gameDetail }) => {
-	const { player1, player2, id, draw } = gameDetail;
+	const { player1, player2, draw } = gameDetail;
 	return (
 		<section className='flex flex-col justify-between mb-2'>
 			<div className='flex flex-col '>

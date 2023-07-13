@@ -18,7 +18,7 @@ const GameTile: React.FC<PropsType> = ({ tileData, updateGameHistory }) => {
 	return (
 		<div
 			className={`w-[4rem] h-[4rem] flex items-center justify-center border-r-2 border-b-2 border-black text-2xl ${tileBackground}`}
-			id={tileData.id}
+			id={tileData.tile_id}
 			onClick={toggleTileHandler}
 		>
 			{tileData.item}

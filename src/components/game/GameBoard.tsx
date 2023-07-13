@@ -18,11 +18,11 @@ const GameBoard: React.FC<PropsType> = ({ selectedGame }) => {
 	return (
 		<main className='border-2 border-black max-w-max '>
 			<section className='flex w-[12rem] flex-wrap'>
-				{selectedGame.gameHistory.map((rowTile: IGameTileData[]) =>
+				{selectedGame.history.gameHistory.map((rowTile: IGameTileData[]) =>
 					rowTile.map((tileData: IGameTileData) => (
 						<GameTile
 							tileData={tileData}
-							key={tileData.id}
+							key={tileData.tile_id}
 							updateGameHistory={updateGameHistory}
 						/>
 					))

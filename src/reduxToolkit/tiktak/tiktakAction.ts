@@ -1,4 +1,4 @@
-import { ISaveGame, IGameTileData } from "@/data/modelTypes";
+import { ISaveGame, IGameTileData, IHistory } from "@/data/modelTypes";
 import {
 	getAllSavedGamesRed,
 	resetTikTakRed,
@@ -24,9 +24,9 @@ export const updateSaveGameAction =
 		const { savedGames } = getState().tikTakToeReducer;
 
 		const foundGameIndex = savedGames.findIndex(
-			(item: ISaveGame) => item.id === updatedSelectedGame.id
+			(item: ISaveGame) => item._id === updatedSelectedGame._id
 		);
-		console.log(foundGameIndex);
+		// console.log(foundGameIndex);
 		if (foundGameIndex < 0) {
 			return;
 		}
@@ -40,8 +40,7 @@ export const updateSaveGameAction =
 export const updateSelectedGameHistoryAction =
 	(tileData: IGameTileData) => async (dispatch: any, getState: any) => {
 		const { selectedGame } = getState().tikTakToeReducer;
-
-		const { playerTurn, gameHistory } = selectedGame;
+		const { playerTurn, history } = selectedGame;
 		let newItem: string = "";
 		let newPlayerTurn: string = playerTurn;
 		if (playerTurn === "1") {
@@ -51,15 +50,16 @@ export const updateSelectedGameHistoryAction =
 			newItem = "O";
 			newPlayerTurn = "1";
 		}
-		const separatedId = tileData.id.split("-");
+		const separatedId = tileData.tile_id.split("-");
 		const rowIndex = +separatedId[0] - 1; // "2"
 		const colIndex = +separatedId[1] - 1; // "1"
 		const newTileData: IGameTileData = {
-			id: tileData.id,
+			tile_id: tileData.tile_id,
 			filled: true,
 			item: newItem,
 		};
-		const copyOfGameHistory: IGameTileData[][] = gameHistory.map(
+		const copyOfHistory: IHistory = { ...history };
+		const copyOfGameHistory: IGameTileData[][] = history.gameHistory.map(
 			(rowTile: IGameTileData[]) => {
 				return rowTile.map((eachTile: IGameTileData) => {
 					return eachTile;
@@ -68,23 +68,65 @@ export const updateSelectedGameHistoryAction =
 		);
 
 		copyOfGameHistory[rowIndex][colIndex] = { ...newTileData };
+		copyOfHistory.gameHistory = copyOfGameHistory;
 		const copyOfSelectedGame: ISaveGame = { ...selectedGame };
-		copyOfSelectedGame.gameHistory = [...copyOfGameHistory];
+		copyOfSelectedGame.history = { ...copyOfHistory };
+
 		copyOfSelectedGame.playerTurn = newPlayerTurn;
-		await dispatch(updateSaveGameAction(copyOfSelectedGame));
-		await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
-		dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
+
+		const { message } = await dispatch(
+			updateHistoryInDatabaseAction(copyOfHistory)
+		);
+		console.log(message);
+		if (message === "history updated") {
+			await dispatch(updateSaveGameAction(copyOfSelectedGame));
+			await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+			dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
+		}
+	};
+
+export const updateHistoryInDatabaseAction =
+	(updatedHistory: IHistory) => async (dispatch: any, getState: any) => {
+		const { selectedGame } = getState().tikTakToeReducer;
+		try {
+			const bodyData = {
+				newHistory: updatedHistory,
+			};
+			const url =
+				process.env.NEXT_PUBLIC_BACK_END_URL +
+				"/api/tiktaktoe/history/update/" +
+				selectedGame._id;
+			const options = {
+				method: "PATCH",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(bodyData),
+			};
+
+			const response = await fetch(url, options);
+
+			const data = await response.json();
+			if (!response.ok) {
+				console.log("updateHistoryInDatabaseAction", data);
+				return;
+			}
+			// console.log(data);
+			return { message: data.message };
+		} catch (err) {
+			console.log("updateHistoryInDatabaseAction", err);
+		}
 	};
 
 export const checkIfThereIsAWinnerAction =
 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
-		console.log(updatedSelectedGame);
 		const areAllTilesFilled: boolean = await dispatch(
-			checkIfAllTilesAreFilled(updatedSelectedGame.gameHistory)
+			checkIfAllTilesAreFilled(updatedSelectedGame.history.gameHistory)
 		);
 		console.log(areAllTilesFilled);
 		if (areAllTilesFilled) {
 			// game is DRAW
+			console.log("Game is DRAW");
 			return;
 		}
 	};
@@ -100,5 +142,3 @@ export const checkIfAllTilesAreFilled =
 		}
 		return true;
 	};
-
-// if game is Draw
