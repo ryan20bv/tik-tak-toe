@@ -150,16 +150,16 @@ export const startGameData: IGameTileData[] = [
 	},
 ];
 
-export const getAllSavedGames = () => {
-	return dummyData;
-};
+// export const getAllSavedGames = () => {
+// 	return dummyData;
+// };
 
-export const getSavedGamesById = (id: string) => {
-	const filteredGame = dummyData.find((indivGame: ISaveGame) => {
-		return indivGame._id === id;
-	});
-	return filteredGame;
-};
+// export const getSavedGamesById = (id: string) => {
+// 	const filteredGame = dummyData.find((indivGame: ISaveGame) => {
+// 		return indivGame._id === id;
+// 	});
+// 	return filteredGame;
+// };
 
 export const getGameData = () => {
 	return gameData;
