@@ -16,6 +16,7 @@ const StartNewGame: React.FC<PropsType> = ({ startGameData }) => {
 						<GameTile
 							tileData={tileData}
 							key={tileData.id}
+							updateGameHistory={() => {}}
 						/>
 					))}
 				</div>

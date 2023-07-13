@@ -3,6 +3,8 @@ export interface ISaveGame {
 	player1: IPlayer;
 	player2: IPlayer;
 	draw: number;
+	gameHistory: IGameTileData[][];
+	playerTurn: string;
 }
 
 export interface IPlayer {
