@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useRef } from "react";
 
 interface PropsType {
 	info: string;
 	placeholderInfo: string;
 	type: string;
+	inputRef: React.RefObject<HTMLInputElement>;
 }
 
-const InputUI: React.FC<PropsType> = ({ type, info, placeholderInfo }) => {
+const InputUI: React.FC<PropsType> = ({
+	type,
+	info,
+	placeholderInfo,
+	inputRef,
+}) => {
 	return (
 		<div className='divide-y divide-gray-200'>
 			<div className=' text-base leading-6 space-y-4 text-gray-700 sm:text-lg sm:leading-7'>
@@ -17,7 +23,7 @@ const InputUI: React.FC<PropsType> = ({ type, info, placeholderInfo }) => {
 						id={info}
 						// required
 						autoComplete='off'
-						// ref={emailInputRef}
+						ref={inputRef}
 						className='peer placeholder-transparent h-10 w-full border-b-2 border-black text-gray-900 focus:outline-none focus:borer-rose-600 px-4 bg-transparent focus:border-[#AF7EEB]'
 						placeholder={placeholderInfo}
 					/>

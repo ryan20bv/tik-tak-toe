@@ -22,8 +22,11 @@ const Home: React.FC<PropsType> = ({ savedGames }) => {
 					Start New Game
 				</button>
 			</div>
-
-			<Table savedGames={savedGames} />
+			{!savedGames ||
+				(savedGames.length === 0 && (
+					<div className='w-[300px] text-center mt-20 text-2xl'>No saved Games</div>
+				))}
+			{savedGames && savedGames.length > 0 && <Table savedGames={savedGames} />}
 		</section>
 	);
 };

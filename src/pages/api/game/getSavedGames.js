@@ -9,6 +9,9 @@ const handler = async (req, res) => {
 		const response = await axios.get(
 			process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/allGames"
 		);
+		if (response.status !== 200) {
+			return;
+		}
 
 		res.status(200).json({ data: response.data });
 	} catch (err) {
