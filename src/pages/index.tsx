@@ -1,5 +1,5 @@
-import React from "react";
-import type { InferGetStaticPropsType, GetStaticProps } from "next";
+import React, { useEffect } from "react";
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import Home from "@/components/home/Home";
 
 import { getAllSavedGames } from "@/data/dummydata";
@@ -12,25 +12,29 @@ import {
 } from "@/reduxToolkit/indexStore/indexStore";
 import { getAllSavedGamesAction } from "@/reduxToolkit/tiktak/tiktakAction";
 
-// interface PropsType {
-// 	savedGames: ISaveGame[];
-// }
+interface PropsType {
+	allSavedGames: ISaveGame[];
+}
 
-const HomePage = () => {
-	const { savedGames } = useAppSelector(
-		(state: RootState) => state.tikTakToeReducer
-	);
-	return <Home savedGames={savedGames} />;
+const HomePage: React.FC<PropsType> = ({ allSavedGames }) => {
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(getAllSavedGamesAction(allSavedGames));
+	}, [dispatch, allSavedGames]);
+
+	return <Home savedGames={allSavedGames} />;
 };
 
-// export const getStaticProps: GetStaticProps = async () => {
-// 	const savedGames: ISaveGame[] = await getAllSavedGames();
-
-// 	return {
-// 		props: {
-// 			savedGames,
-// 		},
-// 	};
-// };
+export const getServerSideProps = async () => {
+	const res = await fetch(
+		process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/getSavedGames"
+	);
+	const { data } = await res.json();
+	const { allSavedGames } = data;
+	return {
+		props: { allSavedGames },
+	};
+};
 
 export default HomePage;

@@ -1,10 +1,16 @@
 export interface ISaveGame {
-	id: string;
+	_id: string;
 	player1: IPlayer;
 	player2: IPlayer;
 	draw: number;
-	gameHistory: IGameTileData[][];
+	gameHistory: {
+		gameHistory: IGameTileData[][];
+		game_id: string;
+		_id: string;
+	};
+
 	playerTurn: string;
+	password: string;
 }
 
 export interface IPlayer {
@@ -12,7 +18,7 @@ export interface IPlayer {
 	win: number;
 }
 export interface IGameTileData {
-	id: string;
+	tile_id: string;
 	filled: boolean;
 	item: string;
 }
