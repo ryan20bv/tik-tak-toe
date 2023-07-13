@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
-import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+
 import Home from "@/components/home/Home";
 
-import { getAllSavedGames } from "@/data/dummydata";
 import { ISaveGame } from "@/data/modelTypes";
 // for redux purposes
 import {
