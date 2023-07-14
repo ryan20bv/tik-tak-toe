@@ -74,19 +74,19 @@ export const updateSelectedGameHistoryAction =
 		copyOfSelectedGame.history = { ...copyOfHistory };
 
 		copyOfSelectedGame.playerTurn = newPlayerTurn;
-		dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
-		// const data = await dispatch(
-		// 	updateHistoryInDatabaseAction(copyOfSelectedGame)
-		// );
+		// dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
+		const data = await dispatch(
+			updateHistoryInDatabaseAction(copyOfSelectedGame)
+		);
 
-		// const { message, latestUpdateGame } = data;
+		const { message, latestUpdateGame } = data;
 
-		// console.log(message);
-		// if (message === "history updated") {
-		// 	await dispatch(updateSaveGameAction(latestUpdateGame));
-		// 	await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-		// 	dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
-		// }
+		console.log(message);
+		if (message === "history updated") {
+			await dispatch(updateSaveGameAction(latestUpdateGame));
+			await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+			dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+		}
 		// await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
 		// dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
 	};
@@ -119,12 +119,12 @@ export const updateHistoryInDatabaseAction =
 			}
 			// console.log(data);
 			const { message, latestUpdateGame } = data;
-			// return { message, latestUpdateGame };
-			if (message === "history updated") {
-				await dispatch(updateSaveGameAction(latestUpdateGame));
-				await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-				dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
-			}
+			return { message, latestUpdateGame };
+			// if (message === "history updated") {
+			// 	await dispatch(updateSaveGameAction(latestUpdateGame));
+			// 	await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+			// 	dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+			// }
 		} catch (err) {
 			console.log("updateHistoryInDatabaseAction", err);
 		}
@@ -218,9 +218,21 @@ export const updatePlayerWinAction =
 
 			copyOfSelectedGame.player2 = updatePlayer2Win;
 		}
-		dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
+		// dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
 		// await dispatch(updateSaveGameAction(copyOfSelectedGame));
 		// dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+		const data = await dispatch(
+			updateHistoryInDatabaseAction(copyOfSelectedGame)
+		);
+
+		const { message, latestUpdateGame } = data;
+
+		console.log(message);
+		if (message === "history updated") {
+			await dispatch(updateSaveGameAction(latestUpdateGame));
+			dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+			// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+		}
 	};
 
 export const checkIfAllTilesAreFilled =
@@ -233,10 +245,10 @@ export const checkIfAllTilesAreFilled =
 				}
 			}
 		}
-		let message: string = "it's a DRAW";
+		let gameMessage: string = "it's a DRAW";
 		dispatch(
 			updateGameMessageRed({
-				gameMessage: message,
+				gameMessage: gameMessage,
 				isGameMessageOpen: true,
 			})
 		);
@@ -246,9 +258,21 @@ export const checkIfAllTilesAreFilled =
 		let updatedDraw = selectedGame.draw + 1;
 		const copyOfSelectedGame: ISaveGame = { ...selectedGame };
 		copyOfSelectedGame.draw = updatedDraw;
-		dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
+		// dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
 		// await dispatch(updateSaveGameAction(copyOfSelectedGame));
 		// dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+		const data = await dispatch(
+			updateHistoryInDatabaseAction(copyOfSelectedGame)
+		);
+
+		const { message, latestUpdateGame } = data;
+
+		console.log(message);
+		if (message === "history updated") {
+			await dispatch(updateSaveGameAction(latestUpdateGame));
+			await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+			dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+		}
 		return;
 	};
 
