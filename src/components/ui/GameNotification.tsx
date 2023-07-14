@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 
 interface PropsType {
 	gameMessage: string;
-	onResetBoard: () => void;
+	onUpdateBoard: () => void;
 }
 
 const GameNotification: React.FC<PropsType> = ({
 	gameMessage,
-	onResetBoard,
+	onUpdateBoard,
 }) => {
 	const [messagePortal, setMessagePortal] = useState<any>();
 	useEffect(() => {
@@ -27,7 +27,7 @@ const GameNotification: React.FC<PropsType> = ({
 							<h1 className='mb-4'>{gameMessage}</h1>
 							<button
 								className='bg-blue-400 '
-								onClick={onResetBoard}
+								onClick={onUpdateBoard}
 							>
 								OK
 							</button>

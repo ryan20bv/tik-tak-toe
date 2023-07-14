@@ -276,7 +276,7 @@ export const checkIfAllTilesAreFilled =
 		return;
 	};
 
-export const resetGameBoardAction =
+export const updateGameMessageAction =
 	() => async (dispatch: any, getState: any) => {
 		dispatch(
 			updateGameMessageRed({

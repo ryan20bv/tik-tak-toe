@@ -10,7 +10,8 @@ import {
 	RootState,
 	useAppSelector,
 } from "@/reduxToolkit/indexStore/indexStore";
-import { resetGameBoardAction } from "@/reduxToolkit/tiktak/tiktakAction";
+import { updateGameMessageAction } from "@/reduxToolkit/tiktak/tiktakAction";
+import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/historyAction";
 
 const SpecificGame = () => {
 	const router = useRouter();
@@ -22,8 +23,13 @@ const SpecificGame = () => {
 	const stopGameHandler = () => {
 		router.push("/");
 	};
-	const resetBoardAfterResult = () => {
-		dispatch(resetGameBoardAction());
+	const updateGameMessageHandler = () => {
+		dispatch(updateGameMessageAction());
+	};
+
+	const resetBoardHandler = () => {
+		console.log("reset");
+		dispatch(resetBoardHistoryInDatabaseAction(selectedGame));
 	};
 	const addedInfo = selectedGame.playerTurn === "1" ? "X" : "O";
 	return (
@@ -41,13 +47,18 @@ const SpecificGame = () => {
 					Stop
 				</button>
 				{selectedGame.gameIsDone && (
-					<button className='bg-blue-300'>Reset Board</button>
+					<button
+						className='bg-blue-300'
+						onClick={resetBoardHandler}
+					>
+						Reset Board
+					</button>
 				)}
 			</div>
 			{isGameMessageOpen && (
 				<GameNotification
 					gameMessage={gameMessage}
-					onResetBoard={resetBoardAfterResult}
+					onUpdateBoard={updateGameMessageHandler}
 				/>
 			)}
 		</section>
