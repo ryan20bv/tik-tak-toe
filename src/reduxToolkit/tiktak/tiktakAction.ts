@@ -188,13 +188,14 @@ export const lookForThreeSameTilesAction =
 		if (item === "O") {
 			message = `Player 2 WIN  "O" `;
 		}
-		dispatch(updatePlayerWinAction(item));
+		await dispatch(updatePlayerWinAction(item));
 		dispatch(
 			updateGameMessageRed({
 				gameMessage: message,
 				isGameMessageOpen: true,
 			})
 		);
+
 		return;
 	};
 

@@ -40,6 +40,9 @@ const SpecificGame = () => {
 				>
 					Stop
 				</button>
+				{selectedGame.gameIsDone && (
+					<button className='bg-blue-300'>Reset Board</button>
+				)}
 			</div>
 			{isGameMessageOpen && (
 				<GameNotification

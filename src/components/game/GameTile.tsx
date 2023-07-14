@@ -3,11 +3,16 @@ import { IGameTileData } from "@/data/modelTypes";
 interface PropsType {
 	tileData: IGameTileData;
 	updateGameHistory: (tileData: IGameTileData) => void;
+	gameIsDone: boolean;
 }
 
-const GameTile: React.FC<PropsType> = ({ tileData, updateGameHistory }) => {
+const GameTile: React.FC<PropsType> = ({
+	tileData,
+	updateGameHistory,
+	gameIsDone,
+}) => {
 	const toggleTileHandler = (e: React.MouseEvent<HTMLElement>) => {
-		if (tileData.filled) {
+		if (tileData.filled && gameIsDone) {
 			return;
 		}
 		updateGameHistory(tileData);
