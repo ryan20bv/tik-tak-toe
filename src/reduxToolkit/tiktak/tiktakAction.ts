@@ -74,7 +74,7 @@ export const updateSelectedGameHistoryAction =
 		copyOfSelectedGame.history = { ...copyOfHistory };
 
 		copyOfSelectedGame.playerTurn = newPlayerTurn;
-
+		dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
 		// const data = await dispatch(
 		// 	updateHistoryInDatabaseAction(copyOfSelectedGame)
 		// );
@@ -87,8 +87,8 @@ export const updateSelectedGameHistoryAction =
 		// 	await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
 		// 	dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 		// }
-		await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
-		dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
+		// await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+		// dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
 	};
 
 export const updateHistoryInDatabaseAction =
@@ -119,7 +119,12 @@ export const updateHistoryInDatabaseAction =
 			}
 			// console.log(data);
 			const { message, latestUpdateGame } = data;
-			return { message, latestUpdateGame };
+			// return { message, latestUpdateGame };
+			if (message === "history updated") {
+				await dispatch(updateSaveGameAction(latestUpdateGame));
+				await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+				dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+			}
 		} catch (err) {
 			console.log("updateHistoryInDatabaseAction", err);
 		}
@@ -127,6 +132,7 @@ export const updateHistoryInDatabaseAction =
 
 export const checkIfThereIsAWinnerAction =
 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
+		console.log("checkIfThereIsAWinnerAction");
 		await dispatch(
 			lookForThreeSameTilesAction(updatedSelectedGame.history.gameHistory)
 		);
@@ -146,6 +152,7 @@ export const lookForThreeSameTilesAction =
 				gameHistory[row][0].item !== ""
 			) {
 				item = gameHistory[row][0].item;
+				console.log("horizontal");
 			}
 		}
 		// check for vertical winner
@@ -157,6 +164,7 @@ export const lookForThreeSameTilesAction =
 				gameHistory[0][col].item !== ""
 			) {
 				item = gameHistory[0][col].item;
+				console.log("vertical");
 			}
 		}
 		// check for diagonal winner
@@ -171,6 +179,7 @@ export const lookForThreeSameTilesAction =
 				gameHistory[1][1].item !== "")
 		) {
 			item = gameHistory[1][1].item;
+			console.log("diagonal");
 		}
 
 		if (!item || item === "") {
@@ -179,7 +188,7 @@ export const lookForThreeSameTilesAction =
 		if (item === "O") {
 			message = `Player 2 WIN  "O" `;
 		}
-		await dispatch(updatePlayerWinAction(item));
+		dispatch(updatePlayerWinAction(item));
 		dispatch(
 			updateGameMessageRed({
 				gameMessage: message,
@@ -192,8 +201,7 @@ export const lookForThreeSameTilesAction =
 export const updatePlayerWinAction =
 	(item: string) => async (dispatch: any, getState: any) => {
 		const { selectedGame } = getState().tikTakToeReducer;
-		console.log(item);
-		console.log(selectedGame);
+
 		const copyOfSelectedGame: ISaveGame = { ...selectedGame };
 		if (item === "X") {
 			let updatePlayer1Win = {
@@ -210,8 +218,9 @@ export const updatePlayerWinAction =
 
 			copyOfSelectedGame.player2 = updatePlayer2Win;
 		}
-		await dispatch(updateSaveGameAction(copyOfSelectedGame));
-		dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+		dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
+		// await dispatch(updateSaveGameAction(copyOfSelectedGame));
+		// dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
 	};
 
 export const checkIfAllTilesAreFilled =
@@ -237,8 +246,9 @@ export const checkIfAllTilesAreFilled =
 		let updatedDraw = selectedGame.draw + 1;
 		const copyOfSelectedGame: ISaveGame = { ...selectedGame };
 		copyOfSelectedGame.draw = updatedDraw;
-		await dispatch(updateSaveGameAction(copyOfSelectedGame));
-		dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
+		dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
+		// await dispatch(updateSaveGameAction(copyOfSelectedGame));
+		// dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
 		return;
 	};
 
