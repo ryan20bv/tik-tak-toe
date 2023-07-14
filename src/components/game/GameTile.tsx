@@ -12,7 +12,7 @@ const GameTile: React.FC<PropsType> = ({
 	gameIsDone,
 }) => {
 	const toggleTileHandler = (e: React.MouseEvent<HTMLElement>) => {
-		if (tileData.filled && gameIsDone) {
+		if (tileData.filled || gameIsDone) {
 			return;
 		}
 		updateGameHistory(tileData);

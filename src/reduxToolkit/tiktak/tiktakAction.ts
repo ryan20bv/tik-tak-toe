@@ -188,7 +188,7 @@ export const lookForThreeSameTilesAction =
 		if (item === "O") {
 			message = `Player 2 WIN  "O" `;
 		}
-		await dispatch(updatePlayerWinAction(item));
+		dispatch(updatePlayerWinAction(item));
 		dispatch(
 			updateGameMessageRed({
 				gameMessage: message,
@@ -219,6 +219,7 @@ export const updatePlayerWinAction =
 
 			copyOfSelectedGame.player2 = updatePlayer2Win;
 		}
+		copyOfSelectedGame.gameIsDone = true;
 		// dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
 		// await dispatch(updateSaveGameAction(copyOfSelectedGame));
 		// dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
@@ -259,6 +260,7 @@ export const checkIfAllTilesAreFilled =
 		let updatedDraw = selectedGame.draw + 1;
 		const copyOfSelectedGame: ISaveGame = { ...selectedGame };
 		copyOfSelectedGame.draw = updatedDraw;
+		copyOfSelectedGame.gameIsDone = true;
 		// dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
 		// await dispatch(updateSaveGameAction(copyOfSelectedGame));
 		// dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
@@ -271,8 +273,8 @@ export const checkIfAllTilesAreFilled =
 		console.log(message);
 		if (message === "history updated") {
 			await dispatch(updateSaveGameAction(latestUpdateGame));
-			await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-			dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+			dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+			// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 		}
 		return;
 	};
