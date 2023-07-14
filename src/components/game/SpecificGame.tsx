@@ -1,6 +1,7 @@
 import React from "react";
 import GameBoard from "./GameBoard";
 import PlayersInfo from "./PlayersInfo";
+import GameNotification from "../ui/GameNotification";
 import { ISaveGame } from "@/data/modelTypes";
 import { useRouter } from "next/router";
 // for redux purposes
@@ -9,16 +10,20 @@ import {
 	RootState,
 	useAppSelector,
 } from "@/reduxToolkit/indexStore/indexStore";
+import { resetGameBoardAction } from "@/reduxToolkit/tiktak/tiktakAction";
 
 const SpecificGame = () => {
 	const router = useRouter();
-
-	const { selectedGame } = useAppSelector(
+	const dispatch = useAppDispatch();
+	const { selectedGame, gameMessage, isGameMessageOpen } = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	);
-
+	// console.log(isGameMessageOpen);
 	const stopGameHandler = () => {
 		router.push("/");
+	};
+	const resetBoardAfterResult = () => {
+		dispatch(resetGameBoardAction());
 	};
 	const addedInfo = selectedGame.playerTurn === "1" ? "X" : "O";
 	return (
@@ -36,6 +41,12 @@ const SpecificGame = () => {
 					Stop
 				</button>
 			</div>
+			{isGameMessageOpen && (
+				<GameNotification
+					gameMessage={gameMessage}
+					onResetBoard={resetBoardAfterResult}
+				/>
+			)}
 		</section>
 	);
 };
