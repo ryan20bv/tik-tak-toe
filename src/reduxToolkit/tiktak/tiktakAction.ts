@@ -150,7 +150,6 @@ export const lookForThreeSameTilesAction =
 				gameHistory[row][0].item !== ""
 			) {
 				item = gameHistory[row][0].item;
-				console.log("horizontal");
 			}
 		}
 		// check for vertical winner
@@ -162,7 +161,6 @@ export const lookForThreeSameTilesAction =
 				gameHistory[0][col].item !== ""
 			) {
 				item = gameHistory[0][col].item;
-				console.log("vertical");
 			}
 		}
 		// check for diagonal winner
@@ -177,7 +175,6 @@ export const lookForThreeSameTilesAction =
 				gameHistory[1][1].item !== "")
 		) {
 			item = gameHistory[1][1].item;
-			console.log("diagonal");
 		}
 
 		if (!item || item === "") {
@@ -227,7 +224,6 @@ export const updatePlayerWinAction =
 
 		const { message, latestUpdateGame } = data;
 
-		console.log(message);
 		if (message === "history updated") {
 			await dispatch(updateSaveGameAction(latestUpdateGame));
 			dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));

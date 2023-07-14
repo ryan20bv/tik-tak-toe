@@ -1,4 +1,6 @@
 import { ISaveGame } from "@/data/modelTypes";
+import { updateSaveGameAction } from "./tiktakAction";
+import { setSelectedGameRed } from "./tiktakSlice";
 export const resetBoardHistoryInDatabaseAction =
 	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		console.log(updatedGame);
@@ -22,6 +24,13 @@ export const resetBoardHistoryInDatabaseAction =
 
 			const data = await response.json();
 			console.log(data);
+			const { message, latestUpdateGame } = data;
+
+			// if (message === "history updated") {
+			// 	await dispatch(updateSaveGameAction(latestUpdateGame));
+			// 	dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+			// 	// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+			// }
 		} catch (err) {
 			console.log("resetBoardHistoryInDatabaseAction", err);
 		}
