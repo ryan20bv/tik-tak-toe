@@ -81,7 +81,6 @@ export const updateSelectedGameHistoryAction =
 
 		const { message, latestUpdateGame } = data;
 
-		console.log(message);
 		if (message === "history updated") {
 			await dispatch(updateSaveGameAction(latestUpdateGame));
 			await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
@@ -132,7 +131,6 @@ export const updateHistoryInDatabaseAction =
 
 export const checkIfThereIsAWinnerAction =
 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
-		console.log("checkIfThereIsAWinnerAction");
 		await dispatch(
 			lookForThreeSameTilesAction(updatedSelectedGame.history.gameHistory)
 		);
@@ -270,7 +268,6 @@ export const checkIfAllTilesAreFilled =
 
 		const { message, latestUpdateGame } = data;
 
-		console.log(message);
 		if (message === "history updated") {
 			await dispatch(updateSaveGameAction(latestUpdateGame));
 			dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
