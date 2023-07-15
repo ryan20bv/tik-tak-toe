@@ -3,7 +3,7 @@ import { updateSaveGameAction } from "./tiktakAction";
 import { setSelectedGameRed } from "./tiktakSlice";
 export const resetBoardHistoryInDatabaseAction =
 	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
-		console.log(updatedGame);
+		// console.log(updatedGame);
 		try {
 			const bodyData = {
 				updatedGame,
@@ -23,14 +23,14 @@ export const resetBoardHistoryInDatabaseAction =
 			const response = await fetch(url, options);
 
 			const data = await response.json();
-			console.log(data);
+			// console.log(data);
 			const { message, latestUpdateGame } = data;
 
-			// if (message === "history updated") {
-			// 	await dispatch(updateSaveGameAction(latestUpdateGame));
-			// 	dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-			// 	// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
-			// }
+			if (message === "reset history") {
+				await dispatch(updateSaveGameAction(latestUpdateGame));
+				dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+				// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+			}
 		} catch (err) {
 			console.log("resetBoardHistoryInDatabaseAction", err);
 		}

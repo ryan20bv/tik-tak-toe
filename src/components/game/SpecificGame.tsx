@@ -28,7 +28,6 @@ const SpecificGame = () => {
 	};
 
 	const resetBoardHandler = () => {
-		console.log("reset");
 		dispatch(resetBoardHistoryInDatabaseAction(selectedGame));
 	};
 	const addedInfo = selectedGame.playerTurn === "1" ? "X" : "O";

@@ -131,10 +131,13 @@ export const updateHistoryInDatabaseAction =
 
 export const checkIfThereIsAWinnerAction =
 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
-		await dispatch(
+		const hasWinner: boolean = await dispatch(
 			lookForThreeSameTilesAction(updatedSelectedGame.history.gameHistory)
 		);
-		dispatch(checkIfAllTilesAreFilled(updatedSelectedGame.history.gameHistory));
+		// console.log("hasWinner", hasWinner);
+		if (!hasWinner) {
+			dispatch(checkIfAllTilesAreFilled(updatedSelectedGame.history.gameHistory));
+		}
 	};
 
 export const lookForThreeSameTilesAction =
@@ -178,7 +181,7 @@ export const lookForThreeSameTilesAction =
 		}
 
 		if (!item || item === "") {
-			return;
+			return false;
 		}
 		if (item === "O") {
 			message = `Player 2 WIN  "O" `;
@@ -191,7 +194,7 @@ export const lookForThreeSameTilesAction =
 			})
 		);
 
-		return;
+		return true;
 	};
 
 export const updatePlayerWinAction =
