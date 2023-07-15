@@ -46,9 +46,9 @@ const InfoForm = () => {
 	};
 	return (
 		<section className='border border-black p-4 rounded-2xl'>
-			<div className='flex'>
+			<div className='flex '>
 				<p onClick={cancelStartGameHandler}>
-					<ArrowLeftCircleIcon className='text-red-500 h-6 mx-2' />
+					<ArrowLeftCircleIcon className='text-red-500 h-8 mr-4' />
 				</p>
 				<p className='text-center mb-6'>Enter Player Details</p>
 			</div>
