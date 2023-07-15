@@ -35,9 +35,11 @@ td {
 	padding: 10px;
 }
 button {
-	padding: 5px 10px;
+	padding: 2px 15px;
 	border-radius: 20px;
 	color: black;
-	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	margin: auto;
 }

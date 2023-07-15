@@ -24,6 +24,7 @@ const GameBoard: React.FC<PropsType> = ({ selectedGame }) => {
 							tileData={tileData}
 							key={tileData.tile_id}
 							updateGameHistory={updateGameHistory}
+							gameIsDone={selectedGame.gameIsDone}
 						/>
 					))
 				)}

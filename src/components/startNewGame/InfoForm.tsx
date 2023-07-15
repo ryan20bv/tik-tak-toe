@@ -39,7 +39,7 @@ const InfoForm = () => {
 			password: "123456",
 		};
 		const result = await dispatch(startNewGameAction(newUser));
-		console.log("result:", result);
+
 		if (result?.message === "New Game Created") {
 			router.push(`/game/${player1_Name}vs${player2_Name}`);
 		}

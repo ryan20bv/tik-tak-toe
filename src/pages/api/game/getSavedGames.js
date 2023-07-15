@@ -6,8 +6,9 @@ const handler = async (req, res) => {
 		return;
 	}
 	try {
+		// get all games
 		const response = await axios.get(
-			process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/allGames"
+			process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/game/allGames"
 		);
 		if (response.status !== 200) {
 			return;

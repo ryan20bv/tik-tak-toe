@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import InfoForm from "./InfoForm";
 
-const InputModal: React.FC = () => {
+const InputModal = () => {
 	const [inputPortal, setInputPortal] = useState<any>();
 	useEffect(() => {
 		setInputPortal(document?.getElementById("overlays"));

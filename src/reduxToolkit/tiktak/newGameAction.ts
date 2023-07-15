@@ -4,10 +4,18 @@ import {
 	IHistory,
 	INewGameUser,
 } from "@/data/modelTypes";
-import { setSelectedGameAction } from "./tiktakAction";
+import { setSelectedGameAction, unSetSelectedGameAction } from "./tiktakAction";
+import { updateGameMessageRed } from "./tiktakSlice";
 
 export const startNewGameAction =
 	(newUser: INewGameUser) => async (dispatch: any, getState: any) => {
+		await dispatch(unSetSelectedGameAction());
+		await dispatch(
+			updateGameMessageRed({
+				gameMessage: "",
+				isGameMessageOpen: false,
+			})
+		);
 		try {
 			const bodyData = {
 				player1_Name: newUser.player1_Name,
