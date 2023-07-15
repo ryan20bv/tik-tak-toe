@@ -11,7 +11,7 @@ const Table: React.FC<PropsType> = ({ savedGames }) => {
 		<section className=''>
 			<h3>List of saved game</h3>
 
-			<div className=' mt-1  h-[80%] overflow-y-auto'>
+			<div className=' mt-1  h-[80%] overflow-y-auto border border-black'>
 				<table className=''>
 					<thead>
 						<tr>
