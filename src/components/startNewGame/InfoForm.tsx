@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import InputUI from "../ui/InputUI";
 import { useRouter } from "next/router";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
@@ -6,17 +6,43 @@ import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import { startNewGameAction } from "@/reduxToolkit/tiktak/newGameAction";
 import { INewGameUser } from "@/data/modelTypes";
+// for custom hooks
+
+import useSanitizeHook from "@/customhooks/use-input";
 
 const InfoForm = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const { handlerInputPassword } = useSanitizeHook();
 
 	const player1Ref = useRef<HTMLInputElement>(null);
 	const player2Ref = useRef<HTMLInputElement>(null);
+	const [player1Error, setPlayer1Error] = useState<boolean>(false);
+	const [player2Error, setPlayer2Error] = useState<boolean>(false);
 
 	const cancelStartGameHandler = () => {
 		router.push("/");
 	};
+	const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
+		const { value, id } = e.currentTarget;
+
+		if (id === "player 1") {
+			const validatedValue = handlerInputPassword(value);
+			if (!player1Ref.current) {
+				return;
+			}
+			setPlayer1Error(false);
+			player1Ref.current.value = validatedValue;
+		} else if (id === "player 2") {
+			const validatedValue = handlerInputPassword(value);
+			if (!player2Ref.current) {
+				return;
+			}
+			setPlayer2Error(false);
+			player2Ref.current.value = validatedValue;
+		}
+	};
+
 	const submitGameHandler = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -24,6 +50,12 @@ const InfoForm = () => {
 		const player2_Name = player2Ref.current?.value;
 		// console.log(player1Name);
 		// console.log(player2Name);
+		if (!player1_Name || player1_Name.trim().length === 0) {
+			setPlayer1Error(true);
+		}
+		if (!player2_Name || player2_Name.trim().length === 0) {
+			setPlayer2Error(true);
+		}
 		if (
 			!player1_Name ||
 			player1_Name.trim().length === 0 ||
@@ -44,6 +76,7 @@ const InfoForm = () => {
 			router.push(`/game/${player1_Name}vs${player2_Name}`);
 		}
 	};
+
 	return (
 		<section className='border border-black p-4 rounded-2xl'>
 			<div className='flex '>
@@ -59,12 +92,16 @@ const InfoForm = () => {
 					info={"player 1"}
 					placeholderInfo='Player 1 name'
 					inputRef={player1Ref}
+					inputHandler={inputHandler}
+					hasError={player1Error}
 				/>
 				<InputUI
 					type={"text"}
 					info={"player 2"}
 					placeholderInfo='Player 2 name'
 					inputRef={player2Ref}
+					inputHandler={inputHandler}
+					hasError={player2Error}
 				/>
 				<div className='flex justify-between'>
 					<button className='bg-green-400 border border-green-400'>submit</button>
