@@ -9,10 +9,10 @@ interface PropsType {
 const PlayersInfo: React.FC<PropsType> = ({ gameDetail }) => {
 	const { player1, player2, draw } = gameDetail;
 	return (
-		<section className='flex flex-col sm:flex-row justify-between mb-2 border border-black'>
+		<section className='flex flex-col sm:flex-row justify-between mb-2'>
 			<IndivInfo
 				playerInfo={player1}
-				infoTitle='Player 1'
+				infoTitle='Player-1'
 			/>
 			<div className='flex  items-center justify-around sm:mx-6 sm:flex-col  '>
 				<p>vs</p>
@@ -23,7 +23,7 @@ const PlayersInfo: React.FC<PropsType> = ({ gameDetail }) => {
 			</div>
 			<IndivInfo
 				playerInfo={player2}
-				infoTitle='Player 2'
+				infoTitle='Player-2'
 			/>
 		</section>
 	);
