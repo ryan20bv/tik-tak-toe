@@ -8,7 +8,7 @@ const handler = async (req, res) => {
 
 	try {
 		const response = await axios.post(
-			process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/new",
+			process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/game/new",
 			newUser
 		);
 		if (response.status !== 201) {

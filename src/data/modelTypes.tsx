@@ -6,6 +6,7 @@ export interface ISaveGame {
 	history: IHistory;
 	playerTurn: string;
 	password: string;
+	gameIsDone: boolean;
 }
 
 export interface IHistory {
