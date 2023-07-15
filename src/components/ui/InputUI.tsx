@@ -5,6 +5,8 @@ interface PropsType {
 	placeholderInfo: string;
 	type: string;
 	inputRef: React.RefObject<HTMLInputElement>;
+	inputHandler: (e: React.FormEvent<HTMLInputElement>) => void;
+	hasError: boolean;
 }
 
 const InputUI: React.FC<PropsType> = ({
@@ -12,6 +14,8 @@ const InputUI: React.FC<PropsType> = ({
 	info,
 	placeholderInfo,
 	inputRef,
+	inputHandler,
+	hasError,
 }) => {
 	return (
 		<div className='divide-y divide-gray-200'>
@@ -26,6 +30,7 @@ const InputUI: React.FC<PropsType> = ({
 						ref={inputRef}
 						className='peer placeholder-transparent h-10 w-full border-b-2 border-black text-gray-900 focus:outline-none focus:borer-rose-600 px-4 bg-transparent focus:border-[#AF7EEB]'
 						placeholder={placeholderInfo}
+						onInput={inputHandler}
 					/>
 
 					<label
@@ -34,6 +39,11 @@ const InputUI: React.FC<PropsType> = ({
 					>
 						{placeholderInfo}
 					</label>
+					{hasError && (
+						<p className='text-red-500 text-xs '>
+							*Please enter name max 8 characters
+						</p>
+					)}
 				</div>
 			</div>
 		</div>

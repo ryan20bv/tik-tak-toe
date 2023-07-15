@@ -30,14 +30,19 @@ const SpecificGame = () => {
 	const resetBoardHandler = () => {
 		dispatch(resetBoardHistoryInDatabaseAction(selectedGame));
 	};
-	const addedInfo = selectedGame.playerTurn === "1" ? "X" : "O";
+	const addedInfo = selectedGame.playerTurn === "1" ? `" X "` : `" O "`;
 	return (
-		<section>
+		<section className='flex flex-col  '>
 			<PlayersInfo gameDetail={selectedGame} />
-			<div className='text-center my-2'>
-				{`Player ${selectedGame.playerTurn} turn " ${addedInfo} "`}
+			<div className='text-center my-2 '>
+				Player{" "}
+				<span className='text-red-500 text-xl'>{selectedGame.playerTurn}</span> turn{" "}
+				<span className='text-red-500 text-xl'>{addedInfo}</span>
 			</div>
-			<GameBoard selectedGame={selectedGame} />
+			<div className='m-auto'>
+				<GameBoard selectedGame={selectedGame} />
+			</div>
+
 			<div className=' my-4 flex justify-center'>
 				<button
 					className='bg-red-400 '

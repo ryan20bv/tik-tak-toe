@@ -1,5 +1,5 @@
 import React from "react";
-
+import IndivInfo from "./IndivInfo";
 import { ISaveGame } from "@/data/modelTypes";
 
 interface PropsType {
@@ -9,41 +9,22 @@ interface PropsType {
 const PlayersInfo: React.FC<PropsType> = ({ gameDetail }) => {
 	const { player1, player2, draw } = gameDetail;
 	return (
-		<section className='flex flex-col justify-between mb-2'>
-			<div className='flex flex-col '>
-				<div className='flex'>
-					<p className='mr-6'>Player 1 </p>
-					<span>{`" X "`}</span>
-				</div>
-
-				<div className='flex items-end justify-between'>
-					<h3 className='text-2xl'> {player1.name}</h3>
-					<div className='flex '>
-						<p>Win:</p>
-						<p className='px-2'>{player1.win}</p>
-					</div>
-				</div>
-			</div>
-			<div className='flex  items-center justify-around'>
+		<section className='flex flex-col sm:flex-row justify-between mb-2'>
+			<IndivInfo
+				playerInfo={player1}
+				infoTitle='Player-1'
+			/>
+			<div className='flex  items-center justify-around sm:mx-6 sm:flex-col  '>
 				<p>vs</p>
-				<div className='flex '>
+				<div className='flex items-end sm:items-center'>
 					<p>Draw:</p>
-					<p className='px-2'>{draw}</p>
+					<p className='px-2 text-2xl'>{draw}</p>
 				</div>
 			</div>
-			<div className='flex flex-col '>
-				<div className='flex'>
-					<p className='mr-6'>Player 2 </p>
-					<span>{`" O "`}</span>
-				</div>
-				<div className='flex items-end justify-between'>
-					<h3 className='text-2xl'> {player2.name}</h3>
-					<div className='flex '>
-						<p>Win:</p>
-						<p className='px-2'>{player2.win}</p>
-					</div>
-				</div>
-			</div>
+			<IndivInfo
+				playerInfo={player2}
+				infoTitle='Player-2'
+			/>
 		</section>
 	);
 };

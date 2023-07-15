@@ -20,7 +20,7 @@ const TableBody: React.FC<PropsType> = ({ eachGame, index }) => {
 	};
 	const addedClass = index % 2 === 0 ? "bg-blue-100" : "bg-white";
 	return (
-		<tbody className={addedClass}>
+		<>
 			<tr>
 				<td rowSpan={2}>{index + 1}</td>
 				<td>{player1.name}</td>
@@ -41,7 +41,7 @@ const TableBody: React.FC<PropsType> = ({ eachGame, index }) => {
 				<td>{player2.win}</td>
 				<td>{player1.win}</td>
 			</tr>
-		</tbody>
+		</>
 	);
 };
 
