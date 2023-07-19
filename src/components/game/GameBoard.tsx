@@ -2,8 +2,12 @@ import React from "react";
 import { IGameTileData, ISaveGame } from "@/data/modelTypes";
 import GameTile from "./GameTile";
 // for redux purposes
+import useGameUpdate from "@/customhooks/use-game";
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
-import { updateSelectedGameHistoryAction } from "@/reduxToolkit/tiktak/tiktakAction";
+import {
+	updateSelectedGameHistoryAction,
+	setSelectedGameAction,
+} from "@/reduxToolkit/tiktak/actions/tiktakAction";
 
 interface PropsType {
 	selectedGame: ISaveGame;
@@ -11,9 +15,12 @@ interface PropsType {
 
 const GameBoard: React.FC<PropsType> = ({ selectedGame }) => {
 	const dispatch = useAppDispatch();
-
+	const { clickTileHandler } = useGameUpdate(selectedGame);
 	const updateGameHistory = (tileData: IGameTileData) => {
-		dispatch(updateSelectedGameHistoryAction(tileData));
+		const { updatedSelectedGame } = clickTileHandler(tileData);
+
+		dispatch(setSelectedGameAction(updatedSelectedGame));
+		// dispatch(updateSelectedGameHistoryAction(tileData));
 	};
 	return (
 		<main className='border-2 border-black max-w-max '>

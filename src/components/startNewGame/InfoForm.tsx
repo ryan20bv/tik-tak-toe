@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
 // for redux purposes
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
-import { startNewGameAction } from "@/reduxToolkit/tiktak/newGameAction";
+import { startNewGameAction } from "@/reduxToolkit/tiktak/actions/newGameAction";
 import { INewGameUser } from "@/data/modelTypes";
 // for custom hooks
 

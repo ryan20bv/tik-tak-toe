@@ -1,6 +1,6 @@
 import { ISaveGame } from "@/data/modelTypes";
 import { updateSaveGameAction } from "./tiktakAction";
-import { setSelectedGameRed } from "./tiktakSlice";
+import { setSelectedGameRed } from "../slices/tiktakSlice";
 export const resetBoardHistoryInDatabaseAction =
 	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		// console.log(updatedGame);

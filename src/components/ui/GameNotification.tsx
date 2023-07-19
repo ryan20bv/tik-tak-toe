@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 interface PropsType {
 	gameMessage: string;
@@ -10,10 +12,14 @@ const GameNotification: React.FC<PropsType> = ({
 	gameMessage,
 	onUpdateBoard,
 }) => {
+	const router = useRouter();
 	const [messagePortal, setMessagePortal] = useState<any>();
 	useEffect(() => {
 		setMessagePortal(document?.getElementById("notificationPortal"));
 	}, []);
+	const goBackHandler = () => {
+		router.back();
+	};
 	return (
 		<>
 			{messagePortal &&
@@ -24,13 +30,23 @@ const GameNotification: React.FC<PropsType> = ({
 							// onClick={onCloseModal}
 						></section>
 						<div className='z-10 bg-white p-4 rounded-2xl mt-[-80px]'>
-							<h1 className='mb-4'>{gameMessage}</h1>
-							<button
-								className='bg-blue-400 '
-								onClick={onUpdateBoard}
-							>
-								OK
-							</button>
+							<p>Last game result:</p>
+							<h1 className='mb-4 text-center'>{gameMessage}</h1>
+							<div className='flex'>
+								<button
+									className='bg-red-400 mx-2'
+									onClick={goBackHandler}
+								>
+									Back
+								</button>
+
+								<button
+									className='bg-blue-400 mx-2'
+									onClick={onUpdateBoard}
+								>
+									Continue
+								</button>
+							</div>
 						</div>
 					</main>,
 					messagePortal

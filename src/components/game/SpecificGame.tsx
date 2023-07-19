@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import GameBoard from "./GameBoard";
 import PlayersInfo from "./PlayersInfo";
 import GameNotification from "../ui/GameNotification";
@@ -10,19 +11,19 @@ import {
 	RootState,
 	useAppSelector,
 } from "@/reduxToolkit/indexStore/indexStore";
-import { updateGameMessageAction } from "@/reduxToolkit/tiktak/tiktakAction";
-import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/historyAction";
+import { updateGameMessageAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/historyAction";
 
 const SpecificGame = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-	const { selectedGame, gameMessage, isGameMessageOpen } = useAppSelector(
+	const { selectedGame } = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	);
-	// console.log(isGameMessageOpen);
-	const stopGameHandler = () => {
-		router.push("/");
-	};
+
+	// const stopGameHandler = () => {
+	// 	router.push("/");
+	// };
 	const updateGameMessageHandler = () => {
 		dispatch(updateGameMessageAction());
 	};
@@ -42,27 +43,20 @@ const SpecificGame = () => {
 			<div className='m-auto'>
 				<GameBoard selectedGame={selectedGame} />
 			</div>
-
-			<div className=' my-4 flex justify-center'>
-				<button
-					className='bg-red-400 '
-					onClick={stopGameHandler}
-				>
-					Stop
-				</button>
-				{selectedGame.gameIsDone && (
-					<button
-						className='bg-blue-300'
-						onClick={resetBoardHandler}
+			{!selectedGame.gameIsDone && (
+				<div className=' my-4 flex justify-center'>
+					<Link
+						href='/'
+						className='bg-red-400 '
 					>
-						Reset Board
-					</button>
-				)}
-			</div>
-			{isGameMessageOpen && (
+						Stop
+					</Link>
+				</div>
+			)}
+			{selectedGame.gameIsDone && (
 				<GameNotification
-					gameMessage={gameMessage}
-					onUpdateBoard={updateGameMessageHandler}
+					gameMessage={selectedGame.gameMessage}
+					onUpdateBoard={() => {}}
 				/>
 			)}
 		</section>

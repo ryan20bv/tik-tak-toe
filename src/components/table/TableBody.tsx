@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { ISaveGame } from "@/data/modelTypes";
 // for redux
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
-import { setSelectedGameAction } from "@/reduxToolkit/tiktak/tiktakAction";
+import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 
 interface PropsType {
 	eachGame: ISaveGame;

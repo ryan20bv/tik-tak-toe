@@ -4,11 +4,35 @@ import {
 	resetTikTakRed,
 	setSelectedGameRed,
 	updateGameMessageRed,
-} from "./tiktakSlice";
+	updateIsLoadingRed,
+} from "../slices/tiktakSlice";
+// for socket connection
+import { appSocket } from "@/socket-io/socket-io";
 
 export const getAllSavedGamesAction =
-	(savedGames: ISaveGame[]) => async (dispatch: any, getState: any) => {
-		dispatch(getAllSavedGamesRed({ savedGames: savedGames }));
+	(allSavedGames: ISaveGame[]) => async (dispatch: any, getState: any) => {
+		// try {
+		// 	const bodyData = {};
+		// 	const url =
+		// 		process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/game/allGames";
+		// 	const options = {
+		// 		method: "GET",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 	};
+
+		// 	const response = await fetch(url, options);
+
+		// 	console.log(response);
+		// 	const data = await response.json();
+		// 	console.log(data);
+		// 	dispatch(getAllSavedGamesRed({ savedGames: data.allSavedGames }));
+		// } catch (err) {
+		// 	console.log(err);
+		// 	console.log("getAllSavedGamesAction");
+		// }
+		dispatch(getAllSavedGamesRed({ savedGames: allSavedGames }));
 	};
 export const setSelectedGameAction =
 	(game: ISaveGame) => async (dispatch: any, getState: any) => {
@@ -110,12 +134,15 @@ export const updateHistoryInDatabaseAction =
 			};
 
 			const response = await fetch(url, options);
-
+			appSocket.on("history updated", (data) => {
+				console.log("updateHistoryInDatabaseAction", data);
+			});
 			const data = await response.json();
 			if (!response.ok) {
 				console.log("updateHistoryInDatabaseAction", data);
 				return;
 			}
+
 			// console.log(data);
 			const { message, latestUpdateGame } = data;
 			return { message, latestUpdateGame };

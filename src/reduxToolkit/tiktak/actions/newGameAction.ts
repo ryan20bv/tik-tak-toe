@@ -5,7 +5,7 @@ import {
 	INewGameUser,
 } from "@/data/modelTypes";
 import { setSelectedGameAction, unSetSelectedGameAction } from "./tiktakAction";
-import { updateGameMessageRed } from "./tiktakSlice";
+import { updateGameMessageRed } from "../slices/tiktakSlice";
 
 export const startNewGameAction =
 	(newUser: INewGameUser) => async (dispatch: any, getState: any) => {
