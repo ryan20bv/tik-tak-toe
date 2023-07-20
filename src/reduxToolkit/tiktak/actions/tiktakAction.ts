@@ -132,12 +132,13 @@ export const updateHistoryInDatabaseAction =
 				},
 				body: JSON.stringify(bodyData),
 			};
-
-			const response = await fetch(url, options);
 			appSocket.on("history updated", (data) => {
 				console.log("updateHistoryInDatabaseAction", data);
 			});
+			const response = await fetch(url, options);
+
 			const data = await response.json();
+			console.log(data);
 			if (!response.ok) {
 				console.log("updateHistoryInDatabaseAction", data);
 				return;

@@ -1,5 +1,8 @@
 import { ISaveGame, IGameTileData, IHistory } from "@/data/modelTypes";
+import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
+import { updateHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 const useGameUpdate = (selectedGame: ISaveGame) => {
+	const dispatch = useAppDispatch();
 	const { draw, gameIsDone, history, player1, player2, playerTurn, _id } =
 		selectedGame;
 	const clickTileHandler = (tileData: IGameTileData) => {
@@ -35,18 +38,17 @@ const useGameUpdate = (selectedGame: ISaveGame) => {
 		copyOfSelectedGame.history = { ...copyOfHistory };
 
 		copyOfSelectedGame.playerTurn = newPlayerTurn;
-		const { hasWinner, message, item } = checkIfThereIsAWinner(
-			copyOfSelectedGame.history.gameHistory
-		);
-
-		if (hasWinner) {
-			if (item === "X") {
+		const { gameHasWinner, gameMessage, gameItem, gameIsTie } =
+			checkIfThereIsAWinner(copyOfSelectedGame.history.gameHistory);
+		console.log(gameItem, gameIsTie);
+		if (gameHasWinner) {
+			if (gameItem === "X") {
 				let updatePlayer1Win = {
 					...copyOfSelectedGame.player1,
 					win: copyOfSelectedGame.player1.win + 1,
 				};
 				copyOfSelectedGame.player1 = updatePlayer1Win;
-			} else if (item === "O") {
+			} else if (gameItem === "O") {
 				// update player 2 win
 				let updatePlayer2Win = {
 					...copyOfSelectedGame.player2,
@@ -54,8 +56,17 @@ const useGameUpdate = (selectedGame: ISaveGame) => {
 				};
 				copyOfSelectedGame.player2 = updatePlayer2Win;
 			}
-			copyOfSelectedGame.gameMessage = message;
+			copyOfSelectedGame.gameMessage = gameMessage;
 			copyOfSelectedGame.gameIsDone = true;
+		}
+		// update game if it is tie
+		if (gameIsTie) {
+			copyOfSelectedGame.draw = copyOfSelectedGame.draw + 1;
+			copyOfSelectedGame.gameMessage = gameMessage;
+			copyOfSelectedGame.gameIsDone = true;
+		}
+		if (copyOfSelectedGame.gameIsDone) {
+			dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
 		}
 		return { updatedSelectedGame: copyOfSelectedGame };
 	};
@@ -80,7 +91,7 @@ const useGameUpdate = (selectedGame: ISaveGame) => {
 			gameMessage = "it's a DRAW";
 		}
 
-		return { gameHasWinner, message, item, gameIsTie };
+		return { gameHasWinner, gameMessage, gameItem, gameIsTie };
 	};
 
 	const checkIfAllTilesAreFilled = (gameHistory: IGameTileData[][]) => {

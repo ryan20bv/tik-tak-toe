@@ -7,6 +7,7 @@ import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import {
 	updateSelectedGameHistoryAction,
 	setSelectedGameAction,
+	updateHistoryInDatabaseAction,
 } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 
 interface PropsType {
@@ -20,7 +21,6 @@ const GameBoard: React.FC<PropsType> = ({ selectedGame }) => {
 		const { updatedSelectedGame } = clickTileHandler(tileData);
 
 		dispatch(setSelectedGameAction(updatedSelectedGame));
-		// dispatch(updateSelectedGameHistoryAction(tileData));
 	};
 	return (
 		<main className='border-2 border-black max-w-max '>

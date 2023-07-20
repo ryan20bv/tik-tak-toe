@@ -11,7 +11,10 @@ import {
 	RootState,
 	useAppSelector,
 } from "@/reduxToolkit/indexStore/indexStore";
-import { updateGameMessageAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import {
+	updateGameMessageAction,
+	updateHistoryInDatabaseAction,
+} from "@/reduxToolkit/tiktak/actions/tiktakAction";
 import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/historyAction";
 
 const SpecificGame = () => {
@@ -21,12 +24,13 @@ const SpecificGame = () => {
 		(state: RootState) => state.tikTakToeReducer
 	);
 
-	// const stopGameHandler = () => {
-	// 	router.push("/");
-	// };
-	const updateGameMessageHandler = () => {
-		dispatch(updateGameMessageAction());
+	const stopGameHandler = () => {
+		dispatch(updateHistoryInDatabaseAction(selectedGame));
+		router.push("/");
 	};
+	// const updateGameMessageHandler = () => {
+	// 	dispatch(updateGameMessageAction());
+	// };
 
 	const resetBoardHandler = () => {
 		dispatch(resetBoardHistoryInDatabaseAction(selectedGame));
@@ -45,18 +49,18 @@ const SpecificGame = () => {
 			</div>
 			{!selectedGame.gameIsDone && (
 				<div className=' my-4 flex justify-center'>
-					<Link
-						href='/'
+					<button
 						className='bg-red-400 '
+						onClick={stopGameHandler}
 					>
 						Stop
-					</Link>
+					</button>
 				</div>
 			)}
 			{selectedGame.gameIsDone && (
 				<GameNotification
 					gameMessage={selectedGame.gameMessage}
-					onUpdateBoard={() => {}}
+					onResetBoard={resetBoardHandler}
 				/>
 			)}
 		</section>

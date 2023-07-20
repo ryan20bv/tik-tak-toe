@@ -5,12 +5,12 @@ import { useRouter } from "next/router";
 
 interface PropsType {
 	gameMessage: string;
-	onUpdateBoard: () => void;
+	onResetBoard: () => void;
 }
 
 const GameNotification: React.FC<PropsType> = ({
 	gameMessage,
-	onUpdateBoard,
+	onResetBoard,
 }) => {
 	const router = useRouter();
 	const [messagePortal, setMessagePortal] = useState<any>();
@@ -42,7 +42,7 @@ const GameNotification: React.FC<PropsType> = ({
 
 								<button
 									className='bg-blue-400 mx-2'
-									onClick={onUpdateBoard}
+									onClick={onResetBoard}
 								>
 									Continue
 								</button>
