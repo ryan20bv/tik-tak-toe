@@ -23,7 +23,9 @@ const HomePage: React.FC<PropsType> = ({ allSavedGames }) => {
 	// 	const { isLoadingSavedGame, savedGames } = useAppSelector(
 	// 		(state: RootState) => state.tikTakToeReducer
 	// 	);
-	localStorage.removeItem("persist:root");
+	useEffect(() => {
+		localStorage.removeItem("persist:root");
+	}, []);
 
 	useEffect(() => {
 		dispatch(getAllSavedGamesAction(allSavedGames));
