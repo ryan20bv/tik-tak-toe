@@ -1,69 +1,93 @@
 import React from "react";
+import Link from "next/link";
 import GameBoard from "./GameBoard";
 import PlayersInfo from "./PlayersInfo";
 import GameNotification from "../ui/GameNotification";
 import { ISaveGame } from "@/data/modelTypes";
 import { useRouter } from "next/router";
+import UiPortal from "../ui/UiPortal";
 // for redux purposes
 import {
 	useAppDispatch,
 	RootState,
 	useAppSelector,
 } from "@/reduxToolkit/indexStore/indexStore";
-import { updateGameMessageAction } from "@/reduxToolkit/tiktak/tiktakAction";
-import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/historyAction";
+import { updateHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/historyAction";
+import {
+	updateIsSendingDataAction,
+	resetIsSendingDataAction,
+} from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 const SpecificGame = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-	const { selectedGame, gameMessage, isGameMessageOpen } = useAppSelector(
+	const { selectedGame, isSendingData } = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	);
-	// console.log(isGameMessageOpen);
-	const stopGameHandler = () => {
-		router.push("/");
-	};
-	const updateGameMessageHandler = () => {
-		dispatch(updateGameMessageAction());
-	};
 
-	const resetBoardHandler = () => {
-		dispatch(resetBoardHistoryInDatabaseAction(selectedGame));
+	const stopGameHandler = async () => {
+		dispatch(
+			updateIsSendingDataAction({ status: true, message: "Saving Data..." })
+		);
+		const result = await dispatch(updateHistoryInDatabaseAction(selectedGame));
+
+		if (result?.message === "history updated") {
+			dispatch(resetIsSendingDataAction());
+			router.push("/");
+		}
+	};
+	// const goBackHandler = () => {
+	// 	router.back();
+	// };
+	const resetBoardHandler = async () => {
+		dispatch(
+			updateIsSendingDataAction({ status: true, message: "Starting New Game..." })
+		);
+		const result = await dispatch(
+			resetBoardHistoryInDatabaseAction(selectedGame)
+		);
+		if (result?.message === "reset history") {
+			dispatch(resetIsSendingDataAction());
+		}
 	};
 	const addedInfo = selectedGame.playerTurn === "1" ? `" X "` : `" O "`;
+	const spanColor =
+		selectedGame.playerTurn === "1" ? "text-blue-600" : "text-yellow-500";
 	return (
 		<section className='flex flex-col  '>
 			<PlayersInfo gameDetail={selectedGame} />
-			<div className='text-center my-2 '>
+			<div className='text-center my-2 font-semibold'>
 				Player{" "}
-				<span className='text-red-500 text-xl'>{selectedGame.playerTurn}</span> turn{" "}
-				<span className='text-red-500 text-xl'>{addedInfo}</span>
+				<span className={`${spanColor} text-2xl`}>{selectedGame.playerTurn}</span>{" "}
+				turn <span className={`${spanColor} text-2xl`}>{addedInfo}</span>
 			</div>
 			<div className='m-auto'>
 				<GameBoard selectedGame={selectedGame} />
 			</div>
-
-			<div className=' my-4 flex justify-center'>
-				<button
-					className='bg-red-400 '
-					onClick={stopGameHandler}
-				>
-					Stop
-				</button>
-				{selectedGame.gameIsDone && (
+			{!selectedGame.gameIsDone && (
+				<div className=' my-4 flex justify-center'>
 					<button
-						className='bg-blue-300'
-						onClick={resetBoardHandler}
+						className='bg-red-400 '
+						onClick={stopGameHandler}
 					>
-						Reset Board
+						Stop
 					</button>
-				)}
-			</div>
-			{isGameMessageOpen && (
-				<GameNotification
-					gameMessage={gameMessage}
-					onUpdateBoard={updateGameMessageHandler}
-				/>
+				</div>
+			)}
+			{selectedGame.gameIsDone && (
+				<UiPortal>
+					<GameNotification
+						gameMessage={selectedGame.gameMessage}
+						onContinue={resetBoardHandler}
+						goBackHandler={stopGameHandler}
+					/>
+				</UiPortal>
+			)}
+			{isSendingData.status && (
+				<UiPortal>
+					<div className='px-10 py-2'>{isSendingData.message}</div>
+				</UiPortal>
 			)}
 		</section>
 	);

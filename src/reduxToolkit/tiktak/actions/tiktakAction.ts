@@ -3,23 +3,27 @@ import {
 	getAllSavedGamesRed,
 	resetTikTakRed,
 	setSelectedGameRed,
-	updateGameMessageRed,
-} from "./tiktakSlice";
+	updateIsLoadingRed,
+} from "../slices/tiktakSlice";
+// for socket connection
+import { appSocket } from "@/socket-io/socket-io";
 
+// ! included
 export const getAllSavedGamesAction =
-	(savedGames: ISaveGame[]) => async (dispatch: any, getState: any) => {
-		dispatch(getAllSavedGamesRed({ savedGames: savedGames }));
+	(allSavedGames: ISaveGame[]) => async (dispatch: any, getState: any) => {
+		dispatch(getAllSavedGamesRed({ savedGames: allSavedGames }));
 	};
+// ! included
 export const setSelectedGameAction =
 	(game: ISaveGame) => async (dispatch: any, getState: any) => {
 		dispatch(setSelectedGameRed({ selectedGame: game }));
 	};
-
+// ! included
 export const unSetSelectedGameAction =
 	() => async (dispatch: any, getState: any) => {
 		dispatch(setSelectedGameRed({ selectedGame: {} as ISaveGame }));
 	};
-
+// !included
 export const updateSaveGameAction =
 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		const { savedGames } = getState().tikTakToeReducer;
@@ -89,7 +93,7 @@ export const updateSelectedGameHistoryAction =
 		// await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
 		// dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
 	};
-
+// ! included
 export const updateHistoryInDatabaseAction =
 	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		// const { selectedGame } = getState().tikTakToeReducer;
@@ -108,14 +112,18 @@ export const updateHistoryInDatabaseAction =
 				},
 				body: JSON.stringify(bodyData),
 			};
-
+			appSocket.on("history updated", (data) => {
+				console.log("updateHistoryInDatabaseAction", data);
+			});
 			const response = await fetch(url, options);
 
 			const data = await response.json();
+
 			if (!response.ok) {
 				console.log("updateHistoryInDatabaseAction", data);
 				return;
 			}
+
 			// console.log(data);
 			const { message, latestUpdateGame } = data;
 			return { message, latestUpdateGame };
@@ -187,12 +195,6 @@ export const lookForThreeSameTilesAction =
 			message = `Player 2 WIN  "O" `;
 		}
 		dispatch(updatePlayerWinAction(item));
-		dispatch(
-			updateGameMessageRed({
-				gameMessage: message,
-				isGameMessageOpen: true,
-			})
-		);
 
 		return true;
 	};
@@ -245,12 +247,7 @@ export const checkIfAllTilesAreFilled =
 			}
 		}
 		let gameMessage: string = "it's a DRAW";
-		dispatch(
-			updateGameMessageRed({
-				gameMessage: gameMessage,
-				isGameMessageOpen: true,
-			})
-		);
+
 		// console.log("Game is DRAW");
 		// // need to update the draw
 		// console.log(selectedGame.draw);
@@ -273,14 +270,4 @@ export const checkIfAllTilesAreFilled =
 			// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 		}
 		return;
-	};
-
-export const updateGameMessageAction =
-	() => async (dispatch: any, getState: any) => {
-		dispatch(
-			updateGameMessageRed({
-				gameMessage: "",
-				isGameMessageOpen: false,
-			})
-		);
 	};

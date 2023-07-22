@@ -13,6 +13,7 @@ const GamePage: React.FC<PropsType> = ({ startGameData }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
+	// this is to get the tile background information
 	const startGameData: IGameTileData[] = await getStartGameData();
 
 	return {

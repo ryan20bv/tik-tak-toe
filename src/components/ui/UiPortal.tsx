@@ -5,7 +5,7 @@ interface PropsType {
 	children: React.ReactNode;
 }
 
-const InputModal: React.FC<PropsType> = ({ children }) => {
+const UiPortal: React.FC<PropsType> = ({ children }) => {
 	const [inputPortal, setInputPortal] = useState<any>();
 	useEffect(() => {
 		setInputPortal(document?.getElementById("overlays"));
@@ -30,4 +30,4 @@ const InputModal: React.FC<PropsType> = ({ children }) => {
 	);
 };
 
-export default InputModal;
+export default UiPortal;

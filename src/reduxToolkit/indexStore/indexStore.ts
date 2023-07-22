@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
-import tikTakToeSlice from "../tiktak/tiktakSlice";
+import tikTakToeSlice from "../tiktak/slices/tiktakSlice";
 
 // for redux persistence
 import storage from "redux-persist/lib/storage";

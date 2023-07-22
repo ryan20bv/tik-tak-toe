@@ -1,6 +1,8 @@
 import { ISaveGame } from "@/data/modelTypes";
 import { updateSaveGameAction } from "./tiktakAction";
-import { setSelectedGameRed } from "./tiktakSlice";
+import { setSelectedGameRed } from "../slices/tiktakSlice";
+
+// ! included
 export const resetBoardHistoryInDatabaseAction =
 	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		// console.log(updatedGame);
@@ -31,6 +33,7 @@ export const resetBoardHistoryInDatabaseAction =
 				dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
 				// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 			}
+			return { message };
 		} catch (err) {
 			console.log("resetBoardHistoryInDatabaseAction", err);
 		}
