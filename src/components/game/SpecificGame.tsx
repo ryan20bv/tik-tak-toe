@@ -37,11 +37,19 @@ const SpecificGame = () => {
 			router.push("/");
 		}
 	};
-	const goBackHandler = () => {
-		router.back();
-	};
-	const resetBoardHandler = () => {
-		dispatch(resetBoardHistoryInDatabaseAction(selectedGame));
+	// const goBackHandler = () => {
+	// 	router.back();
+	// };
+	const resetBoardHandler = async () => {
+		dispatch(
+			updateIsSendingDataAction({ status: true, message: "Starting New Game..." })
+		);
+		const result = await dispatch(
+			resetBoardHistoryInDatabaseAction(selectedGame)
+		);
+		if (result?.message === "reset history") {
+			dispatch(resetIsSendingDataAction());
+		}
 	};
 	const addedInfo = selectedGame.playerTurn === "1" ? `" X "` : `" O "`;
 	return (
@@ -69,7 +77,7 @@ const SpecificGame = () => {
 				<UiPortal>
 					<GameNotification
 						gameMessage={selectedGame.gameMessage}
-						onResetBoard={resetBoardHandler}
+						onContinue={resetBoardHandler}
 						goBackHandler={stopGameHandler}
 					/>
 				</UiPortal>
