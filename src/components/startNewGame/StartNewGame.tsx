@@ -1,6 +1,7 @@
 import React from "react";
 import GameTile from "../game/GameTile";
-import InputModal from "./InputModal";
+// import InputModal from "./InputModal";
+import UiPortal from "../ui/UiPortal";
 import { IGameTileData } from "@/data/modelTypes";
 import InfoForm from "./InfoForm";
 import {
@@ -31,13 +32,13 @@ const StartNewGame: React.FC<PropsType> = ({ startGameData }) => {
 					))}
 				</div>
 			</section>
-			<InputModal>
+			<UiPortal>
 				{!isSendingData.status && <InfoForm />}
 
 				{isSendingData.status && (
 					<div className='px-10 py-2'>{isSendingData.message}</div>
 				)}
-			</InputModal>
+			</UiPortal>
 		</main>
 	);
 };

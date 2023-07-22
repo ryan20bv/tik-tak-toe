@@ -5,33 +5,41 @@ import PlayersInfo from "./PlayersInfo";
 import GameNotification from "../ui/GameNotification";
 import { ISaveGame } from "@/data/modelTypes";
 import { useRouter } from "next/router";
+import UiPortal from "../ui/UiPortal";
 // for redux purposes
 import {
 	useAppDispatch,
 	RootState,
 	useAppSelector,
 } from "@/reduxToolkit/indexStore/indexStore";
-import {
-	updateGameMessageAction,
-	updateHistoryInDatabaseAction,
-} from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import { updateHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/historyAction";
+import {
+	updateIsSendingDataAction,
+	resetIsSendingDataAction,
+} from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 const SpecificGame = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-	const { selectedGame } = useAppSelector(
+	const { selectedGame, isSendingData } = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	);
 
-	const stopGameHandler = () => {
-		dispatch(updateHistoryInDatabaseAction(selectedGame));
-		router.push("/");
-	};
-	// const updateGameMessageHandler = () => {
-	// 	dispatch(updateGameMessageAction());
-	// };
+	const stopGameHandler = async () => {
+		dispatch(
+			updateIsSendingDataAction({ status: true, message: "Saving Data..." })
+		);
+		const result = await dispatch(updateHistoryInDatabaseAction(selectedGame));
 
+		if (result?.message === "history updated") {
+			dispatch(resetIsSendingDataAction());
+			router.push("/");
+		}
+	};
+	const goBackHandler = () => {
+		router.back();
+	};
 	const resetBoardHandler = () => {
 		dispatch(resetBoardHistoryInDatabaseAction(selectedGame));
 	};
@@ -58,10 +66,18 @@ const SpecificGame = () => {
 				</div>
 			)}
 			{selectedGame.gameIsDone && (
-				<GameNotification
-					gameMessage={selectedGame.gameMessage}
-					onResetBoard={resetBoardHandler}
-				/>
+				<UiPortal>
+					<GameNotification
+						gameMessage={selectedGame.gameMessage}
+						onResetBoard={resetBoardHandler}
+						goBackHandler={stopGameHandler}
+					/>
+				</UiPortal>
+			)}
+			{isSendingData.status && (
+				<UiPortal>
+					<div className='px-10 py-2'>{isSendingData.message}</div>
+				</UiPortal>
 			)}
 		</section>
 	);

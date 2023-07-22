@@ -40,7 +40,7 @@ const useGameUpdate = (selectedGame: ISaveGame) => {
 		copyOfSelectedGame.playerTurn = newPlayerTurn;
 		const { gameHasWinner, gameMessage, gameItem, gameIsTie } =
 			checkIfThereIsAWinner(copyOfSelectedGame.history.gameHistory);
-		console.log(gameItem, gameIsTie);
+
 		if (gameHasWinner) {
 			if (gameItem === "X") {
 				let updatePlayer1Win = {

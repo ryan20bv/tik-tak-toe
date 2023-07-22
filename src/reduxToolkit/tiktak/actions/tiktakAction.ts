@@ -93,7 +93,7 @@ export const updateSelectedGameHistoryAction =
 		// await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
 		// dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
 	};
-
+// ! included
 export const updateHistoryInDatabaseAction =
 	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		// const { selectedGame } = getState().tikTakToeReducer;
@@ -118,7 +118,7 @@ export const updateHistoryInDatabaseAction =
 			const response = await fetch(url, options);
 
 			const data = await response.json();
-			console.log(data);
+
 			if (!response.ok) {
 				console.log("updateHistoryInDatabaseAction", data);
 				return;
