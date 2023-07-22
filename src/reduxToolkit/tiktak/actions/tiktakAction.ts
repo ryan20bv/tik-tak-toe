@@ -3,35 +3,14 @@ import {
 	getAllSavedGamesRed,
 	resetTikTakRed,
 	setSelectedGameRed,
-	updateGameMessageRed,
 	updateIsLoadingRed,
 } from "../slices/tiktakSlice";
 // for socket connection
 import { appSocket } from "@/socket-io/socket-io";
 
+// ! included
 export const getAllSavedGamesAction =
 	(allSavedGames: ISaveGame[]) => async (dispatch: any, getState: any) => {
-		// try {
-		// 	const bodyData = {};
-		// 	const url =
-		// 		process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/game/allGames";
-		// 	const options = {
-		// 		method: "GET",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 	};
-
-		// 	const response = await fetch(url, options);
-
-		// 	console.log(response);
-		// 	const data = await response.json();
-		// 	console.log(data);
-		// 	dispatch(getAllSavedGamesRed({ savedGames: data.allSavedGames }));
-		// } catch (err) {
-		// 	console.log(err);
-		// 	console.log("getAllSavedGamesAction");
-		// }
 		dispatch(getAllSavedGamesRed({ savedGames: allSavedGames }));
 	};
 export const setSelectedGameAction =
@@ -215,12 +194,6 @@ export const lookForThreeSameTilesAction =
 			message = `Player 2 WIN  "O" `;
 		}
 		dispatch(updatePlayerWinAction(item));
-		dispatch(
-			updateGameMessageRed({
-				gameMessage: message,
-				isGameMessageOpen: true,
-			})
-		);
 
 		return true;
 	};
@@ -273,12 +246,7 @@ export const checkIfAllTilesAreFilled =
 			}
 		}
 		let gameMessage: string = "it's a DRAW";
-		dispatch(
-			updateGameMessageRed({
-				gameMessage: gameMessage,
-				isGameMessageOpen: true,
-			})
-		);
+
 		// console.log("Game is DRAW");
 		// // need to update the draw
 		// console.log(selectedGame.draw);
@@ -301,14 +269,4 @@ export const checkIfAllTilesAreFilled =
 			// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 		}
 		return;
-	};
-
-export const updateGameMessageAction =
-	() => async (dispatch: any, getState: any) => {
-		dispatch(
-			updateGameMessageRed({
-				gameMessage: "",
-				isGameMessageOpen: false,
-			})
-		);
 	};
