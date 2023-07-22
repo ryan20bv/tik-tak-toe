@@ -1,8 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
-import InfoForm from "./InfoForm";
 
-const InputModal = () => {
+interface PropsType {
+	children: React.ReactNode;
+}
+
+const InputModal: React.FC<PropsType> = ({ children }) => {
 	const [inputPortal, setInputPortal] = useState<any>();
 	useEffect(() => {
 		setInputPortal(document?.getElementById("overlays"));
@@ -18,7 +21,7 @@ const InputModal = () => {
 							// onClick={onCloseModal}
 						></section>
 						<section className='z-10 bg-white bg-opacity-80 rounded-2xl'>
-							<InfoForm />
+							{children}
 						</section>
 					</main>,
 					inputPortal

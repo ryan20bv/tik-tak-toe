@@ -4,7 +4,10 @@ import { useRouter } from "next/router";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
 // for redux purposes
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
-import { startNewGameAction } from "@/reduxToolkit/tiktak/actions/newGameAction";
+import {
+	startNewGameAction,
+	resetIsSendingDataAction,
+} from "@/reduxToolkit/tiktak/actions/newGameAction";
 import { INewGameUser } from "@/data/modelTypes";
 // for custom hooks
 
@@ -68,11 +71,12 @@ const InfoForm = () => {
 			player2_Name,
 			password: "123456",
 		};
-		// const result = await dispatch(startNewGameAction(newUser));
+		const result = await dispatch(startNewGameAction(newUser));
 
-		// if (result?.message === "New Game Created") {
-		// 	router.push(`/game/${player1_Name}vs${player2_Name}`);
-		// }
+		if (result?.message === "New Game Created") {
+			dispatch(resetIsSendingDataAction());
+			router.push(`/game/${player1_Name}vs${player2_Name}`);
+		}
 	};
 
 	return (

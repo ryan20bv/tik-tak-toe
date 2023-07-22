@@ -13,11 +13,12 @@ export const getAllSavedGamesAction =
 	(allSavedGames: ISaveGame[]) => async (dispatch: any, getState: any) => {
 		dispatch(getAllSavedGamesRed({ savedGames: allSavedGames }));
 	};
+// ! included
 export const setSelectedGameAction =
 	(game: ISaveGame) => async (dispatch: any, getState: any) => {
 		dispatch(setSelectedGameRed({ selectedGame: game }));
 	};
-
+// ! included
 export const unSetSelectedGameAction =
 	() => async (dispatch: any, getState: any) => {
 		dispatch(setSelectedGameRed({ selectedGame: {} as ISaveGame }));

@@ -1,18 +1,22 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ISaveGame } from "@/data/modelTypes";
+import { ISaveGame, ISendingData } from "@/data/modelTypes";
 
 interface ITikTakToeState {
 	isLoadingSavedGame: boolean;
 	savedGames: ISaveGame[];
 	selectedGame: ISaveGame;
+	isSendingData: ISendingData;
 }
 
 const initialTikTakState: ITikTakToeState = {
 	isLoadingSavedGame: false,
 	savedGames: [],
 	selectedGame: {} as ISaveGame,
+	isSendingData: {
+		status: false,
+		message: "",
+	},
 };
-
 const tikTakToeSlice = createSlice({
 	name: "TikTakToe Slice",
 	initialState: initialTikTakState,
@@ -20,16 +24,27 @@ const tikTakToeSlice = createSlice({
 		updateIsLoadingRed(state, action) {
 			state.isLoadingSavedGame = action.payload.isLoadingStatus;
 		},
+		// !included
 		getAllSavedGamesRed(state, action) {
 			state.savedGames = action.payload.savedGames;
 		},
+		// !included
 		setSelectedGameRed(state, action) {
 			state.selectedGame = action.payload.selectedGame;
 		},
+		// !included
 		resetTikTakRed(state, action) {
 			state.isLoadingSavedGame = false;
 			state.savedGames = [];
 			state.selectedGame = {} as ISaveGame;
+			state.isSendingData = {
+				status: false,
+				message: "",
+			};
+		},
+		// !included
+		updateSendingDataRed(state, action) {
+			state.isSendingData = action.payload.sendingDataStatus;
 		},
 	},
 });
@@ -39,5 +54,6 @@ export const {
 	getAllSavedGamesRed,
 	resetTikTakRed,
 	setSelectedGameRed,
+	updateSendingDataRed,
 } = tikTakToeSlice.actions;
 export default tikTakToeSlice;
