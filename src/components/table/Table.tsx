@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ISaveGame } from "@/data/modelTypes";
 import TableBody from "./TableBody";
 
@@ -7,6 +7,12 @@ interface PropsType {
 }
 
 const Table: React.FC<PropsType> = ({ savedGames }) => {
+	const [accessGameId, setAccessGameId] = useState<string>("");
+
+	const accessGameHandler = (gameId: string) => {
+		setAccessGameId(gameId);
+	};
+
 	return (
 		<section className=''>
 			<h3>List of saved game</h3>
@@ -32,6 +38,8 @@ const Table: React.FC<PropsType> = ({ savedGames }) => {
 								key={eachGame._id}
 								eachGame={eachGame}
 								index={index}
+								accessGameHandler={accessGameHandler}
+								accessGameId={accessGameId}
 							/>
 						))}
 					</tbody>
