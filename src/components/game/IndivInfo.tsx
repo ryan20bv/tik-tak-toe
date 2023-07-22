@@ -6,8 +6,12 @@ interface PropsType {
 }
 
 const IndivInfo: React.FC<PropsType> = ({ playerInfo, infoTitle }) => {
+	const cardBackground =
+		infoTitle === "Player-1" ? "bg-blue-400" : "bg-yellow-300";
 	return (
-		<div className='flex flex-col sm:items-center '>
+		<div
+			className={`flex flex-col sm:items-center border border-black ${cardBackground} rounded-lg p-2`}
+		>
 			<div className='flex items-center justify-center'>
 				<p className='mr-6'>{infoTitle}</p>
 				<span>{`${infoTitle === "Player-1" ? `" X "` : `" O "`} `}</span>

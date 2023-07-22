@@ -52,13 +52,15 @@ const SpecificGame = () => {
 		}
 	};
 	const addedInfo = selectedGame.playerTurn === "1" ? `" X "` : `" O "`;
+	const spanColor =
+		selectedGame.playerTurn === "1" ? "text-blue-600" : "text-yellow-500";
 	return (
 		<section className='flex flex-col  '>
 			<PlayersInfo gameDetail={selectedGame} />
-			<div className='text-center my-2 '>
+			<div className='text-center my-2 font-semibold'>
 				Player{" "}
-				<span className='text-red-500 text-xl'>{selectedGame.playerTurn}</span> turn{" "}
-				<span className='text-red-500 text-xl'>{addedInfo}</span>
+				<span className={`${spanColor} text-2xl`}>{selectedGame.playerTurn}</span>{" "}
+				turn <span className={`${spanColor} text-2xl`}>{addedInfo}</span>
 			</div>
 			<div className='m-auto'>
 				<GameBoard selectedGame={selectedGame} />
