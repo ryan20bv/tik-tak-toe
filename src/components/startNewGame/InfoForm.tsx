@@ -4,7 +4,10 @@ import { useRouter } from "next/router";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
 // for redux purposes
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
-import { startNewGameAction } from "@/reduxToolkit/tiktak/newGameAction";
+import {
+	startNewGameAction,
+	resetIsSendingDataAction,
+} from "@/reduxToolkit/tiktak/actions/newGameAction";
 import { INewGameUser } from "@/data/modelTypes";
 // for custom hooks
 
@@ -48,8 +51,6 @@ const InfoForm = () => {
 
 		const player1_Name = player1Ref.current?.value;
 		const player2_Name = player2Ref.current?.value;
-		// console.log(player1Name);
-		// console.log(player2Name);
 		if (!player1_Name || player1_Name.trim().length === 0) {
 			setPlayer1Error(true);
 		}
@@ -73,6 +74,7 @@ const InfoForm = () => {
 		const result = await dispatch(startNewGameAction(newUser));
 
 		if (result?.message === "New Game Created") {
+			dispatch(resetIsSendingDataAction());
 			router.push(`/game/${player1_Name}vs${player2_Name}`);
 		}
 	};

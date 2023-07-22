@@ -3,10 +3,12 @@ export interface ISaveGame {
 	player1: IPlayer;
 	player2: IPlayer;
 	draw: number;
-	history: IHistory;
+
 	playerTurn: string;
 	password: string;
 	gameIsDone: boolean;
+	gameMessage: string;
+	history: IHistory;
 }
 
 export interface IHistory {
@@ -28,4 +30,9 @@ export interface INewGameUser {
 	player1_Name: string;
 	player2_Name: string;
 	password: string;
+}
+
+export interface ISendingData {
+	status: boolean;
+	message: string;
 }
