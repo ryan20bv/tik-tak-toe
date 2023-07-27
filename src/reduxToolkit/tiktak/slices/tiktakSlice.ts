@@ -6,6 +6,7 @@ interface ITikTakToeState {
 	savedGames: ISaveGame[];
 	selectedGame: ISaveGame;
 	isSendingData: ISendingData;
+	token: string;
 }
 
 const initialTikTakState: ITikTakToeState = {
@@ -16,6 +17,7 @@ const initialTikTakState: ITikTakToeState = {
 		status: false,
 		message: "",
 	},
+	token: "",
 };
 const tikTakToeSlice = createSlice({
 	name: "TikTakToe Slice",
@@ -35,16 +37,20 @@ const tikTakToeSlice = createSlice({
 		// !included
 		resetTikTakRed(state, action) {
 			state.isLoadingSavedGame = false;
-			state.savedGames = [];
-			state.selectedGame = {} as ISaveGame;
+			// state.savedGames = [];
+			// state.selectedGame = {} as ISaveGame;
 			state.isSendingData = {
 				status: false,
 				message: "",
 			};
+			state.token = "";
 		},
 		// !included
 		updateSendingDataRed(state, action) {
 			state.isSendingData = action.payload.sendingDataStatus;
+		},
+		updateTokenDataRed(state, action) {
+			state.token = action.payload.token;
 		},
 	},
 });
@@ -55,5 +61,6 @@ export const {
 	resetTikTakRed,
 	setSelectedGameRed,
 	updateSendingDataRed,
+	updateTokenDataRed,
 } = tikTakToeSlice.actions;
 export default tikTakToeSlice;

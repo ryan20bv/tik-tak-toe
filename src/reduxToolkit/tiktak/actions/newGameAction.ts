@@ -8,6 +8,7 @@ import { setSelectedGameAction, unSetSelectedGameAction } from "./tiktakAction";
 import {
 	updateSendingDataRed,
 	getAllSavedGamesRed,
+	updateTokenDataRed,
 } from "../slices/tiktakSlice";
 
 // for next auth
@@ -80,13 +81,17 @@ export const accessGameAction =
 				password: accessData.password,
 				redirect: false,
 			});
-			console.log(result);
+
 			if (!result?.ok) {
 				throw new Error("Invalid Password!");
 			}
 			return { message: "authenticated" };
 		} catch (err: any) {
-			console.log("accessGameAction", err);
 			return { message: err.message };
 		}
+	};
+
+export const updateTokenDataAction =
+	(token: string) => async (dispatch: any, getState: any) => {
+		dispatch(updateTokenDataRed({ token: token }));
 	};

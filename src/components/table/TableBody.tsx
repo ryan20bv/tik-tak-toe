@@ -34,7 +34,7 @@ const TableBody: React.FC<PropsType> = ({
 			password: enteredPassword,
 		};
 		const result = await dispatch(accessGameAction(accessData));
-		console.log(result);
+
 		if (result && result?.message === "authenticated") {
 			router.push(`/game/${player1.name}vs${player2.name}`);
 		} else if (result && result?.message === "Invalid Password!") {

@@ -29,7 +29,7 @@ export const authOptions = {
 				if (res.ok) {
 					return {
 						credentials: result.token,
-						// name: result,
+						name: result,
 					};
 				}
 				// Return null if user data could not be retrieved
