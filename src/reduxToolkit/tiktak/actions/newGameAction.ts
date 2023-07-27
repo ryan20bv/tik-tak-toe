@@ -10,6 +10,9 @@ import {
 	getAllSavedGamesRed,
 } from "../slices/tiktakSlice";
 
+// for next auth
+import { signIn } from "next-auth/react";
+
 export const startNewGameAction =
 	(newUser: INewGameUser) => async (dispatch: any, getState: any) => {
 		await dispatch(unSetSelectedGameAction());
@@ -71,5 +74,19 @@ export const resetIsSendingDataAction =
 
 export const accessGameAction =
 	(accessData: IAccessData) => async (dispatch: any, getState: any) => {
-		console.log(accessData);
+		try {
+			const result = await signIn("access-game", {
+				game_id: accessData.game_id,
+				password: accessData.password,
+				redirect: false,
+			});
+			console.log(result);
+			if (!result?.ok) {
+				throw new Error("Invalid Password!");
+			}
+			return { message: "authenticated" };
+		} catch (err: any) {
+			console.log("accessGameAction", err);
+			return { message: err.message };
+		}
 	};

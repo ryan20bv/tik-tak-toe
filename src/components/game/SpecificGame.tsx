@@ -1,5 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import React, { useEffect } from "react";
+
 import GameBoard from "./GameBoard";
 import PlayersInfo from "./PlayersInfo";
 import GameNotification from "../ui/GameNotification";
@@ -19,12 +19,24 @@ import {
 	resetIsSendingDataAction,
 } from "@/reduxToolkit/tiktak/actions/newGameAction";
 
+// for next authentication
+import { getSession } from "next-auth/react";
+
 const SpecificGame = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const { selectedGame, isSendingData } = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	);
+
+	useEffect(() => {
+		const checkForSession = async () => {
+			const session = await getSession();
+			console.log(session);
+		};
+
+		checkForSession();
+	}, []);
 
 	const stopGameHandler = async () => {
 		dispatch(

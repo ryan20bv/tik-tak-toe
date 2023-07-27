@@ -9,20 +9,24 @@ interface PropsType {
 	eachGame: ISaveGame;
 	accessGameHandler: (id: string) => void;
 	goToGamePageHandler: (game: ISaveGame, enteredPassword: string) => void;
+	passwordErrorMessage: string;
+	updatePasswordErrorMessage: (message: string) => void;
 }
 
 const PasswordInput: React.FC<PropsType> = ({
 	accessGameHandler,
 	goToGamePageHandler,
 	eachGame,
+	passwordErrorMessage,
+	updatePasswordErrorMessage,
 }) => {
 	const { handlerInputPasswordSanitizer } = useSanitizeHook();
 	const passwordRef = useRef<HTMLInputElement>(null);
-	const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
-	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
+	// const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
+
 	const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget;
-		setPasswordErrorMessage("");
+		updatePasswordErrorMessage("");
 		const validatedValue = handlerInputPasswordSanitizer(value);
 		if (!passwordRef.current) {
 			return;
@@ -36,7 +40,7 @@ const PasswordInput: React.FC<PropsType> = ({
 		const enteredPassword = passwordRef.current?.value;
 
 		if (!enteredPassword || enteredPassword.trim().length === 0) {
-			setPasswordErrorMessage("Please enter Password min 4 characters");
+			updatePasswordErrorMessage("Please enter Password min 4 characters");
 			return;
 		}
 
@@ -60,9 +64,7 @@ const PasswordInput: React.FC<PropsType> = ({
 								onChange={inputHandler}
 							/>
 							{passwordErrorMessage && passwordErrorMessage.trim().length > 0 && (
-								<p className='text-red-500 text-xs '>
-									*Please enter name max 8 characters
-								</p>
+								<p className='text-red-500 text-xs '>*{passwordErrorMessage}</p>
 							)}
 						</div>
 

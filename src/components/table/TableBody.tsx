@@ -22,20 +22,32 @@ const TableBody: React.FC<PropsType> = ({
 }) => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
 	const { player1, player2, _id, draw } = eachGame;
-	const goToGamePageHandler = (game: ISaveGame, enteredPassword: string) => {
+	const goToGamePageHandler = async (
+		game: ISaveGame,
+		enteredPassword: string
+	) => {
 		dispatch(setSelectedGameAction(game));
 		let accessData: IAccessData = {
 			game_id: game._id,
 			password: enteredPassword,
 		};
-		dispatch(accessGameAction(accessData));
-		// router.push(`/game/${player1.name}vs${player2.name}`);
+		const result = await dispatch(accessGameAction(accessData));
+		console.log(result);
+		if (result && result?.message === "authenticated") {
+			router.push(`/game/${player1.name}vs${player2.name}`);
+		} else if (result && result?.message === "Invalid Password!") {
+			updatePasswordErrorMessage(result?.message);
+		}
 	};
 	// create a new function that will show the password input form
 	let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
 
 	const addedClass = index % 2 === 0 ? "bg-blue-100" : "bg-white";
+	const updatePasswordErrorMessage = (message: string) => {
+		setPasswordErrorMessage(message);
+	};
 	return (
 		<>
 			{!isShowPasswordInputOpen && (
@@ -68,6 +80,8 @@ const TableBody: React.FC<PropsType> = ({
 					eachGame={eachGame}
 					accessGameHandler={accessGameHandler}
 					goToGamePageHandler={goToGamePageHandler}
+					passwordErrorMessage={passwordErrorMessage}
+					updatePasswordErrorMessage={updatePasswordErrorMessage}
 				/>
 			)}
 		</>
