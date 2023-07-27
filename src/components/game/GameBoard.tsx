@@ -5,7 +5,6 @@ import GameTile from "./GameTile";
 import useGameUpdate from "@/customhooks/use-game";
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import {
-	updateSelectedGameHistoryAction,
 	setSelectedGameAction,
 	updateHistoryInDatabaseAction,
 } from "@/reduxToolkit/tiktak/actions/tiktakAction";

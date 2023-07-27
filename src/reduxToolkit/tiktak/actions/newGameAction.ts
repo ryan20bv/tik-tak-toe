@@ -1,9 +1,8 @@
 import {
 	ISaveGame,
-	IGameTileData,
-	IHistory,
 	INewGameUser,
 	ISendingData,
+	IAccessData,
 } from "@/data/modelTypes";
 import { setSelectedGameAction, unSetSelectedGameAction } from "./tiktakAction";
 import {
@@ -68,4 +67,9 @@ export const resetIsSendingDataAction =
 			message: "",
 		};
 		dispatch(updateSendingDataRed({ sendingDataStatus: sendingDataStatus }));
+	};
+
+export const accessGameAction =
+	(accessData: IAccessData) => async (dispatch: any, getState: any) => {
+		console.log(accessData);
 	};

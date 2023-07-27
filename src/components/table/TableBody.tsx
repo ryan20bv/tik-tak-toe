@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { ISaveGame } from "@/data/modelTypes";
+import { IAccessData, ISaveGame } from "@/data/modelTypes";
 import PasswordInput from "../home/PasswordInput";
 // for redux
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import { accessGameAction } from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 interface PropsType {
 	eachGame: ISaveGame;
@@ -22,9 +23,14 @@ const TableBody: React.FC<PropsType> = ({
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const { player1, player2, _id, draw } = eachGame;
-	const goToGamePageHandler = (game: ISaveGame) => {
+	const goToGamePageHandler = (game: ISaveGame, enteredPassword: string) => {
 		dispatch(setSelectedGameAction(game));
-		router.push(`/game/${player1.name}vs${player2.name}`);
+		let accessData: IAccessData = {
+			game_id: game._id,
+			password: enteredPassword,
+		};
+		dispatch(accessGameAction(accessData));
+		// router.push(`/game/${player1.name}vs${player2.name}`);
 	};
 	// create a new function that will show the password input form
 	let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
@@ -58,7 +64,11 @@ const TableBody: React.FC<PropsType> = ({
 				</>
 			)}
 			{isShowPasswordInputOpen && (
-				<PasswordInput accessGameHandler={accessGameHandler} />
+				<PasswordInput
+					eachGame={eachGame}
+					accessGameHandler={accessGameHandler}
+					goToGamePageHandler={goToGamePageHandler}
+				/>
 			)}
 		</>
 	);

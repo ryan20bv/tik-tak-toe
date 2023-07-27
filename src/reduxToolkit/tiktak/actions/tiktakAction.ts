@@ -42,57 +42,56 @@ export const updateSaveGameAction =
 		dispatch(getAllSavedGamesRed({ savedGames: updatedSaveGame }));
 	};
 
-export const updateSelectedGameHistoryAction =
-	(tileData: IGameTileData) => async (dispatch: any, getState: any) => {
-		const { selectedGame } = getState().tikTakToeReducer;
-		const { playerTurn, history } = selectedGame;
-		let newItem: string = "";
-		let newPlayerTurn: string = playerTurn;
-		if (playerTurn === "1") {
-			newItem = "X";
-			newPlayerTurn = "2";
-		} else if (playerTurn === "2") {
-			newItem = "O";
-			newPlayerTurn = "1";
-		}
-		const separatedId = tileData.tile_id.split("-");
-		const rowIndex = +separatedId[0] - 1; // "2"
-		const colIndex = +separatedId[1] - 1; // "1"
-		const newTileData: IGameTileData = {
-			tile_id: tileData.tile_id,
-			filled: true,
-			item: newItem,
-		};
-		const copyOfHistory: IHistory = { ...history };
-		const copyOfGameHistory: IGameTileData[][] = history.gameHistory.map(
-			(rowTile: IGameTileData[]) => {
-				return rowTile.map((eachTile: IGameTileData) => {
-					return eachTile;
-				});
-			}
-		);
+// export const updateSelectedGameHistoryAction =
+// 	(tileData: IGameTileData) => async (dispatch: any, getState: any) => {
+// 		const { selectedGame } = getState().tikTakToeReducer;
+// 		const { playerTurn, history } = selectedGame;
+// 		let newItem: string = "";
+// 		let newPlayerTurn: string = playerTurn;
+// 		if (playerTurn === "1") {
+// 			newItem = "X";
+// 			newPlayerTurn = "2";
+// 		} else if (playerTurn === "2") {
+// 			newItem = "O";
+// 			newPlayerTurn = "1";
+// 		}
+// 		const separatedId = tileData.tile_id.split("-");
+// 		const rowIndex = +separatedId[0] - 1; // "2"
+// 		const colIndex = +separatedId[1] - 1; // "1"
+// 		const newTileData: IGameTileData = {
+// 			tile_id: tileData.tile_id,
+// 			filled: true,
+// 			item: newItem,
+// 		};
+// 		const copyOfHistory: IHistory = { ...history };
+// 		const copyOfGameHistory: IGameTileData[][] = history.gameHistory.map(
+// 			(rowTile: IGameTileData[]) => {
+// 				return rowTile.map((eachTile: IGameTileData) => {
+// 					return eachTile;
+// 				});
+// 			}
+// 		);
 
-		copyOfGameHistory[rowIndex][colIndex] = { ...newTileData };
-		copyOfHistory.gameHistory = copyOfGameHistory;
-		const copyOfSelectedGame: ISaveGame = { ...selectedGame };
-		copyOfSelectedGame.history = { ...copyOfHistory };
+// 		copyOfGameHistory[rowIndex][colIndex] = { ...newTileData };
+// 		copyOfHistory.gameHistory = copyOfGameHistory;
+// 		const copyOfSelectedGame: ISaveGame = { ...selectedGame };
+// 		copyOfSelectedGame.history = { ...copyOfHistory };
 
-		copyOfSelectedGame.playerTurn = newPlayerTurn;
-		// dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
-		const data = await dispatch(
-			updateHistoryInDatabaseAction(copyOfSelectedGame)
-		);
+// 		copyOfSelectedGame.playerTurn = newPlayerTurn;
+// 		// dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
+// 		const data = await dispatch(
+// 			updateHistoryInDatabaseAction(copyOfSelectedGame)
+// 		);
 
-		const { message, latestUpdateGame } = data;
+// 		const { message, latestUpdateGame } = data;
 
-		if (message === "history updated") {
-			await dispatch(updateSaveGameAction(latestUpdateGame));
-			await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-			dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
-		}
-		// await dispatch(setSelectedGameRed({ selectedGame: copyOfSelectedGame }));
-		// dispatch(checkIfThereIsAWinnerAction(copyOfSelectedGame));
-	};
+// 		if (message === "history updated") {
+// 			await dispatch(updateSaveGameAction(latestUpdateGame));
+// 			await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
+
+// 		}
+
+// 	};
 // ! included
 export const updateHistoryInDatabaseAction =
 	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
@@ -130,25 +129,25 @@ export const updateHistoryInDatabaseAction =
 			// if (message === "history updated") {
 			// 	await dispatch(updateSaveGameAction(latestUpdateGame));
 			// 	await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-			// 	dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
+
 			// }
 		} catch (err) {
 			console.log("updateHistoryInDatabaseAction", err);
 		}
 	};
 
-export const checkIfThereIsAWinnerAction =
-	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
-		const hasWinner: boolean = await dispatch(
-			lookForThreeSameTilesAction(updatedSelectedGame.history.gameHistory)
-		);
-		// console.log("hasWinner", hasWinner);
-		if (!hasWinner) {
-			dispatch(checkIfAllTilesAreFilled(updatedSelectedGame.history.gameHistory));
-		}
-	};
+// export const checkIfThereIsAWinnerAction =
+// 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
+// 		const hasWinner: boolean = await dispatch(
+// 			lookForThreeSameTilesAction(updatedSelectedGame.history.gameHistory)
+// 		);
+// 		// console.log("hasWinner", hasWinner);
+// 		if (!hasWinner) {
+// 			dispatch(checkIfAllTilesAreFilled(updatedSelectedGame.history.gameHistory));
+// 		}
+// 	};
 
-export const lookForThreeSameTilesAction =
+/* export const lookForThreeSameTilesAction =
 	(gameHistory: IGameTileData[][]) => async (dispatch: any, getState: any) => {
 		// check for horizontal winner
 		let message: string = `Player 1 WIN  "X" `;
@@ -197,9 +196,9 @@ export const lookForThreeSameTilesAction =
 		dispatch(updatePlayerWinAction(item));
 
 		return true;
-	};
+	}; */
 
-export const updatePlayerWinAction =
+/* export const updatePlayerWinAction =
 	(item: string) => async (dispatch: any, getState: any) => {
 		const { selectedGame } = getState().tikTakToeReducer;
 
@@ -232,11 +231,10 @@ export const updatePlayerWinAction =
 		if (message === "history updated") {
 			await dispatch(updateSaveGameAction(latestUpdateGame));
 			dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-			// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 		}
-	};
+	}; */
 
-export const checkIfAllTilesAreFilled =
+/* export const checkIfAllTilesAreFilled =
 	(gameHistory: IGameTileData[][]) => async (dispatch: any, getState: any) => {
 		const { selectedGame } = getState().tikTakToeReducer;
 		for (const row of gameHistory) {
@@ -267,7 +265,6 @@ export const checkIfAllTilesAreFilled =
 		if (message === "history updated") {
 			await dispatch(updateSaveGameAction(latestUpdateGame));
 			dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-			// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 		}
 		return;
-	};
+	}; */

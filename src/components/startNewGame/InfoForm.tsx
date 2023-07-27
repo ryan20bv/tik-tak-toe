@@ -16,7 +16,7 @@ import useSanitizeHook from "@/customhooks/use-input";
 const InfoForm = () => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-	const { handlerInputPassword } = useSanitizeHook();
+	const { handlerInputNameSanitizer } = useSanitizeHook();
 
 	const player1Ref = useRef<HTMLInputElement>(null);
 	const player2Ref = useRef<HTMLInputElement>(null);
@@ -30,14 +30,14 @@ const InfoForm = () => {
 		const { value, id } = e.currentTarget;
 
 		if (id === "player 1") {
-			const validatedValue = handlerInputPassword(value);
+			const validatedValue = handlerInputNameSanitizer(value);
 			if (!player1Ref.current) {
 				return;
 			}
 			setPlayer1Error(false);
 			player1Ref.current.value = validatedValue;
 		} else if (id === "player 2") {
-			const validatedValue = handlerInputPassword(value);
+			const validatedValue = handlerInputNameSanitizer(value);
 			if (!player2Ref.current) {
 				return;
 			}

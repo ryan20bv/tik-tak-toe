@@ -31,7 +31,6 @@ export const resetBoardHistoryInDatabaseAction =
 			if (message === "reset history") {
 				await dispatch(updateSaveGameAction(latestUpdateGame));
 				dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-				// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 			}
 			return { message };
 		} catch (err) {
