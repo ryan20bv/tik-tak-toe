@@ -20,7 +20,6 @@ import { resetBoardHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions
 import {
 	updateIsSendingDataAction,
 	resetIsSendingDataAction,
-	updateTokenDataAction,
 } from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 // for next authentication
@@ -36,6 +35,7 @@ const SpecificGame = () => {
 	const [nextSession, setNextSession] = useState<string>("");
 
 	useEffect(() => {
+		dispatch(resetIsSendingDataAction());
 		const checkForSession = async () => {
 			setIsFetchingData(true);
 			const session = await getSession();
@@ -46,6 +46,7 @@ const SpecificGame = () => {
 				const data: any = session.user?.name;
 				// const token = data.token;
 				// dispatch(updateTokenDataAction(token));
+				console.log(data.token);
 				setNextSession(data.token);
 				setIsFetchingData(false);
 			}

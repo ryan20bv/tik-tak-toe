@@ -2,16 +2,21 @@ import React, { useRef, useState } from "react";
 import InputUI from "../ui/InputUI";
 import { useRouter } from "next/router";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
+import { INewGameUser } from "@/data/modelTypes";
 // for redux purposes
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import {
 	startNewGameAction,
 	resetIsSendingDataAction,
+	addNewGameToSavedGamesAction,
 } from "@/reduxToolkit/tiktak/actions/newGameAction";
-import { INewGameUser } from "@/data/modelTypes";
+import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+
 // for custom hooks
 
 import useSanitizeHook from "@/customhooks/use-input";
+// for next authentication
+import { getSession } from "next-auth/react";
 
 const InfoForm = () => {
 	const router = useRouter();
@@ -71,10 +76,15 @@ const InfoForm = () => {
 			player2_Name,
 			password: "123456",
 		};
-		const result = await dispatch(startNewGameAction(newUser));
+		await dispatch(startNewGameAction(newUser));
+		// console.log(result);
+		const session = await getSession();
 
-		if (result?.message === "New Game Created") {
-			dispatch(resetIsSendingDataAction());
+		let dataSession: any = session?.user?.name;
+		console.log(dataSession);
+		await dispatch(setSelectedGameAction(dataSession?.newGame));
+		await dispatch(addNewGameToSavedGamesAction(dataSession?.newGame));
+		if (dataSession.message === "New Game Created") {
 			router.push(`/game/${player1_Name}vs${player2_Name}`);
 		}
 	};
