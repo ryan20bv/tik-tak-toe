@@ -33,17 +33,20 @@ const SpecificGame = () => {
 		(state: RootState) => state.tikTakToeReducer
 	);
 	const [isFetchingData, setIsFetchingData] = useState<boolean>(true);
+	const [nextSession, setNextSession] = useState<string>("");
 
 	useEffect(() => {
 		const checkForSession = async () => {
 			setIsFetchingData(true);
 			const session = await getSession();
 			if (!session) {
+				setNextSession("");
 				router.push("/");
 			} else {
 				const data: any = session.user?.name;
-				const token = data.token;
-				dispatch(updateTokenDataAction(token));
+				// const token = data.token;
+				// dispatch(updateTokenDataAction(token));
+				setNextSession(data.token);
 				setIsFetchingData(false);
 			}
 		};
@@ -55,10 +58,13 @@ const SpecificGame = () => {
 		dispatch(
 			updateIsSendingDataAction({ status: true, message: "Saving Data..." })
 		);
-		const result = await dispatch(updateHistoryInDatabaseAction(selectedGame));
+		const result = await dispatch(
+			updateHistoryInDatabaseAction(selectedGame, nextSession)
+		);
 
 		if (result?.message === "history updated") {
 			setIsFetchingData(true);
+			setNextSession("");
 			signOut();
 			dispatch(resetIsSendingDataAction());
 			dispatch(resetTikTakToeReducerAction());
@@ -73,7 +79,7 @@ const SpecificGame = () => {
 			updateIsSendingDataAction({ status: true, message: "Starting New Game..." })
 		);
 		const result = await dispatch(
-			resetBoardHistoryInDatabaseAction(selectedGame)
+			resetBoardHistoryInDatabaseAction(selectedGame, nextSession)
 		);
 		if (result?.message === "reset history") {
 			dispatch(resetIsSendingDataAction());

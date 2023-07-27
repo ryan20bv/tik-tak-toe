@@ -50,8 +50,9 @@ export const updateSaveGameAction =
 
 // ! included
 export const updateHistoryInDatabaseAction =
-	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
-		const { token } = getState().tikTakToeReducer;
+	(updatedGame: ISaveGame, nextSession: string) =>
+	async (dispatch: any, getState: any) => {
+		// const { token } = getState().tikTakToeReducer;
 
 		try {
 			const bodyData = {
@@ -65,7 +66,7 @@ export const updateHistoryInDatabaseAction =
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: "Bearer " + token,
+					Authorization: "Bearer " + nextSession,
 				},
 				body: JSON.stringify(bodyData),
 			};

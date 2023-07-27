@@ -17,7 +17,7 @@ const initialTikTakState: ITikTakToeState = {
 		status: false,
 		message: "",
 	},
-	token: "",
+	// token: "",
 };
 const tikTakToeSlice = createSlice({
 	name: "TikTakToe Slice",
@@ -43,14 +43,10 @@ const tikTakToeSlice = createSlice({
 				status: false,
 				message: "",
 			};
-			state.token = "";
 		},
 		// !included
 		updateSendingDataRed(state, action) {
 			state.isSendingData = action.payload.sendingDataStatus;
-		},
-		updateTokenDataRed(state, action) {
-			state.token = action.payload.token;
 		},
 	},
 });
@@ -61,6 +57,5 @@ export const {
 	resetTikTakRed,
 	setSelectedGameRed,
 	updateSendingDataRed,
-	updateTokenDataRed,
 } = tikTakToeSlice.actions;
 export default tikTakToeSlice;

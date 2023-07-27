@@ -8,7 +8,6 @@ import { setSelectedGameAction, unSetSelectedGameAction } from "./tiktakAction";
 import {
 	updateSendingDataRed,
 	getAllSavedGamesRed,
-	updateTokenDataRed,
 } from "../slices/tiktakSlice";
 
 // for next auth
@@ -89,9 +88,4 @@ export const accessGameAction =
 		} catch (err: any) {
 			return { message: err.message };
 		}
-	};
-
-export const updateTokenDataAction =
-	(token: string) => async (dispatch: any, getState: any) => {
-		dispatch(updateTokenDataRed({ token: token }));
 	};
