@@ -10,7 +10,7 @@ import {
 	RootState,
 } from "@/reduxToolkit/indexStore/indexStore";
 import { getAllSavedGamesAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
-import { appSocket } from "@/socket-io/socket-io";
+// import { appSocket } from "@/socket-io/socket-io";
 
 interface PropsType {
 	allSavedGames: ISaveGame[];

@@ -7,6 +7,7 @@ interface PropsType {
 	inputRef: React.RefObject<HTMLInputElement>;
 	inputHandler: (e: React.FormEvent<HTMLInputElement>) => void;
 	hasError: boolean;
+	errorMessage: string;
 }
 
 const InputUI: React.FC<PropsType> = ({
@@ -16,6 +17,7 @@ const InputUI: React.FC<PropsType> = ({
 	inputRef,
 	inputHandler,
 	hasError,
+	errorMessage,
 }) => {
 	return (
 		<div className='divide-y divide-gray-200'>
@@ -39,11 +41,7 @@ const InputUI: React.FC<PropsType> = ({
 					>
 						{placeholderInfo}
 					</label>
-					{hasError && (
-						<p className='text-red-500 text-xs '>
-							*Please enter name max 8 characters
-						</p>
-					)}
+					{hasError && <p className='text-red-500 text-xs '>{errorMessage}</p>}
 				</div>
 			</div>
 		</div>

@@ -29,40 +29,13 @@ export const startNewGameAction =
 			if (!result?.ok) {
 				throw new Error("Cannot create new game!");
 			}
+			console.log("Result: " + JSON.stringify(result));
 			// console.log("result in startNewGameAction", result);
 			// return { message: "New Game Created" };
 		} catch (err: any) {
+			dispatch(resetIsSendingDataAction());
 			return { message: err.message };
 		}
-		// try {
-		// 	const bodyData = {
-		// 		player1_Name: newUser.player1_Name,
-		// 		player2_Name: newUser.player2_Name,
-		// 		password: newUser.password,
-		// 	};
-		// 	const url = process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/startNewGame";
-		// 	const options = {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		body: JSON.stringify(bodyData),
-		// 	};
-
-		// 	const response = await fetch(url, options);
-		// 	// console.log(response);
-		// 	const data = await response.json();
-		// 	// console.log(data);
-		// 	const newGame: ISaveGame = {
-		// 		...data.newGame,
-		// 	};
-		// 	await dispatch(setSelectedGameAction(newGame));
-		// 	await dispatch(addNewGameToSavedGamesAction(newGame));
-		// 	return { message: data.message };
-		// } catch (err) {
-		// 	console.log("startNewGameAction", err);
-		// 	dispatch(resetIsSendingDataAction());
-		// }
 	};
 
 export const addNewGameToSavedGamesAction =

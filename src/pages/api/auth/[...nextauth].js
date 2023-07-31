@@ -1,7 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-// for redux
-import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 
 export const authOptions = {
 	session: {
@@ -59,9 +57,7 @@ export const authOptions = {
 				);
 
 				let result = await res.json();
-				// console.log("result", result);
-				// await dispatch(setSelectedGameAction(result.newGame));
-				// await dispatch(addNewGameToSavedGamesAction(result.newGame));
+
 				if (res.ok) {
 					return {
 						name: result,
