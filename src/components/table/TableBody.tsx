@@ -2,6 +2,11 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { IAccessData, ISaveGame } from "@/data/modelTypes";
 import PasswordInput from "../home/PasswordInput";
+import {
+	TrashIcon,
+	EllipsisHorizontalCircleIcon,
+	ArrowRightOnRectangleIcon,
+} from "@heroicons/react/24/solid";
 // for redux
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
@@ -23,6 +28,7 @@ const TableBody: React.FC<PropsType> = ({
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
+	const [showMoreAction, setShowMoreAction] = useState<boolean>(false);
 	const { player1, player2, _id, draw } = eachGame;
 	const goToGamePageHandler = async (
 		game: ISaveGame,
@@ -43,14 +49,20 @@ const TableBody: React.FC<PropsType> = ({
 	};
 	// create a new function that will show the password input form
 	let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
+	let isShowMoreActionOpen = accessGameId === eachGame._id ? true : false;
 
 	const addedClass = index % 2 === 0 ? "bg-blue-100" : "bg-white";
 	const updatePasswordErrorMessage = (message: string) => {
 		setPasswordErrorMessage(message);
 	};
+	const showMoreActionHandler = () => {
+		setShowMoreAction((prev) => {
+			return !prev;
+		});
+	};
 	return (
 		<>
-			{!isShowPasswordInputOpen && (
+			{!showMoreAction && (
 				<>
 					<tr>
 						<td rowSpan={2}>{index + 1}</td>
@@ -59,13 +71,25 @@ const TableBody: React.FC<PropsType> = ({
 						<td>{player2.win}</td>
 						<td rowSpan={2}>{draw}</td>
 						<td rowSpan={2}>
-							<button
-								className='bg-blue-400 border border-blue-400 '
-								// onClick={() => goToGamePageHandler(eachGame)}
-								onClick={() => accessGameHandler(eachGame._id)}
-							>
-								continue
-							</button>
+							{!isShowMoreActionOpen && (
+								<button onClick={() => accessGameHandler(eachGame._id)}>
+									<EllipsisHorizontalCircleIcon className='text-green-500 h-8 ' />
+								</button>
+							)}
+							{isShowMoreActionOpen && (
+								<div className='flex'>
+									{/* <div onClick={() => accessGameHandler(eachGame._id)}> */}
+									<div onClick={showMoreActionHandler}>
+										<ArrowRightOnRectangleIcon className='text-blue-500 h-8 ' />
+									</div>
+									<div
+									// className='bg-blue-400 border border-blue-400 '
+									// onClick={() => goToGamePageHandler(eachGame)}
+									>
+										<TrashIcon className='text-red-500 h-8 ' />
+									</div>
+								</div>
+							)}
 						</td>
 					</tr>
 					<tr>
@@ -75,7 +99,7 @@ const TableBody: React.FC<PropsType> = ({
 					</tr>
 				</>
 			)}
-			{isShowPasswordInputOpen && (
+			{showMoreAction && (
 				<PasswordInput
 					eachGame={eachGame}
 					accessGameHandler={accessGameHandler}

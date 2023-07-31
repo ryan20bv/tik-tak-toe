@@ -44,9 +44,7 @@ const SpecificGame = () => {
 				router.push("/");
 			} else {
 				const data: any = session.user?.name;
-				// const token = data.token;
-				// dispatch(updateTokenDataAction(token));
-				console.log(data.token);
+
 				setNextSession(data.token);
 				setIsFetchingData(false);
 			}

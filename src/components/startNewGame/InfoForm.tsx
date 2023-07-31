@@ -102,7 +102,6 @@ const InfoForm = () => {
 		const session = await getSession();
 
 		let dataSession: any = session?.user?.name;
-		console.log(dataSession);
 		await dispatch(setSelectedGameAction(dataSession?.newGame));
 		await dispatch(addNewGameToSavedGamesAction(dataSession?.newGame));
 		if (dataSession?.message === "New Game Created") {

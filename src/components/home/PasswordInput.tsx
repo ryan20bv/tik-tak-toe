@@ -40,7 +40,7 @@ const PasswordInput: React.FC<PropsType> = ({
 		const enteredPassword = passwordRef.current?.value;
 
 		if (!enteredPassword || enteredPassword.trim().length === 0) {
-			updatePasswordErrorMessage("Please enter Password min 4 characters");
+			updatePasswordErrorMessage("Please enter Password");
 			return;
 		}
 
@@ -72,9 +72,9 @@ const PasswordInput: React.FC<PropsType> = ({
 							<PaperAirplaneIcon className='text-green-500 h-8 ' />
 						</button>
 					</form>
-					<button onClick={() => accessGameHandler("")}>
+					<div onClick={() => accessGameHandler("")}>
 						<XCircleIcon className='text-red-500 h-8 ' />
-					</button>
+					</div>
 				</div>
 			</td>
 		</tr>
