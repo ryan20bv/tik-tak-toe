@@ -117,6 +117,7 @@ const TableBody: React.FC<PropsType> = ({
 			)}
 			{isOpenInputWithSameId && (
 				<PasswordInput
+					index={index}
 					eachGame={eachGame}
 					onCloseInput={onCloseInputHandler}
 					goToGamePageHandler={goToGamePageHandler}

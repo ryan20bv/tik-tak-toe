@@ -11,6 +11,7 @@ interface PropsType {
 	goToGamePageHandler: (game: ISaveGame, enteredPassword: string) => void;
 	passwordErrorMessage: string;
 	updatePasswordErrorMessage: (message: string) => void;
+	index: number;
 }
 
 const PasswordInput: React.FC<PropsType> = ({
@@ -19,6 +20,7 @@ const PasswordInput: React.FC<PropsType> = ({
 	eachGame,
 	passwordErrorMessage,
 	updatePasswordErrorMessage,
+	index,
 }) => {
 	const { handlerInputPasswordSanitizer } = useSanitizeHook();
 	const passwordRef = useRef<HTMLInputElement>(null);
@@ -46,38 +48,51 @@ const PasswordInput: React.FC<PropsType> = ({
 
 		goToGamePageHandler(eachGame, enteredPassword);
 	};
+	console.log(eachGame);
 	return (
-		<tr>
-			<td colSpan={6}>
-				<div className='flex items-center justify-around'>
-					<form
-						action=''
-						className='flex '
-						onSubmit={submitFormHandler}
-					>
-						<div>
-							<input
-								type='text'
-								placeholder='enter password'
-								className='px-4 border-2 border-black bg-gray-200 h-8'
-								ref={passwordRef}
-								onChange={inputHandler}
-							/>
-							{passwordErrorMessage && passwordErrorMessage.trim().length > 0 && (
-								<p className='text-red-500 text-xs '>*{passwordErrorMessage}</p>
-							)}
-						</div>
+		<>
+			<tr>
+				<td rowSpan={2}>{index + 1}</td>
+				<td
+					colSpan={5}
+					className='text-center'
+				>{`${eachGame.player1.name} VS ${eachGame.player2.name}`}</td>
+			</tr>
+			<tr>
+				<td colSpan={5}>
+					<div className='flex items-center justify-center'>
+						<form
+							action=''
+							className='flex border border-black'
+							onSubmit={submitFormHandler}
+						>
+							<div>
+								<input
+									type='text'
+									placeholder='enter password'
+									className='px-4 border-2 border-black bg-gray-200 h-8 w-[180px]'
+									ref={passwordRef}
+									onChange={inputHandler}
+								/>
+								{passwordErrorMessage && passwordErrorMessage.trim().length > 0 && (
+									<p className='text-red-500 text-xs '>*{passwordErrorMessage}</p>
+								)}
+							</div>
 
-						<button>
-							<PaperAirplaneIcon className='text-green-500 h-8 ' />
-						</button>
-					</form>
-					<div onClick={onCloseInput}>
-						<XCircleIcon className='text-red-500 h-8 ' />
+							<button className='border-0 p-0 mx-4'>
+								<PaperAirplaneIcon className='text-green-500 h-8 ' />
+							</button>
+						</form>
+						<div
+							onClick={onCloseInput}
+							className='border border-black'
+						>
+							<XCircleIcon className='text-red-500 h-8 ' />
+						</div>
 					</div>
-				</div>
-			</td>
-		</tr>
+				</td>
+			</tr>
+		</>
 	);
 };
 
