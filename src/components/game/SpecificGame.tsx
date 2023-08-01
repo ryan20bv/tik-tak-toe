@@ -102,7 +102,10 @@ const SpecificGame = () => {
 					turn <span className={`${spanColor} text-2xl`}>{addedInfo}</span>
 				</div>
 				<div className='m-auto'>
-					<GameBoard selectedGame={selectedGame} />
+					<GameBoard
+						selectedGame={selectedGame}
+						nextSession={nextSession}
+					/>
 				</div>
 				{!selectedGame.gameIsDone && (
 					<div className=' my-4 flex justify-center'>

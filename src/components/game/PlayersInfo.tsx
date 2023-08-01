@@ -9,16 +9,15 @@ interface PropsType {
 const PlayersInfo: React.FC<PropsType> = ({ gameDetail }) => {
 	const { player1, player2, draw } = gameDetail;
 	return (
-		<section className='flex flex-col sm:flex-row justify-between mb-2'>
+		<section className='flex flex-row justify-between mb-4'>
 			<IndivInfo
 				playerInfo={player1}
 				infoTitle='Player-1'
 			/>
-			<div className='flex  items-center justify-around sm:mx-6 sm:flex-col  border border-black p-2 rounded-lg'>
-				<div className='flex flex-col items-end sm:items-center'>
-					<p>Draw:</p>
-					<p className='px-2 text-2xl'>{draw}</p>
-				</div>
+
+			<div className='flex flex-col  border border-black items-center justify-center p-2 rounded-lg m-4 '>
+				<p>Draw:</p>
+				<p className='px-2 text-2xl'>{draw}</p>
 			</div>
 			<IndivInfo
 				playerInfo={player2}

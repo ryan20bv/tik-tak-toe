@@ -6,7 +6,6 @@ interface ITikTakToeState {
 	savedGames: ISaveGame[];
 	selectedGame: ISaveGame;
 	isSendingData: ISendingData;
-	token: string;
 }
 
 const initialTikTakState: ITikTakToeState = {
