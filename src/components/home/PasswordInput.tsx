@@ -7,14 +7,14 @@ import { accessGameAction } from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 interface PropsType {
 	eachGame: ISaveGame;
-	accessGameHandler: (id: string) => void;
+	onCloseInput: () => void;
 	goToGamePageHandler: (game: ISaveGame, enteredPassword: string) => void;
 	passwordErrorMessage: string;
 	updatePasswordErrorMessage: (message: string) => void;
 }
 
 const PasswordInput: React.FC<PropsType> = ({
-	accessGameHandler,
+	onCloseInput,
 	goToGamePageHandler,
 	eachGame,
 	passwordErrorMessage,
@@ -72,7 +72,7 @@ const PasswordInput: React.FC<PropsType> = ({
 							<PaperAirplaneIcon className='text-green-500 h-8 ' />
 						</button>
 					</form>
-					<div onClick={() => accessGameHandler("")}>
+					<div onClick={onCloseInput}>
 						<XCircleIcon className='text-red-500 h-8 ' />
 					</div>
 				</div>

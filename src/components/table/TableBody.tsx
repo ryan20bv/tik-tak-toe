@@ -15,20 +15,27 @@ import { accessGameAction } from "@/reduxToolkit/tiktak/actions/newGameAction";
 interface PropsType {
 	eachGame: ISaveGame;
 	index: number;
-	accessGameHandler: (id: string) => void;
-	accessGameId: string;
+	actionGameHandler: (id: string) => void;
+	actionGameId: string;
+	showInput: boolean;
+	showInputHandler: () => void;
+	closeInputHandler: () => void;
 }
 
 const TableBody: React.FC<PropsType> = ({
 	eachGame,
 	index,
-	accessGameHandler,
-	accessGameId,
+	actionGameHandler,
+	actionGameId,
+	showInput,
+	showInputHandler,
+	closeInputHandler,
 }) => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
-	const [showMoreAction, setShowMoreAction] = useState<boolean>(false);
+	// const [showMoreAction, setShowMoreAction] = useState<boolean>(false);
+	// const [showInput, setShowInput] = useState<boolean>(false);
 	const { player1, player2, _id, draw } = eachGame;
 	const goToGamePageHandler = async (
 		game: ISaveGame,
@@ -48,21 +55,30 @@ const TableBody: React.FC<PropsType> = ({
 		}
 	};
 	// create a new function that will show the password input form
-	let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
-	let isShowMoreActionOpen = accessGameId === eachGame._id ? true : false;
+	// let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
+	let isWithTheSameId = actionGameId === eachGame._id ? true : false;
+	let isOpenInputWithSameId = actionGameId === eachGame._id ? showInput : false;
 
 	const addedClass = index % 2 === 0 ? "bg-blue-100" : "bg-white";
 	const updatePasswordErrorMessage = (message: string) => {
 		setPasswordErrorMessage(message);
 	};
-	const showMoreActionHandler = () => {
-		setShowMoreAction((prev) => {
-			return !prev;
-		});
+	const openInputHandler = () => {
+		showInputHandler();
+	};
+
+	const onCloseInputHandler = () => {
+		closeInputHandler();
+		actionGameHandler("");
+	};
+
+	const moreActionHandler = (id: string) => {
+		closeInputHandler();
+		actionGameHandler(id);
 	};
 	return (
 		<>
-			{!showMoreAction && (
+			{!isOpenInputWithSameId && (
 				<>
 					<tr>
 						<td rowSpan={2}>{index + 1}</td>
@@ -71,15 +87,15 @@ const TableBody: React.FC<PropsType> = ({
 						<td>{player2.win}</td>
 						<td rowSpan={2}>{draw}</td>
 						<td rowSpan={2}>
-							{!isShowMoreActionOpen && (
-								<button onClick={() => accessGameHandler(eachGame._id)}>
+							{!isWithTheSameId && (
+								<button onClick={() => moreActionHandler(eachGame._id)}>
 									<EllipsisHorizontalCircleIcon className='text-green-500 h-8 ' />
 								</button>
 							)}
-							{isShowMoreActionOpen && (
+							{isWithTheSameId && (
 								<div className='flex'>
 									{/* <div onClick={() => accessGameHandler(eachGame._id)}> */}
-									<div onClick={showMoreActionHandler}>
+									<div onClick={openInputHandler}>
 										<ArrowRightOnRectangleIcon className='text-blue-500 h-8 ' />
 									</div>
 									<div
@@ -99,10 +115,10 @@ const TableBody: React.FC<PropsType> = ({
 					</tr>
 				</>
 			)}
-			{showMoreAction && (
+			{isOpenInputWithSameId && (
 				<PasswordInput
 					eachGame={eachGame}
-					accessGameHandler={accessGameHandler}
+					onCloseInput={onCloseInputHandler}
 					goToGamePageHandler={goToGamePageHandler}
 					passwordErrorMessage={passwordErrorMessage}
 					updatePasswordErrorMessage={updatePasswordErrorMessage}
