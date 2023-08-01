@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ISaveGame } from "@/data/modelTypes";
 import TableBody from "./TableBody";
 
@@ -7,6 +7,20 @@ interface PropsType {
 }
 
 const Table: React.FC<PropsType> = ({ savedGames }) => {
+	const [actionGameId, setActionGameId] = useState<string>("");
+	const [showInput, setShowInput] = useState<boolean>(false);
+
+	const actionGameHandler = (gameId: string) => {
+		setActionGameId(gameId);
+	};
+
+	const showInputHandler = () => {
+		setShowInput(true);
+	};
+	const closeInputHandler = () => {
+		setShowInput(false);
+	};
+
 	return (
 		<section className=''>
 			<h3>List of saved game</h3>
@@ -32,6 +46,11 @@ const Table: React.FC<PropsType> = ({ savedGames }) => {
 								key={eachGame._id}
 								eachGame={eachGame}
 								index={index}
+								actionGameHandler={actionGameHandler}
+								actionGameId={actionGameId}
+								showInput={showInput}
+								showInputHandler={showInputHandler}
+								closeInputHandler={closeInputHandler}
 							/>
 						))}
 					</tbody>

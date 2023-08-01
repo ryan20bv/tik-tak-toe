@@ -1,7 +1,7 @@
 import { ISaveGame, IGameTileData, IHistory } from "@/data/modelTypes";
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import { updateHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
-const useGameUpdate = (selectedGame: ISaveGame) => {
+const useGameUpdate = (selectedGame: ISaveGame, nextSession: string) => {
 	const dispatch = useAppDispatch();
 	const { draw, gameIsDone, history, player1, player2, playerTurn, _id } =
 		selectedGame;
@@ -66,7 +66,7 @@ const useGameUpdate = (selectedGame: ISaveGame) => {
 			copyOfSelectedGame.gameIsDone = true;
 		}
 		if (copyOfSelectedGame.gameIsDone) {
-			dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame));
+			dispatch(updateHistoryInDatabaseAction(copyOfSelectedGame, nextSession));
 		}
 		return { updatedSelectedGame: copyOfSelectedGame };
 	};

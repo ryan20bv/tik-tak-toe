@@ -17,7 +17,7 @@ const IndivInfo: React.FC<PropsType> = ({ playerInfo, infoTitle }) => {
 				<span>{`${infoTitle === "Player-1" ? `" X "` : `" O "`} `}</span>
 			</div>
 
-			<div className='flex items-end justify-between sm:flex-col'>
+			<div className='flex items-center justify-between flex-col'>
 				<h3 className='text-2xl'> {playerInfo.name}</h3>
 				<div className='flex items-end'>
 					<p>Win:</p>

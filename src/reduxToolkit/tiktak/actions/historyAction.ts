@@ -4,8 +4,10 @@ import { setSelectedGameRed } from "../slices/tiktakSlice";
 
 // ! included
 export const resetBoardHistoryInDatabaseAction =
-	(updatedGame: ISaveGame) => async (dispatch: any, getState: any) => {
+	(updatedGame: ISaveGame, nextSession: string) =>
+	async (dispatch: any, getState: any) => {
 		// console.log(updatedGame);
+		// const { token } = getState().tikTakToeReducer;
 		try {
 			const bodyData = {
 				updatedGame,
@@ -18,6 +20,7 @@ export const resetBoardHistoryInDatabaseAction =
 				method: "PATCH",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: "Bearer " + nextSession,
 				},
 				body: JSON.stringify(bodyData),
 			};
@@ -31,7 +34,6 @@ export const resetBoardHistoryInDatabaseAction =
 			if (message === "reset history") {
 				await dispatch(updateSaveGameAction(latestUpdateGame));
 				dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-				// dispatch(checkIfThereIsAWinnerAction(latestUpdateGame));
 			}
 			return { message };
 		} catch (err) {

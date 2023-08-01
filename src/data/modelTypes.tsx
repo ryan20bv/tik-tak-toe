@@ -36,3 +36,8 @@ export interface ISendingData {
 	status: boolean;
 	message: string;
 }
+
+export interface IAccessData {
+	game_id: string;
+	password: string;
+}
