@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { IAccessData, ISaveGame } from "@/data/modelTypes";
 import PasswordInput from "../home/PasswordInput";
+
 import {
 	TrashIcon,
 	EllipsisHorizontalCircleIcon,
 	ArrowRightOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 // for redux
-import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
+import {
+	useAppDispatch,
+	useAppSelector,
+	RootState,
+} from "@/reduxToolkit/indexStore/indexStore";
 import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
-import { accessGameAction } from "@/reduxToolkit/tiktak/actions/newGameAction";
+import {
+	accessGameAction,
+	updateIsSendingDataAction,
+} from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 interface PropsType {
 	eachGame: ISaveGame;
@@ -33,6 +41,7 @@ const TableBody: React.FC<PropsType> = ({
 }) => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
 	// const [showMoreAction, setShowMoreAction] = useState<boolean>(false);
 	// const [showInput, setShowInput] = useState<boolean>(false);
@@ -41,6 +50,7 @@ const TableBody: React.FC<PropsType> = ({
 		game: ISaveGame,
 		enteredPassword: string
 	) => {
+		dispatch(updateIsSendingDataAction({ status: true, message: "" }));
 		dispatch(setSelectedGameAction(game));
 		let accessData: IAccessData = {
 			game_id: game._id,
@@ -53,6 +63,7 @@ const TableBody: React.FC<PropsType> = ({
 		} else if (result && result?.message === "Invalid Password!") {
 			updatePasswordErrorMessage(result?.message);
 		}
+		dispatch(updateIsSendingDataAction({ status: false, message: "" }));
 	};
 	// create a new function that will show the password input form
 	// let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
@@ -69,11 +80,13 @@ const TableBody: React.FC<PropsType> = ({
 
 	const onCloseInputHandler = () => {
 		closeInputHandler();
+		setPasswordErrorMessage("");
 		actionGameHandler("");
 	};
 
 	const moreActionHandler = (id: string) => {
 		closeInputHandler();
+		setPasswordErrorMessage("");
 		actionGameHandler(id);
 	};
 	return (
@@ -88,13 +101,14 @@ const TableBody: React.FC<PropsType> = ({
 						<td rowSpan={2}>{draw}</td>
 						<td rowSpan={2}>
 							{!isWithTheSameId && (
-								<button onClick={() => moreActionHandler(eachGame._id)}>
-									<EllipsisHorizontalCircleIcon className='text-green-500 h-8 ' />
-								</button>
+								<>
+									<button onClick={() => moreActionHandler(eachGame._id)}>
+										<EllipsisHorizontalCircleIcon className='text-green-500 h-8 ' />
+									</button>
+								</>
 							)}
 							{isWithTheSameId && (
 								<div className='flex'>
-									{/* <div onClick={() => accessGameHandler(eachGame._id)}> */}
 									<div onClick={openInputHandler}>
 										<ArrowRightOnRectangleIcon className='text-blue-500 h-8 ' />
 									</div>

@@ -2,9 +2,12 @@ import React, { FormEvent, useRef, useState } from "react";
 import { IAccessData, ISaveGame } from "@/data/modelTypes";
 import { PaperAirplaneIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import useSanitizeHook from "@/customhooks/use-input";
-// for redux
-import { accessGameAction } from "@/reduxToolkit/tiktak/actions/newGameAction";
-
+import LoadingSpinner from "../ui/LoadingSpinner";
+import {
+	useAppDispatch,
+	useAppSelector,
+	RootState,
+} from "@/reduxToolkit/indexStore/indexStore";
 interface PropsType {
 	eachGame: ISaveGame;
 	onCloseInput: () => void;
@@ -23,6 +26,9 @@ const PasswordInput: React.FC<PropsType> = ({
 	index,
 }) => {
 	const { handlerInputPasswordSanitizer } = useSanitizeHook();
+	const { isSendingData } = useAppSelector(
+		(state: RootState) => state.tikTakToeReducer
+	);
 	const passwordRef = useRef<HTMLInputElement>(null);
 	// const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
 
@@ -59,7 +65,10 @@ const PasswordInput: React.FC<PropsType> = ({
 				>{`${eachGame.player1.name} VS ${eachGame.player2.name}`}</td>
 			</tr>
 			<tr>
-				<td colSpan={5}>
+				<td
+					colSpan={5}
+					className='bg-white'
+				>
 					<div className='flex items-center justify-center'>
 						<form
 							action=''
@@ -78,14 +87,19 @@ const PasswordInput: React.FC<PropsType> = ({
 									<p className='text-red-500 text-xs '>*{passwordErrorMessage}</p>
 								)}
 							</div>
-
-							<button className='border-0 p-0 mx-4'>
-								<PaperAirplaneIcon className='text-green-500 h-8 ' />
-							</button>
+							{!isSendingData.status && (
+								<button className='border-0 p-0 mx-4'>
+									<PaperAirplaneIcon className='text-green-500 h-8 ' />
+								</button>
+							)}
 						</form>
-						<div onClick={onCloseInput}>
-							<XCircleIcon className='text-red-500 h-8 ' />
-						</div>
+						{!isSendingData.status && (
+							<div onClick={onCloseInput}>
+								<XCircleIcon className='text-red-500 h-8 ' />
+							</div>
+						)}
+						{isSendingData.status && <LoadingSpinner />}
+						{/* <LoadingSpinner /> */}
 					</div>
 				</td>
 			</tr>
