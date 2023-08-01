@@ -48,7 +48,7 @@ const PasswordInput: React.FC<PropsType> = ({
 
 		goToGamePageHandler(eachGame, enteredPassword);
 	};
-	console.log(eachGame);
+
 	return (
 		<>
 			<tr>
@@ -63,7 +63,7 @@ const PasswordInput: React.FC<PropsType> = ({
 					<div className='flex items-center justify-center'>
 						<form
 							action=''
-							className='flex border border-black'
+							className='flex'
 							onSubmit={submitFormHandler}
 						>
 							<div>
@@ -83,10 +83,7 @@ const PasswordInput: React.FC<PropsType> = ({
 								<PaperAirplaneIcon className='text-green-500 h-8 ' />
 							</button>
 						</form>
-						<div
-							onClick={onCloseInput}
-							className='border border-black'
-						>
+						<div onClick={onCloseInput}>
 							<XCircleIcon className='text-red-500 h-8 ' />
 						</div>
 					</div>
