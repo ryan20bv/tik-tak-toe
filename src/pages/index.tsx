@@ -10,7 +10,7 @@ import {
 	RootState,
 } from "@/reduxToolkit/indexStore/indexStore";
 import { getAllSavedGamesAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
-import { appSocket } from "@/socket-io/socket-io";
+// import { appSocket } from "@/socket-io/socket-io";
 
 interface PropsType {
 	allSavedGames: ISaveGame[];
@@ -33,25 +33,23 @@ const HomePage: React.FC<PropsType> = ({ allSavedGames }) => {
 
 	// appSocket.on("allSavedGames", (allSavedGames) => {
 	// 	// console.log("from appSocket", allSavedGames);
-	// 	dispatch(getAllSavedGamesAction(allSavedGames));
-	// });
 
-	// if (isLoadingSavedGame) {
-	// 	return <div>Loading</div>;
-	// }
-	// if (!isLoadingSavedGame) {
-	// 	return <Home savedGames={savedGames} />;
-	// }
 	return <Home savedGames={allSavedGames} />;
 };
 
 export const getServerSideProps = async () => {
-	const res = await fetch(
-		process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/getSavedGames"
-	);
+	let allSavedGames;
+	try {
+		const res = await fetch(
+			process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/getSavedGames"
+		);
+		const { data } = await res.json();
+		const savedData = data.allSavedGames;
+		allSavedGames = savedData;
+	} catch (err) {
+		console.log("error fetching ", err);
+	}
 
-	const { data } = await res.json();
-	const { allSavedGames } = data;
 	return {
 		props: { allSavedGames },
 	};

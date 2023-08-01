@@ -5,18 +5,18 @@ import GameTile from "./GameTile";
 import useGameUpdate from "@/customhooks/use-game";
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import {
-	updateSelectedGameHistoryAction,
 	setSelectedGameAction,
 	updateHistoryInDatabaseAction,
 } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 
 interface PropsType {
 	selectedGame: ISaveGame;
+	nextSession: string;
 }
 
-const GameBoard: React.FC<PropsType> = ({ selectedGame }) => {
+const GameBoard: React.FC<PropsType> = ({ selectedGame, nextSession }) => {
 	const dispatch = useAppDispatch();
-	const { clickTileHandler } = useGameUpdate(selectedGame);
+	const { clickTileHandler } = useGameUpdate(selectedGame, nextSession);
 	const updateGameHistory = (tileData: IGameTileData) => {
 		const { updatedSelectedGame } = clickTileHandler(tileData);
 
