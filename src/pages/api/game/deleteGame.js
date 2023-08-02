@@ -19,7 +19,7 @@ const handler = async (req, res) => {
 			return;
 		}
 
-		res.status(201).json({ status: true, message: response.data.message });
+		res.status(201).json({ status: true, message: response.data?.message });
 	} catch (err) {
 		res
 			.status(err.response.status)
