@@ -12,7 +12,7 @@ const handler = async (req, res) => {
 	try {
 		const response = await axios.delete(
 			process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/game/" + game_id,
-			{ data: dataToSubmit }
+			{ data: dataToSubmit, withCredentials: true }
 		);
 
 		if (response.status !== 201) {
