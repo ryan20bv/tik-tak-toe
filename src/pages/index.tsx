@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import Home from "@/components/home/Home";
 
@@ -10,19 +10,17 @@ import {
 	RootState,
 } from "@/reduxToolkit/indexStore/indexStore";
 import { getAllSavedGamesAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
-// import { appSocket } from "@/socket-io/socket-io";
 
 interface PropsType {
 	allSavedGames: ISaveGame[];
 }
 
 const HomePage: React.FC<PropsType> = ({ allSavedGames }) => {
-	// const HomePage = () => {
-	// console.log(allSavedGames);
 	const dispatch = useAppDispatch();
-	// 	const { isLoadingSavedGame, savedGames } = useAppSelector(
-	// 		(state: RootState) => state.tikTakToeReducer
-	// 	);
+	const { savedGames } = useAppSelector(
+		(state: RootState) => state.tikTakToeReducer
+	);
+
 	useEffect(() => {
 		localStorage.removeItem("persist:root");
 	}, []);
@@ -31,10 +29,7 @@ const HomePage: React.FC<PropsType> = ({ allSavedGames }) => {
 		dispatch(getAllSavedGamesAction(allSavedGames));
 	}, [dispatch, allSavedGames]);
 
-	// appSocket.on("allSavedGames", (allSavedGames) => {
-	// 	// console.log("from appSocket", allSavedGames);
-
-	return <Home savedGames={allSavedGames} />;
+	return <Home savedGames={savedGames} />;
 };
 
 export const getServerSideProps = async () => {

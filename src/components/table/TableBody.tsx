@@ -20,10 +20,12 @@ import {
 	setSelectedGameAction,
 	unSetSelectedGameAction,
 	confirmDeleteGameAction,
+	deleteFromSavedGamesAction,
 } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 import {
 	accessGameAction,
 	updateIsSendingDataAction,
+	resetIsSendingDataAction,
 } from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 interface PropsType {
@@ -45,7 +47,7 @@ const TableBody: React.FC<PropsType> = ({
 }) => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-	const { selectedGame } = useAppSelector(
+	const { selectedGame, isSendingData } = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	);
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
@@ -69,7 +71,7 @@ const TableBody: React.FC<PropsType> = ({
 		} else if (result && result?.message === "Invalid Password!") {
 			updatePasswordErrorMessage(result?.message);
 		}
-		dispatch(updateIsSendingDataAction({ status: false, message: "" }));
+		dispatch(resetIsSendingDataAction());
 	};
 	// create a new function that will show the password input form
 	// let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
@@ -108,10 +110,16 @@ const TableBody: React.FC<PropsType> = ({
 		gameToDelete: ISaveGame,
 		password: string
 	) => {
+		dispatch(updateIsSendingDataAction({ status: true, message: "Deleting..." }));
 		const result = await dispatch(
 			confirmDeleteGameAction(gameToDelete, password)
 		);
-		console.log("result ", result);
+
+		if (result?.status) {
+			dispatch(deleteFromSavedGamesAction(gameToDelete));
+		}
+		dispatch(resetIsSendingDataAction());
+
 		return result;
 	};
 	return (
@@ -171,6 +179,7 @@ const TableBody: React.FC<PropsType> = ({
 						game={selectedGame}
 						onCancel={cancelDeleteHandler}
 						confirmDeleteHandler={confirmDeleteHandler}
+						isSendingData={isSendingData}
 					/>
 				</UiPortal>
 			)}

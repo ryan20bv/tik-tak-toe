@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { ISaveGame } from "@/data/modelTypes";
+import { ISaveGame, ISendingData } from "@/data/modelTypes";
 interface PropsType {
 	game: ISaveGame;
 	onCancel: () => void;
@@ -7,6 +7,7 @@ interface PropsType {
 		gameToDelete: ISaveGame,
 		password: string
 	) => Promise<any>;
+	isSendingData: ISendingData;
 }
 import useSanitizeHook from "@/customhooks/use-input";
 
@@ -14,6 +15,7 @@ const DeleteModal: React.FC<PropsType> = ({
 	game,
 	onCancel,
 	confirmDeleteHandler,
+	isSendingData,
 }) => {
 	const { handlerInputPasswordSanitizer } = useSanitizeHook();
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
@@ -41,8 +43,8 @@ const DeleteModal: React.FC<PropsType> = ({
 		}
 
 		const promise = await confirmDeleteHandler(gameToDelete, enteredPassword);
-		console.log("promise", promise);
-		if (!promise.status) {
+		// console.log("promise", promise);
+		if (!promise?.status) {
 			setPasswordErrorMessage(promise.message);
 		}
 	};
@@ -66,19 +68,27 @@ const DeleteModal: React.FC<PropsType> = ({
 					<p className='text-red-500 text-xs '>*{passwordErrorMessage}</p>
 				)}
 			</div>
-			<div className='flex my-4 w-[80%]'>
-				<button
-					className='bg-red-400'
-					onClick={() => onConfirmDeleteGame(game)}
-				>
-					Yes
-				</button>
-				<button
-					className='border border-black'
-					onClick={onCancel}
-				>
-					No
-				</button>
+
+			<div className='flex my-4 w-[80%] items-center justify-center'>
+				{!isSendingData.status && (
+					<>
+						<button
+							className='bg-red-400'
+							onClick={() => onConfirmDeleteGame(game)}
+						>
+							Yes
+						</button>
+						<button
+							className='border border-black'
+							onClick={onCancel}
+						>
+							No
+						</button>
+					</>
+				)}
+				{isSendingData.status && (
+					<p className='text-center'>{isSendingData.message}</p>
+				)}
 			</div>
 		</section>
 	);

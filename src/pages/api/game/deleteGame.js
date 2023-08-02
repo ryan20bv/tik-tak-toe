@@ -14,19 +14,13 @@ const handler = async (req, res) => {
 			process.env.NEXT_PUBLIC_BACK_END_URL + "/api/tiktaktoe/game/" + game_id,
 			{ data: dataToSubmit }
 		);
-		// console.log(response.data);
+
 		if (response.status !== 201) {
 			return;
 		}
 
-		// console.log(response.data);
-		res.status(201).json({ newGame, message });
+		res.status(201).json({ status: true, message: response.data.message });
 	} catch (err) {
-		console.log(
-			"error here at api ",
-			err.response.status,
-			err.response.data.message
-		);
 		res
 			.status(err.response.status)
 			.json({ status: false, message: err.response.data.message });

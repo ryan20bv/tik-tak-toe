@@ -48,8 +48,6 @@ export const updateSaveGameAction =
 export const updateHistoryInDatabaseAction =
 	(updatedGame: ISaveGame, nextSession: string) =>
 	async (dispatch: any, getState: any) => {
-		// const { token } = getState().tikTakToeReducer;
-
 		try {
 			const bodyData = {
 				updatedGame,
@@ -98,7 +96,6 @@ export const resetTikTakToeReducerAction =
 export const confirmDeleteGameAction =
 	(gameToDelete: ISaveGame, password: string) =>
 	async (dispatch: any, getState: any) => {
-		console.log(password, gameToDelete);
 		try {
 			const bodyData = {
 				game_id: gameToDelete._id,
@@ -114,11 +111,22 @@ export const confirmDeleteGameAction =
 			};
 
 			const response = await fetch(url, options);
-
 			const data = await response.json();
-			console.log("Data", data);
+
 			return data;
 		} catch (err) {
 			console.log("confirm delete", err);
 		}
+	};
+
+export const deleteFromSavedGamesAction =
+	(gameToDelete: ISaveGame) => async (dispatch: any, getState: any) => {
+		const { savedGames } = getState().tikTakToeReducer;
+		const copyOfSavedGames = savedGames.map((eachGame: ISaveGame) => eachGame);
+
+		const filteredSavedGames = copyOfSavedGames.filter(
+			(eachGame: ISaveGame) => eachGame._id !== gameToDelete._id
+		);
+
+		dispatch(getAllSavedGamesAction(filteredSavedGames));
 	};
