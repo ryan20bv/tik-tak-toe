@@ -21,6 +21,7 @@ import {
 	unSetSelectedGameAction,
 	confirmDeleteGameAction,
 	deleteFromSavedGamesAction,
+	resetTikTakToeReducerAction,
 } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 import {
 	accessGameAction,
@@ -31,7 +32,6 @@ import {
 interface PropsType {
 	eachGame: ISaveGame;
 	index: number;
-
 	showInput: boolean;
 	showInputHandler: () => void;
 	closeInputHandler: () => void;
@@ -113,8 +113,8 @@ const TableBody: React.FC<PropsType> = ({
 		const result = await dispatch(
 			confirmDeleteGameAction(gameToDelete, password)
 		);
-
-		if (result?.status) {
+		if (result?.message === "Delete Game") {
+			dispatch(resetTikTakToeReducerAction());
 			dispatch(deleteFromSavedGamesAction(gameToDelete));
 		}
 		dispatch(resetIsSendingDataAction());

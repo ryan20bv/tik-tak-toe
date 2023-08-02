@@ -66,7 +66,6 @@ const SpecificGame = () => {
 			setNextSession("");
 			signOut();
 			dispatch(resetIsSendingDataAction());
-			dispatch(resetTikTakToeReducerAction());
 		}
 	};
 

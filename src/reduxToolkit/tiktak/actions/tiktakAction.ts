@@ -86,13 +86,15 @@ export const confirmDeleteGameAction =
 	async (dispatch: any, getState: any) => {
 		try {
 			const bodyData = {
-				game_id: gameToDelete._id,
+				// game_id: gameToDelete._id,
 				password: password,
 			};
-			const url = process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/deleteGame";
+			const url =
+				process.env.NEXT_PUBLIC_BACK_END_URL +
+				"/api/tiktaktoe/game/" +
+				gameToDelete._id;
 			const options = {
 				method: "DELETE",
-
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -100,6 +102,7 @@ export const confirmDeleteGameAction =
 			};
 
 			const response = await fetch(url, options);
+
 			const data = await response.json();
 
 			return data;
