@@ -40,6 +40,7 @@ const tikTakToeSlice = createSlice({
 				status: false,
 				message: "",
 			};
+			state.selectedGame = {} as ISaveGame;
 		},
 		// !included
 		updateSendingDataRed(state, action) {
