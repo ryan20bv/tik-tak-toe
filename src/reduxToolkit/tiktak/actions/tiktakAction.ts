@@ -1,14 +1,10 @@
-import { ISaveGame, IGameTileData, IHistory } from "@/data/modelTypes";
+import { ISaveGame } from "@/data/modelTypes";
 import {
 	getAllSavedGamesRed,
 	resetTikTakRed,
 	setSelectedGameRed,
-	updateIsLoadingRed,
 } from "../slices/tiktakSlice";
-import {
-	resetIsSendingDataAction,
-	updateIsSendingDataAction,
-} from "./newGameAction";
+import { resetIsSendingDataAction } from "./newGameAction";
 
 // ! included
 export const getAllSavedGamesAction =
@@ -29,11 +25,9 @@ export const unSetSelectedGameAction =
 export const updateSaveGameAction =
 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		const { savedGames } = getState().tikTakToeReducer;
-		// console.log(updatedSelectedGame);
 		const foundGameIndex = savedGames.findIndex(
 			(item: ISaveGame) => item._id === updatedSelectedGame._id
 		);
-		// console.log(foundGameIndex);
 		if (foundGameIndex < 0) {
 			return;
 		}
@@ -75,14 +69,8 @@ export const updateHistoryInDatabaseAction =
 				return;
 			}
 
-			// console.log(data);
 			const { message, latestUpdateGame } = data;
 			return { message, latestUpdateGame };
-			// if (message === "history updated") {
-			// 	await dispatch(updateSaveGameAction(latestUpdateGame));
-			// 	await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-
-			// }
 		} catch (err) {
 			console.log("updateHistoryInDatabaseAction", err);
 		}

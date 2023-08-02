@@ -73,8 +73,7 @@ const TableBody: React.FC<PropsType> = ({
 		}
 		dispatch(resetIsSendingDataAction());
 	};
-	// create a new function that will show the password input form
-	// let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
+
 	let isWithTheSameId = selectedGame._id === eachGame._id ? true : false;
 	let isOpenInputWithSameId =
 		selectedGame._id === eachGame._id ? showInput : false;
@@ -145,10 +144,7 @@ const TableBody: React.FC<PropsType> = ({
 									<div onClick={openInputHandler}>
 										<ArrowRightOnRectangleIcon className='text-blue-500 h-8 ' />
 									</div>
-									<div
-										// className='bg-blue-400 border border-blue-400 '
-										onClick={deleteIconHandler}
-									>
+									<div onClick={deleteIconHandler}>
 										<TrashIcon className='text-red-500 h-8 ' />
 									</div>
 								</div>

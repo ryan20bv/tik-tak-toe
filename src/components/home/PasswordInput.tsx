@@ -1,10 +1,9 @@
-import React, { FormEvent, useRef, useState } from "react";
-import { IAccessData, ISaveGame } from "@/data/modelTypes";
+import React, { FormEvent, useRef } from "react";
+import { ISaveGame } from "@/data/modelTypes";
 import { PaperAirplaneIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import useSanitizeHook from "@/customhooks/use-input";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import {
-	useAppDispatch,
 	useAppSelector,
 	RootState,
 } from "@/reduxToolkit/indexStore/indexStore";
@@ -32,7 +31,6 @@ const PasswordInput: React.FC<PropsType> = ({
 		(state: RootState) => state.tikTakToeReducer
 	);
 	const passwordRef = useRef<HTMLInputElement>(null);
-	// const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
 
 	const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget;
@@ -98,7 +96,6 @@ const PasswordInput: React.FC<PropsType> = ({
 							</div>
 						)}
 						{isSendingData.status && <LoadingSpinner />}
-						{/* <LoadingSpinner /> */}
 					</div>
 				</td>
 			</tr>

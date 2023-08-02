@@ -4,7 +4,7 @@ import {
 	ISendingData,
 	IAccessData,
 } from "@/data/modelTypes";
-import { setSelectedGameAction, unSetSelectedGameAction } from "./tiktakAction";
+import { unSetSelectedGameAction } from "./tiktakAction";
 import {
 	updateSendingDataRed,
 	getAllSavedGamesRed,

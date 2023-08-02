@@ -20,7 +20,6 @@ const DeleteModal: React.FC<PropsType> = ({
 	const { handlerInputPasswordSanitizer } = useSanitizeHook();
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
 	const passwordRef = useRef<HTMLInputElement>(null);
-	// const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
 
 	const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget;
@@ -43,7 +42,6 @@ const DeleteModal: React.FC<PropsType> = ({
 		}
 
 		const promise = await confirmDeleteHandler(gameToDelete, enteredPassword);
-		// console.log("promise", promise);
 		if (!promise?.status) {
 			setPasswordErrorMessage(promise.message);
 		}
