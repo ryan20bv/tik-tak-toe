@@ -29,9 +29,6 @@ export const startNewGameAction =
 			if (!result?.ok) {
 				throw new Error("Cannot create new game!");
 			}
-			console.log("Result: " + JSON.stringify(result));
-			// console.log("result in startNewGameAction", result);
-			// return { message: "New Game Created" };
 		} catch (err: any) {
 			dispatch(resetIsSendingDataAction());
 			return { message: err.message };

@@ -9,10 +9,6 @@ import {
 	resetIsSendingDataAction,
 	updateIsSendingDataAction,
 } from "./newGameAction";
-// for next authentication
-import { getSession } from "next-auth/react";
-// for socket connection
-import { appSocket } from "@/socket-io/socket-io";
 
 // ! included
 export const getAllSavedGamesAction =
@@ -70,9 +66,7 @@ export const updateHistoryInDatabaseAction =
 				},
 				body: JSON.stringify(bodyData),
 			};
-			appSocket.on("history updated", (data) => {
-				console.log("updateHistoryInDatabaseAction", data);
-			});
+
 			const response = await fetch(url, options);
 
 			const data = await response.json();
@@ -99,4 +93,32 @@ export const updateHistoryInDatabaseAction =
 export const resetTikTakToeReducerAction =
 	() => async (dispatch: any, getState: any) => {
 		dispatch(resetTikTakRed({}));
+	};
+
+export const confirmDeleteGameAction =
+	(gameToDelete: ISaveGame, password: string) =>
+	async (dispatch: any, getState: any) => {
+		console.log(password, gameToDelete);
+		try {
+			const bodyData = {
+				game_id: gameToDelete._id,
+				password: password,
+			};
+			const url = process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/deleteGame";
+			const options = {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(bodyData),
+			};
+
+			const response = await fetch(url, options);
+
+			const data = await response.json();
+			console.log("Data", data);
+			return data;
+		} catch (err) {
+			console.log("confirm delete", err);
+		}
 	};

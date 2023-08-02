@@ -15,6 +15,7 @@ interface PropsType {
 	passwordErrorMessage: string;
 	updatePasswordErrorMessage: (message: string) => void;
 	index: number;
+	addedClass: string;
 }
 
 const PasswordInput: React.FC<PropsType> = ({
@@ -24,6 +25,7 @@ const PasswordInput: React.FC<PropsType> = ({
 	passwordErrorMessage,
 	updatePasswordErrorMessage,
 	index,
+	addedClass,
 }) => {
 	const { handlerInputPasswordSanitizer } = useSanitizeHook();
 	const { isSendingData } = useAppSelector(
@@ -57,18 +59,15 @@ const PasswordInput: React.FC<PropsType> = ({
 
 	return (
 		<>
-			<tr>
+			<tr className={`${addedClass}`}>
 				<td rowSpan={2}>{index + 1}</td>
 				<td
 					colSpan={5}
 					className='text-center'
 				>{`${eachGame.player1.name} VS ${eachGame.player2.name}`}</td>
 			</tr>
-			<tr>
-				<td
-					colSpan={5}
-					className='bg-white'
-				>
+			<tr className={`${addedClass}`}>
+				<td colSpan={5}>
 					<div className='flex items-center justify-center'>
 						<form
 							action=''
