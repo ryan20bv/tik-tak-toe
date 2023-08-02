@@ -9,7 +9,10 @@ import {
 	useAppSelector,
 	RootState,
 } from "@/reduxToolkit/indexStore/indexStore";
-import { getAllSavedGamesAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import {
+	getAllSavedGamesAction,
+	resetTikTakToeReducerAction,
+} from "@/reduxToolkit/tiktak/actions/tiktakAction";
 
 interface PropsType {
 	allSavedGames: ISaveGame[];
@@ -27,6 +30,7 @@ const HomePage: React.FC<PropsType> = ({ allSavedGames }) => {
 
 	useEffect(() => {
 		dispatch(getAllSavedGamesAction(allSavedGames));
+		dispatch(resetTikTakToeReducerAction());
 	}, [dispatch, allSavedGames]);
 
 	return <Home savedGames={savedGames} />;
