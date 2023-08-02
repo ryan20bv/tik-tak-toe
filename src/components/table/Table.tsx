@@ -7,12 +7,7 @@ interface PropsType {
 }
 
 const Table: React.FC<PropsType> = ({ savedGames }) => {
-	const [actionGameId, setActionGameId] = useState<string>("");
 	const [showInput, setShowInput] = useState<boolean>(false);
-
-	const actionGameHandler = (gameId: string) => {
-		setActionGameId(gameId);
-	};
 
 	const showInputHandler = () => {
 		setShowInput(true);
@@ -46,8 +41,6 @@ const Table: React.FC<PropsType> = ({ savedGames }) => {
 								key={eachGame._id}
 								eachGame={eachGame}
 								index={index}
-								actionGameHandler={actionGameHandler}
-								actionGameId={actionGameId}
 								showInput={showInput}
 								showInputHandler={showInputHandler}
 								closeInputHandler={closeInputHandler}

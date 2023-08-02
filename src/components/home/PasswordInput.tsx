@@ -1,10 +1,9 @@
-import React, { FormEvent, useRef, useState } from "react";
-import { IAccessData, ISaveGame } from "@/data/modelTypes";
+import React, { FormEvent, useRef } from "react";
+import { ISaveGame } from "@/data/modelTypes";
 import { PaperAirplaneIcon, XCircleIcon } from "@heroicons/react/24/solid";
 import useSanitizeHook from "@/customhooks/use-input";
 import LoadingSpinner from "../ui/LoadingSpinner";
 import {
-	useAppDispatch,
 	useAppSelector,
 	RootState,
 } from "@/reduxToolkit/indexStore/indexStore";
@@ -15,6 +14,7 @@ interface PropsType {
 	passwordErrorMessage: string;
 	updatePasswordErrorMessage: (message: string) => void;
 	index: number;
+	addedClass: string;
 }
 
 const PasswordInput: React.FC<PropsType> = ({
@@ -24,13 +24,13 @@ const PasswordInput: React.FC<PropsType> = ({
 	passwordErrorMessage,
 	updatePasswordErrorMessage,
 	index,
+	addedClass,
 }) => {
 	const { handlerInputPasswordSanitizer } = useSanitizeHook();
 	const { isSendingData } = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	);
 	const passwordRef = useRef<HTMLInputElement>(null);
-	// const [isPasswordValid, setIsPasswordValid] = useState<boolean>(false);
 
 	const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
 		const { value } = e.currentTarget;
@@ -57,18 +57,15 @@ const PasswordInput: React.FC<PropsType> = ({
 
 	return (
 		<>
-			<tr>
+			<tr className={`${addedClass}`}>
 				<td rowSpan={2}>{index + 1}</td>
 				<td
 					colSpan={5}
 					className='text-center'
 				>{`${eachGame.player1.name} VS ${eachGame.player2.name}`}</td>
 			</tr>
-			<tr>
-				<td
-					colSpan={5}
-					className='bg-white'
-				>
+			<tr className={`${addedClass}`}>
+				<td colSpan={5}>
 					<div className='flex items-center justify-center'>
 						<form
 							action=''
@@ -99,7 +96,6 @@ const PasswordInput: React.FC<PropsType> = ({
 							</div>
 						)}
 						{isSendingData.status && <LoadingSpinner />}
-						{/* <LoadingSpinner /> */}
 					</div>
 				</td>
 			</tr>

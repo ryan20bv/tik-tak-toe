@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import GameBoard from "./GameBoard";
 import PlayersInfo from "./PlayersInfo";
 import GameNotification from "../ui/GameNotification";
-import { ISaveGame } from "@/data/modelTypes";
+
 import { useRouter } from "next/router";
 import UiPortal from "../ui/UiPortal";
 // for redux purposes
@@ -67,12 +67,9 @@ const SpecificGame = () => {
 			signOut();
 			dispatch(resetIsSendingDataAction());
 			dispatch(resetTikTakToeReducerAction());
-			// router.push("/");
 		}
 	};
-	// const goBackHandler = () => {
-	// 	router.back();
-	// };
+
 	const resetBoardHandler = async () => {
 		dispatch(
 			updateIsSendingDataAction({ status: true, message: "Starting New Game..." })

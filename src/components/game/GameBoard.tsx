@@ -4,10 +4,7 @@ import GameTile from "./GameTile";
 // for redux purposes
 import useGameUpdate from "@/customhooks/use-game";
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
-import {
-	setSelectedGameAction,
-	updateHistoryInDatabaseAction,
-} from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 
 interface PropsType {
 	selectedGame: ISaveGame;

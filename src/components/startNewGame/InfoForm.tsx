@@ -7,7 +7,6 @@ import { INewGameUser } from "@/data/modelTypes";
 import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import {
 	startNewGameAction,
-	resetIsSendingDataAction,
 	addNewGameToSavedGamesAction,
 } from "@/reduxToolkit/tiktak/actions/newGameAction";
 import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
@@ -98,7 +97,7 @@ const InfoForm = () => {
 			password: enteredPassword,
 		};
 		await dispatch(startNewGameAction(newUser));
-		// console.log(result);
+
 		const session = await getSession();
 
 		let dataSession: any = session?.user?.name;

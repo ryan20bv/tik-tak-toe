@@ -23,9 +23,7 @@ export const authOptions = {
 						headers: { "Content-Type": "application/json" },
 					}
 				);
-				// console.log(res);
 				let result = await res.json();
-				// console.log("result", result);
 				if (res.ok) {
 					return {
 						name: result,
@@ -33,8 +31,6 @@ export const authOptions = {
 				}
 				// Return null if user data could not be retrieved
 				return null;
-
-				// console.log(data.userData.fName);
 			},
 		}),
 		CredentialsProvider({
@@ -65,8 +61,6 @@ export const authOptions = {
 				}
 				// Return null if user data could not be retrieved
 				return null;
-
-				// console.log(data.userData.fName);
 			},
 		}),
 	],

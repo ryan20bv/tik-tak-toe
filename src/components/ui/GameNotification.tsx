@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import Link from "next/link";
+import React from "react";
+
 import { useRouter } from "next/router";
 
 interface PropsType {

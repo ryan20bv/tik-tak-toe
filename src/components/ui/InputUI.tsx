@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 
 interface PropsType {
 	info: string;
@@ -27,7 +27,6 @@ const InputUI: React.FC<PropsType> = ({
 						type={type}
 						name={info}
 						id={info}
-						// required
 						autoComplete='off'
 						ref={inputRef}
 						className='peer placeholder-transparent h-10 w-full border-b-2 border-black text-gray-900 focus:outline-none focus:borer-rose-600 px-4 bg-transparent focus:border-[#AF7EEB]'

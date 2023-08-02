@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import { IAccessData, ISaveGame } from "@/data/modelTypes";
 import PasswordInput from "../home/PasswordInput";
+import UiPortal from "../ui/UiPortal";
+import DeleteModal from "../ui/DeleteModal";
 
 import {
 	TrashIcon,
@@ -14,17 +16,22 @@ import {
 	useAppSelector,
 	RootState,
 } from "@/reduxToolkit/indexStore/indexStore";
-import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+import {
+	setSelectedGameAction,
+	unSetSelectedGameAction,
+	confirmDeleteGameAction,
+	deleteFromSavedGamesAction,
+} from "@/reduxToolkit/tiktak/actions/tiktakAction";
 import {
 	accessGameAction,
 	updateIsSendingDataAction,
+	resetIsSendingDataAction,
 } from "@/reduxToolkit/tiktak/actions/newGameAction";
 
 interface PropsType {
 	eachGame: ISaveGame;
 	index: number;
-	actionGameHandler: (id: string) => void;
-	actionGameId: string;
+
 	showInput: boolean;
 	showInputHandler: () => void;
 	closeInputHandler: () => void;
@@ -33,25 +40,26 @@ interface PropsType {
 const TableBody: React.FC<PropsType> = ({
 	eachGame,
 	index,
-	actionGameHandler,
-	actionGameId,
+
 	showInput,
 	showInputHandler,
 	closeInputHandler,
 }) => {
 	const router = useRouter();
 	const dispatch = useAppDispatch();
-
+	const { selectedGame, isSendingData } = useAppSelector(
+		(state: RootState) => state.tikTakToeReducer
+	);
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
-	// const [showMoreAction, setShowMoreAction] = useState<boolean>(false);
-	// const [showInput, setShowInput] = useState<boolean>(false);
+	const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false);
+
 	const { player1, player2, _id, draw } = eachGame;
 	const goToGamePageHandler = async (
 		game: ISaveGame,
 		enteredPassword: string
 	) => {
 		dispatch(updateIsSendingDataAction({ status: true, message: "" }));
-		dispatch(setSelectedGameAction(game));
+
 		let accessData: IAccessData = {
 			game_id: game._id,
 			password: enteredPassword,
@@ -63,12 +71,12 @@ const TableBody: React.FC<PropsType> = ({
 		} else if (result && result?.message === "Invalid Password!") {
 			updatePasswordErrorMessage(result?.message);
 		}
-		dispatch(updateIsSendingDataAction({ status: false, message: "" }));
+		dispatch(resetIsSendingDataAction());
 	};
-	// create a new function that will show the password input form
-	// let isShowPasswordInputOpen = accessGameId === eachGame._id ? true : false;
-	let isWithTheSameId = actionGameId === eachGame._id ? true : false;
-	let isOpenInputWithSameId = actionGameId === eachGame._id ? showInput : false;
+
+	let isWithTheSameId = selectedGame._id === eachGame._id ? true : false;
+	let isOpenInputWithSameId =
+		selectedGame._id === eachGame._id ? showInput : false;
 
 	const addedClass = index % 2 === 0 ? "bg-blue-100" : "bg-white";
 	const updatePasswordErrorMessage = (message: string) => {
@@ -81,19 +89,43 @@ const TableBody: React.FC<PropsType> = ({
 	const onCloseInputHandler = () => {
 		closeInputHandler();
 		setPasswordErrorMessage("");
-		actionGameHandler("");
+
+		dispatch(unSetSelectedGameAction());
 	};
 
-	const moreActionHandler = (id: string) => {
+	const moreActionHandler = (game: ISaveGame) => {
 		closeInputHandler();
+		dispatch(setSelectedGameAction(game));
 		setPasswordErrorMessage("");
-		actionGameHandler(id);
+	};
+
+	const deleteIconHandler = () => {
+		setIsPortalOpen(true);
+	};
+	const cancelDeleteHandler = () => {
+		setIsPortalOpen(false);
+	};
+	const confirmDeleteHandler = async (
+		gameToDelete: ISaveGame,
+		password: string
+	) => {
+		dispatch(updateIsSendingDataAction({ status: true, message: "Deleting..." }));
+		const result = await dispatch(
+			confirmDeleteGameAction(gameToDelete, password)
+		);
+
+		if (result?.status) {
+			dispatch(deleteFromSavedGamesAction(gameToDelete));
+		}
+		dispatch(resetIsSendingDataAction());
+
+		return result;
 	};
 	return (
 		<>
 			{!isOpenInputWithSameId && (
 				<>
-					<tr>
+					<tr className={`${addedClass}`}>
 						<td rowSpan={2}>{index + 1}</td>
 						<td>{player1.name}</td>
 						<td>{player1.win}</td>
@@ -102,7 +134,7 @@ const TableBody: React.FC<PropsType> = ({
 						<td rowSpan={2}>
 							{!isWithTheSameId && (
 								<>
-									<button onClick={() => moreActionHandler(eachGame._id)}>
+									<button onClick={() => moreActionHandler(eachGame)}>
 										<EllipsisHorizontalCircleIcon className='text-green-500 h-8 ' />
 									</button>
 								</>
@@ -112,17 +144,14 @@ const TableBody: React.FC<PropsType> = ({
 									<div onClick={openInputHandler}>
 										<ArrowRightOnRectangleIcon className='text-blue-500 h-8 ' />
 									</div>
-									<div
-									// className='bg-blue-400 border border-blue-400 '
-									// onClick={() => goToGamePageHandler(eachGame)}
-									>
+									<div onClick={deleteIconHandler}>
 										<TrashIcon className='text-red-500 h-8 ' />
 									</div>
 								</div>
 							)}
 						</td>
 					</tr>
-					<tr>
+					<tr className={`${addedClass}`}>
 						<td>{player2.name}</td>
 						<td>{player2.win}</td>
 						<td>{player1.win}</td>
@@ -137,7 +166,18 @@ const TableBody: React.FC<PropsType> = ({
 					goToGamePageHandler={goToGamePageHandler}
 					passwordErrorMessage={passwordErrorMessage}
 					updatePasswordErrorMessage={updatePasswordErrorMessage}
+					addedClass={addedClass}
 				/>
+			)}
+			{isPortalOpen && (
+				<UiPortal>
+					<DeleteModal
+						game={selectedGame}
+						onCancel={cancelDeleteHandler}
+						confirmDeleteHandler={confirmDeleteHandler}
+						isSendingData={isSendingData}
+					/>
+				</UiPortal>
 			)}
 		</>
 	);

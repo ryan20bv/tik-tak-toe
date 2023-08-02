@@ -36,8 +36,6 @@ const tikTakToeSlice = createSlice({
 		// !included
 		resetTikTakRed(state, action) {
 			state.isLoadingSavedGame = false;
-			// state.savedGames = [];
-			// state.selectedGame = {} as ISaveGame;
 			state.isSendingData = {
 				status: false,
 				message: "",

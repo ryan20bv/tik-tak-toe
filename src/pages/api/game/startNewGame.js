@@ -15,7 +15,6 @@ const handler = async (req, res) => {
 			return;
 		}
 		const { newGame, message } = response.data;
-		// console.log(data);
 		res.status(201).json({ newGame, message });
 	} catch (err) {
 		console.log(err);

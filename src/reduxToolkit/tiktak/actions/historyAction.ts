@@ -6,7 +6,6 @@ import { setSelectedGameRed } from "../slices/tiktakSlice";
 export const resetBoardHistoryInDatabaseAction =
 	(updatedGame: ISaveGame, nextSession: string) =>
 	async (dispatch: any, getState: any) => {
-		// console.log(updatedGame);
 		// const { token } = getState().tikTakToeReducer;
 		try {
 			const bodyData = {
@@ -28,7 +27,6 @@ export const resetBoardHistoryInDatabaseAction =
 			const response = await fetch(url, options);
 
 			const data = await response.json();
-			// console.log(data);
 			const { message, latestUpdateGame } = data;
 
 			if (message === "reset history") {

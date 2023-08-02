@@ -10,7 +10,6 @@ const UiPortal: React.FC<PropsType> = ({ children }) => {
 	useEffect(() => {
 		setInputPortal(document?.getElementById("overlays"));
 	}, []);
-	// const notificationPortal = document.getElementById("notificationPortal");
 	return (
 		<>
 			{inputPortal &&

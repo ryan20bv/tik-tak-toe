@@ -3,8 +3,7 @@ import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
 import { updateHistoryInDatabaseAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
 const useGameUpdate = (selectedGame: ISaveGame, nextSession: string) => {
 	const dispatch = useAppDispatch();
-	const { draw, gameIsDone, history, player1, player2, playerTurn, _id } =
-		selectedGame;
+	const { history, playerTurn } = selectedGame;
 	const clickTileHandler = (tileData: IGameTileData) => {
 		let newItem: string = "";
 		let newPlayerTurn: string = playerTurn;
@@ -79,7 +78,6 @@ const useGameUpdate = (selectedGame: ISaveGame, nextSession: string) => {
 		const { hasWinner, message, item } =
 			lookForThreeSameTilesAction(latestGameHistory);
 
-		// console.log("hasWinner", hasWinner);
 		gameHasWinner = hasWinner;
 		gameMessage = message;
 		gameItem = item;
