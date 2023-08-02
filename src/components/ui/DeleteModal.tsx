@@ -43,7 +43,7 @@ const DeleteModal: React.FC<PropsType> = ({
 
 		const promise = await confirmDeleteHandler(gameToDelete, enteredPassword);
 		if (!promise?.status) {
-			setPasswordErrorMessage(promise.message);
+			setPasswordErrorMessage(promise?.message);
 		}
 	};
 
