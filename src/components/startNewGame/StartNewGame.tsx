@@ -1,6 +1,5 @@
 import React from "react";
 import GameTile from "../game/GameTile";
-// import InputModal from "./InputModal";
 import UiPortal from "../ui/UiPortal";
 import { IGameTileData } from "@/data/modelTypes";
 import InfoForm from "./InfoForm";

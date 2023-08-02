@@ -1,18 +1,10 @@
-import { ISaveGame, IGameTileData, IHistory } from "@/data/modelTypes";
+import { ISaveGame } from "@/data/modelTypes";
 import {
 	getAllSavedGamesRed,
 	resetTikTakRed,
 	setSelectedGameRed,
-	updateIsLoadingRed,
 } from "../slices/tiktakSlice";
-import {
-	resetIsSendingDataAction,
-	updateIsSendingDataAction,
-} from "./newGameAction";
-// for next authentication
-import { getSession } from "next-auth/react";
-// for socket connection
-import { appSocket } from "@/socket-io/socket-io";
+import { resetIsSendingDataAction } from "./newGameAction";
 
 // ! included
 export const getAllSavedGamesAction =
@@ -33,11 +25,9 @@ export const unSetSelectedGameAction =
 export const updateSaveGameAction =
 	(updatedSelectedGame: ISaveGame) => async (dispatch: any, getState: any) => {
 		const { savedGames } = getState().tikTakToeReducer;
-		// console.log(updatedSelectedGame);
 		const foundGameIndex = savedGames.findIndex(
 			(item: ISaveGame) => item._id === updatedSelectedGame._id
 		);
-		// console.log(foundGameIndex);
 		if (foundGameIndex < 0) {
 			return;
 		}
@@ -52,8 +42,6 @@ export const updateSaveGameAction =
 export const updateHistoryInDatabaseAction =
 	(updatedGame: ISaveGame, nextSession: string) =>
 	async (dispatch: any, getState: any) => {
-		// const { token } = getState().tikTakToeReducer;
-
 		try {
 			const bodyData = {
 				updatedGame,
@@ -70,9 +58,7 @@ export const updateHistoryInDatabaseAction =
 				},
 				body: JSON.stringify(bodyData),
 			};
-			appSocket.on("history updated", (data) => {
-				console.log("updateHistoryInDatabaseAction", data);
-			});
+
 			const response = await fetch(url, options);
 
 			const data = await response.json();
@@ -83,14 +69,8 @@ export const updateHistoryInDatabaseAction =
 				return;
 			}
 
-			// console.log(data);
 			const { message, latestUpdateGame } = data;
 			return { message, latestUpdateGame };
-			// if (message === "history updated") {
-			// 	await dispatch(updateSaveGameAction(latestUpdateGame));
-			// 	await dispatch(setSelectedGameRed({ selectedGame: latestUpdateGame }));
-
-			// }
 		} catch (err) {
 			console.log("updateHistoryInDatabaseAction", err);
 		}
@@ -99,4 +79,42 @@ export const updateHistoryInDatabaseAction =
 export const resetTikTakToeReducerAction =
 	() => async (dispatch: any, getState: any) => {
 		dispatch(resetTikTakRed({}));
+	};
+
+export const confirmDeleteGameAction =
+	(gameToDelete: ISaveGame, password: string) =>
+	async (dispatch: any, getState: any) => {
+		try {
+			const bodyData = {
+				game_id: gameToDelete._id,
+				password: password,
+			};
+			const url = process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/deleteGame";
+			const options = {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(bodyData),
+			};
+
+			const response = await fetch(url, options);
+			const data = await response.json();
+
+			return data;
+		} catch (err) {
+			console.log("confirm delete", err);
+		}
+	};
+
+export const deleteFromSavedGamesAction =
+	(gameToDelete: ISaveGame) => async (dispatch: any, getState: any) => {
+		const { savedGames } = getState().tikTakToeReducer;
+		const copyOfSavedGames = savedGames.map((eachGame: ISaveGame) => eachGame);
+
+		const filteredSavedGames = copyOfSavedGames.filter(
+			(eachGame: ISaveGame) => eachGame._id !== gameToDelete._id
+		);
+
+		dispatch(getAllSavedGamesAction(filteredSavedGames));
 	};
