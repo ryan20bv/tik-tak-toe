@@ -92,6 +92,7 @@ export const confirmDeleteGameAction =
 			const url = process.env.NEXT_PUBLIC_FRONT_END_URL + "/api/game/deleteGame";
 			const options = {
 				method: "DELETE",
+				mode: "cors", // Add the 'mode' property to enable CORS
 				headers: {
 					"Content-Type": "application/json",
 				},
