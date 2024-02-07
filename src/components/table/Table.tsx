@@ -1,25 +1,28 @@
-import React, { useState } from "react";
-import { ISaveGame } from "@/data/modelTypes";
-import TableBody from "./TableBody";
+import React, {useState} from 'react'
+import {ISaveGame} from '@/data/modelTypes'
+import TableBody from './TableBody'
 
 interface PropsType {
-	savedGames: ISaveGame[];
+	savedGames: ISaveGame[]
+	totalSavedGames: number
 }
 
-const Table: React.FC<PropsType> = ({ savedGames }) => {
-	const [showInput, setShowInput] = useState<boolean>(false);
+const Table: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
+	const [showInput, setShowInput] = useState<boolean>(false)
 
 	const showInputHandler = () => {
-		setShowInput(true);
-	};
+		setShowInput(true)
+	}
 	const closeInputHandler = () => {
-		setShowInput(false);
-	};
+		setShowInput(false)
+	}
 
 	return (
 		<section className=''>
-			<h3>List of saved game</h3>
-
+			<div className='flex justify-between'>
+				<h3>List of saved game</h3>
+				<h3>Total: {totalSavedGames}</h3>
+			</div>
 			<div className=' mt-1 h-[400px]  overflow-y-auto border border-black'>
 				<table className=''>
 					<thead>
@@ -50,7 +53,7 @@ const Table: React.FC<PropsType> = ({ savedGames }) => {
 				</table>
 			</div>
 		</section>
-	);
-};
+	)
+}
 
-export default Table;
+export default Table

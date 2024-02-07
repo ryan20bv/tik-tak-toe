@@ -1,17 +1,18 @@
-import React from "react";
-import Table from "../table/Table";
-import { ISaveGame } from "@/data/modelTypes";
-import { useRouter } from "next/router";
+import React from 'react'
+import Table from '../table/Table'
+import {ISaveGame} from '@/data/modelTypes'
+import {useRouter} from 'next/router'
 
 interface PropsType {
-	savedGames: ISaveGame[];
+	savedGames: ISaveGame[]
+	totalSavedGames: number
 }
 
-const Home: React.FC<PropsType> = ({ savedGames }) => {
-	const router = useRouter();
+const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
+	const router = useRouter()
 	const stateNewGameHandler = () => {
-		router.push("/game");
-	};
+		router.push('/game')
+	}
 	return (
 		<section className='flex items-center flex-col  '>
 			<div className=' mb-4'>
@@ -27,9 +28,11 @@ const Home: React.FC<PropsType> = ({ savedGames }) => {
 				(savedGames.length === 0 && (
 					<div className='w-[300px] text-center mt-20 text-2xl'>No saved Games</div>
 				))}
-			{savedGames && savedGames.length > 0 && <Table savedGames={savedGames} />}
+			{savedGames && savedGames.length > 0 && (
+				<Table savedGames={savedGames} totalSavedGames={totalSavedGames} />
+			)}
 		</section>
-	);
-};
+	)
+}
 
-export default Home;
+export default Home
