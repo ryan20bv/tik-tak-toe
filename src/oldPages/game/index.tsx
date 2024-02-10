@@ -1,26 +1,26 @@
-import React from "react";
-import type { InferGetStaticPropsType, GetStaticProps } from "next";
-import StartNewGame from "@/components/startNewGame/StartNewGame";
-import { getStartGameData } from "@/data/dummydata";
-import { IGameTileData } from "@/data/modelTypes";
+import React from 'react'
+import type {InferGetStaticPropsType, GetStaticProps} from 'next'
+import StartNewGame from '@/oldComponents/startNewGame/StartNewGame'
+import {getStartGameData} from '@/data/dummydata'
+import {IGameTileData} from '@/data/modelTypes'
 
 interface PropsType {
-	startGameData: IGameTileData[];
+	startGameData: IGameTileData[]
 }
 
-const GamePage: React.FC<PropsType> = ({ startGameData }) => {
-	return <StartNewGame startGameData={startGameData} />;
-};
+const GamePage: React.FC<PropsType> = ({startGameData}) => {
+	return <StartNewGame startGameData={startGameData} />
+}
 
 export const getStaticProps: GetStaticProps = async () => {
 	// this is to get the tile background information
-	const startGameData: IGameTileData[] = await getStartGameData();
+	const startGameData: IGameTileData[] = await getStartGameData()
 
 	return {
 		props: {
-			startGameData,
-		},
-	};
-};
+			startGameData
+		}
+	}
+}
 
-export default GamePage;
+export default GamePage

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 
-import Home from '@/components/home/Home'
+import Home from '@/oldComponents/home/Home'
 
 import {ISaveGame} from '@/data/modelTypes'
 // for redux purposes

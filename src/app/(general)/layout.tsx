@@ -1,11 +1,12 @@
+import GeneralLayout from '@/layouts/general'
 type Props = {
 	children: React.ReactNode
 }
-export default function GeneralLayout({children}: Props) {
+export default function RootGeneralLayout({children}: Props) {
 	return (
-		<div>
-			<h1>General Layout</h1>
+		<GeneralLayout>
+			<h1>ROOT General Layout</h1>
 			{children}
-		</div>
+		</GeneralLayout>
 	)
 }

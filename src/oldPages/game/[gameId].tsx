@@ -1,16 +1,16 @@
-import React from "react";
+import React from 'react'
 
 import type {
 	InferGetStaticPropsType,
 	GetStaticProps,
-	GetStaticPaths,
-} from "next";
-import { ISaveGame } from "@/data/modelTypes";
+	GetStaticPaths
+} from 'next'
+import {ISaveGame} from '@/data/modelTypes'
 
-import SpecificGame from "@/components/game/SpecificGame";
+import SpecificGame from '@/oldComponents/game/SpecificGame'
 
 const SpecificGamePage = () => {
-	return <SpecificGame />;
-};
+	return <SpecificGame />
+}
 
-export default SpecificGamePage;
+export default SpecificGamePage
