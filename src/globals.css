@@ -20,13 +20,6 @@ body {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	color: rgb(var(--foreground-rgb));
-	background: linear-gradient(
-			to bottom,
-			transparent,
-			rgb(var(--background-end-rgb))
-		)
-		rgb(var(--background-start-rgb));
 }
 table,
 th,
@@ -34,7 +27,7 @@ td {
 	border: 1px solid black;
 	padding: 10px;
 }
-a,
+/* a,
 button {
 	padding: 2px 15px;
 	border-radius: 20px;
@@ -43,4 +36,4 @@ button {
 	align-items: center;
 	justify-content: center;
 	margin: auto;
-}
+} */
