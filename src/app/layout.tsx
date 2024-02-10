@@ -1,6 +1,7 @@
 import '@/globals.css'
 
 import {Metadata} from 'next'
+import Providers from './providers'
 
 export const metadata: Metadata = {
 	title: 'Tik-Tak-Toe',
@@ -16,7 +17,9 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang='en'>
-			<body>{children}</body>
+			<body>
+				<Providers>{children}</Providers>
+			</body>
 		</html>
 	)
 }
