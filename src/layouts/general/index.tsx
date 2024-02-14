@@ -45,14 +45,14 @@ export default function GeneralLayout({children}: Props) {
 				</ButtonUI> */}
 				<div onClick={handleToggleMode}>
 					{currentTheme === 'light' ? (
-						<MoonIcon className='h-6 w-6' />
+						<MoonIcon className='h-6 w-6 shadow-md' />
 					) : (
 						<SunIcon className='h-6 w-6 text-amber-400' />
 					)}
 				</div>
 			</nav>
 
-			<h1 className='text-center text-[40px] font-bold '>TIK TAK TOE</h1>
+			<h1 className='text-center text-[30px] font-bold '>TIK TAK TOE</h1>
 
 			{children}
 		</div>
