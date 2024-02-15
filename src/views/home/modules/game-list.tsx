@@ -1,9 +1,19 @@
-import {ListItem} from '../elements'
+'use client'
+import {useState} from 'react'
+
+import {ListItem, Pagination} from '../elements'
 
 // ==================================
 export default function GameList() {
+	const [currPage, setCurrPage] = useState<number>(1)
+	const [maxPage, setMaxPage] = useState<number>(10)
+
+	const handleUpdateCurrentPage = (value: number) => {
+		setCurrPage(value)
+	}
+
 	return (
-		<main className=' w-full my-4'>
+		<main className=' w-full my-4 '>
 			<h1 className='font-medium'>Recent</h1>
 			<div className=' my-2'>
 				<ListItem />
@@ -24,9 +34,11 @@ export default function GameList() {
 					<ListItem />
 				</div>
 			</section>
-			<section>
-				<h1>pagination</h1>
-			</section>
+			<Pagination
+				currPage={currPage}
+				maxPage={maxPage}
+				handleUpdateCurrentPage={handleUpdateCurrentPage}
+			/>
 		</main>
 	)
 }
