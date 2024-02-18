@@ -29,7 +29,7 @@ export default function ListItem() {
 				<h1>1-D</h1>
 			</div>
 			<div className=' w-[15%] flex items-center justify-center'>
-				<ButtonUI style='bg-[#8FF57E] shadow-md'>
+				<ButtonUI style='bg-[#8FF57E] shadow-md px-0 py-0'>
 					<EllipsisHorizontalIcon className='h-6 w-6' />
 				</ButtonUI>
 			</div>

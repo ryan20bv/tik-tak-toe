@@ -1,6 +1,8 @@
 import {MagnifyingGlassIcon, XMarkIcon} from '@heroicons/react/24/solid'
 // =========== Components =============
 import {ButtonUI} from '@/components/button'
+import {ModalUI} from '@/components/modal'
+import {NewGameForm} from '@/components/form'
 
 // =========== Modules ==============
 import {GameList, SearchBar} from './modules'
@@ -14,6 +16,9 @@ export default function HomeView() {
 			</ButtonUI>
 			<SearchBar />
 			<GameList />
+			<ModalUI>
+				<NewGameForm />
+			</ModalUI>
 		</main>
 	)
 }
