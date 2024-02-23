@@ -38,8 +38,8 @@ const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
 				))}
 			{savedGames && savedGames.length > 0 && (
 				<>
-					<Table savedGames={savedGames} totalSavedGames={totalSavedGames} />
-					<GameList savedGames={savedGames} totalSavedGames={totalSavedGames} />
+					{/* <Table savedGames={savedGames} totalSavedGames={totalSavedGames} /> */}
+					<GameList />
 					<Pagination
 						currPage={currPage}
 						maxPage={maxPage}

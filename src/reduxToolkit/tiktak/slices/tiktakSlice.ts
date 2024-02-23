@@ -1,59 +1,62 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { ISaveGame, ISendingData } from "@/data/modelTypes";
+import {createSlice} from '@reduxjs/toolkit'
+import {ISaveGame, ISendingData} from '@/data/modelTypes'
 
 interface ITikTakToeState {
-	isLoadingSavedGame: boolean;
-	savedGames: ISaveGame[];
-	selectedGame: ISaveGame;
-	isSendingData: ISendingData;
+	totalSavedGames: number
+	isLoadingSavedGame: boolean
+	savedGames: ISaveGame[]
+	selectedGame: ISaveGame
+	isSendingData: ISendingData
 }
 
 const initialTikTakState: ITikTakToeState = {
+	totalSavedGames: 0,
 	isLoadingSavedGame: false,
 	savedGames: [],
 	selectedGame: {} as ISaveGame,
 	isSendingData: {
 		status: false,
-		message: "",
-	},
+		message: ''
+	}
 	// token: "",
-};
+}
 const tikTakToeSlice = createSlice({
-	name: "TikTakToe Slice",
+	name: 'TikTakToe Slice',
 	initialState: initialTikTakState,
 	reducers: {
 		updateIsLoadingRed(state, action) {
-			state.isLoadingSavedGame = action.payload.isLoadingStatus;
+			state.isLoadingSavedGame = action.payload.isLoadingStatus
 		},
 		// !included
 		getAllSavedGamesRed(state, action) {
-			state.savedGames = action.payload.savedGames;
+			;(state.savedGames = action.payload.savedGames),
+				(state.totalSavedGames = action.payload.totalSavedGames)
 		},
 		// !included
 		setSelectedGameRed(state, action) {
-			state.selectedGame = action.payload.selectedGame;
+			state.selectedGame = action.payload.selectedGame
 		},
 		// !included
 		resetTikTakRed(state, action) {
-			state.isLoadingSavedGame = false;
+			state.isLoadingSavedGame = false
 			state.isSendingData = {
 				status: false,
-				message: "",
-			};
-			state.selectedGame = {} as ISaveGame;
+				message: ''
+			}
+			state.selectedGame = {} as ISaveGame
 		},
 		// !included
 		updateSendingDataRed(state, action) {
-			state.isSendingData = action.payload.sendingDataStatus;
-		},
-	},
-});
+			state.isSendingData = action.payload.sendingDataStatus
+		}
+	}
+})
 
 export const {
 	updateIsLoadingRed,
 	getAllSavedGamesRed,
 	resetTikTakRed,
 	setSelectedGameRed,
-	updateSendingDataRed,
-} = tikTakToeSlice.actions;
-export default tikTakToeSlice;
+	updateSendingDataRed
+} = tikTakToeSlice.actions
+export default tikTakToeSlice

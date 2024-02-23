@@ -123,69 +123,81 @@ export default function ListItem({
 	}
 
 	return (
-		<div
-			className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden my-2 max-w-sm h-14 min-w-[330px] ${addedClass}`}
-		>
-			{!isOpenInputWithSameId && (
-				<>
-					<div className='relative w-[50%] '>
-						<div className='px-4 border-b-2 border-solid border-black'>
-							<h1 className=' font-semibold'>{player1.name}</h1>
-						</div>
-						<div className='absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2'>
-							<h1 className='text-red-600 font-bold text-xs p-0 px-2 m-0'>VS</h1>
-						</div>
-						<div className='px-4'>
-							<h1 className='text-base font-semibold'>{player2.name}</h1>
-						</div>
-					</div>
-					<div className='border-l-2 border-r-2 border-solid border-black w-[20%] text-center'>
-						<div className='border-b-2  border-solid border-black px-2'>
-							<h1>{player1.win}-W</h1>
-						</div>
-						<div className='px-2'>
-							<h1>{player2.win}-W</h1>
-						</div>
-					</div>
-					{!isWithTheSameId && (
-						<>
-							<div className='border-r-2 border-solid border-black w-[15%] flex items-center justify-center'>
-								<h1>{draw}-D</h1>
+		<>
+			<div
+				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden my-2 max-w-sm h-14 min-w-[330px] ${addedClass}`}
+			>
+				{!isOpenInputWithSameId && (
+					<>
+						<div className='relative w-[50%] '>
+							<div className='px-4 border-b-2 border-solid border-black'>
+								<h1 className=' font-semibold'>{player1.name}</h1>
 							</div>
-							<div className=' w-[15%] flex items-center justify-center'>
-								<button
-									className='bg-[#8FF57E] shadow-md px-0 py-0'
-									onClick={() => moreActionHandler(eachGame)}
-								>
-									<EllipsisHorizontalIcon className='h-6 w-6' />
+							<div className='absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full'>
+								<h1 className='text-red-600 font-bold text-xs p-1 '>VS</h1>
+							</div>
+							<div className='px-4'>
+								<h1 className='text-base font-semibold'>{player2.name}</h1>
+							</div>
+						</div>
+						<div className='border-l-2 border-r-2 border-solid border-black w-[20%] text-center'>
+							<div className='border-b-2  border-solid border-black px-2'>
+								<h1>{player1.win}-W</h1>
+							</div>
+							<div className='px-2'>
+								<h1>{player2.win}-W</h1>
+							</div>
+						</div>
+						{!isWithTheSameId && (
+							<>
+								<div className='border-r-2 border-solid border-black w-[15%] flex items-center justify-center'>
+									<h1>{draw}-D</h1>
+								</div>
+								<div className=' w-[15%] flex items-center justify-center'>
+									<button
+										className='bg-[#8FF57E] shadow-md px-0 py-0'
+										onClick={() => moreActionHandler(eachGame)}
+									>
+										<EllipsisHorizontalIcon className='h-6 w-6' />
+									</button>
+								</div>
+							</>
+						)}
+						{isWithTheSameId && (
+							<div className='flex justify-between items-center m-auto'>
+								<button onClick={openInputHandler} className='p-0 m-2'>
+									<ArrowRightEndOnRectangleIcon className='text-blue-500 h-8' />
+								</button>
+
+								<button onClick={deleteIconHandler} className='p-0 m-2'>
+									<TrashIcon className='text-red-500 h-8' />
 								</button>
 							</div>
-						</>
-					)}
-					{isWithTheSameId && (
-						<div className='flex justify-between items-center m-auto'>
-							<button onClick={openInputHandler} className='p-0 m-2'>
-								<ArrowRightEndOnRectangleIcon className='text-blue-500 h-8' />
-							</button>
-
-							<button onClick={deleteIconHandler} className='p-0 m-2'>
-								<TrashIcon className='text-red-500 h-8' />
-							</button>
-						</div>
-					)}
-				</>
+						)}
+					</>
+				)}
+				{isOpenInputWithSameId && (
+					<ResumeInput
+						index={index}
+						eachGame={eachGame}
+						onCloseInput={onCloseInputHandler}
+						goToGamePageHandler={goToGamePageHandler}
+						passwordErrorMessage={passwordErrorMessage}
+						updatePasswordErrorMessage={updatePasswordErrorMessage}
+						addedClass={addedClass}
+					/>
+				)}
+			</div>
+			{isPortalOpen && (
+				<UiPortal>
+					<DeleteModal
+						game={selectedGame}
+						onCancel={cancelDeleteHandler}
+						confirmDeleteHandler={confirmDeleteHandler}
+						isSendingData={isSendingData}
+					/>
+				</UiPortal>
 			)}
-			{isOpenInputWithSameId && (
-				<ResumeInput
-					index={index}
-					eachGame={eachGame}
-					onCloseInput={onCloseInputHandler}
-					goToGamePageHandler={goToGamePageHandler}
-					passwordErrorMessage={passwordErrorMessage}
-					updatePasswordErrorMessage={updatePasswordErrorMessage}
-					addedClass={addedClass}
-				/>
-			)}
-		</div>
+		</>
 	)
 }

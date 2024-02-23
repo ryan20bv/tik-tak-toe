@@ -30,9 +30,9 @@ const HomePage: React.FC<PropsType> = ({allSavedGames, totalSavedGames}) => {
 	}, [])
 
 	useEffect(() => {
-		dispatch(getAllSavedGamesAction(allSavedGames))
+		dispatch(getAllSavedGamesAction(allSavedGames, totalSavedGames))
 		dispatch(resetTikTakToeReducerAction())
-	}, [dispatch, allSavedGames])
+	}, [dispatch, allSavedGames, totalSavedGames])
 
 	return <Home savedGames={savedGames} totalSavedGames={totalSavedGames} />
 }

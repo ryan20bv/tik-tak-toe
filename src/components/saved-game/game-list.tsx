@@ -4,14 +4,24 @@ import {ISaveGame} from '@/data/modelTypes'
 
 import {ListItem, Pagination} from './elements'
 
+import {
+	useAppDispatch,
+	useAppSelector,
+	RootState
+} from '@/reduxToolkit/indexStore/indexStore'
+
 interface PropsType {
 	savedGames: ISaveGame[]
 	totalSavedGames: number
 }
 
 // ==================================
-export default function GameList({savedGames, totalSavedGames}: PropsType) {
+export default function GameList() {
 	const [showInput, setShowInput] = useState<boolean>(false)
+	const dispatch = useAppDispatch()
+	const {savedGames, totalSavedGames} = useAppSelector(
+		(state: RootState) => state.tikTakToeReducer
+	)
 
 	const showInputHandler = () => {
 		setShowInput(true)
