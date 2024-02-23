@@ -1,15 +1,23 @@
 'use client'
 import {useState} from 'react'
+import {ISaveGame} from '@/data/modelTypes'
 
 import {ListItem, Pagination} from './elements'
 
-// ==================================
-export default function GameList() {
-	const [currPage, setCurrPage] = useState<number>(1)
-	const [maxPage, setMaxPage] = useState<number>(10)
+interface PropsType {
+	savedGames: ISaveGame[]
+	totalSavedGames: number
+}
 
-	const handleUpdateCurrentPage = (value: number) => {
-		setCurrPage(value)
+// ==================================
+export default function GameList({savedGames, totalSavedGames}: PropsType) {
+	const [showInput, setShowInput] = useState<boolean>(false)
+
+	const showInputHandler = () => {
+		setShowInput(true)
+	}
+	const closeInputHandler = () => {
+		setShowInput(false)
 	}
 
 	return (
@@ -18,27 +26,25 @@ export default function GameList() {
 			<div className=' my-2'>
 				<ListItem />
 			</div> */}
+			<div className='flex justify-between items-center'>
+				<h1 className='font-medium'>List</h1>
+				<h3>Total: {`${savedGames.length} / ${totalSavedGames}`}</h3>
+			</div>
 
-			<h1 className='font-medium'>List</h1>
 			<section className='p-1 overflow-y-scroll'>
 				<div className='h-[45vh]  grid  grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3 gap-min-4 gap-max-8'>
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
-					<ListItem />
+					{savedGames.map((eachGame: ISaveGame, index: number) => (
+						<ListItem
+							key={eachGame._id}
+							eachGame={eachGame}
+							index={index}
+							showInput={showInput}
+							showInputHandler={showInputHandler}
+							closeInputHandler={closeInputHandler}
+						/>
+					))}
 				</div>
 			</section>
-			<Pagination
-				currPage={currPage}
-				maxPage={maxPage}
-				handleUpdateCurrentPage={handleUpdateCurrentPage}
-			/>
 		</main>
 	)
 }

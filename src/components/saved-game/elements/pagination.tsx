@@ -36,7 +36,7 @@ export default function Pagination({
 	}
 
 	return (
-		<section className='mt-4 text-center'>
+		<section className='mt-4 flex'>
 			{pageList.map((page: string) => (
 				<button
 					className={`px-2 ${
