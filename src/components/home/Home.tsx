@@ -3,6 +3,8 @@ import Table from '../table/Table'
 import {ISaveGame} from '@/data/modelTypes'
 import {useRouter} from 'next/router'
 
+import GameList from '../saved-game/game-list'
+
 interface PropsType {
 	savedGames: ISaveGame[]
 	totalSavedGames: number
@@ -31,6 +33,7 @@ const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
 			{savedGames && savedGames.length > 0 && (
 				<Table savedGames={savedGames} totalSavedGames={totalSavedGames} />
 			)}
+			<GameList />
 		</section>
 	)
 }

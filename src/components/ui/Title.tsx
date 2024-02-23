@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react'
 
 const Title = () => {
 	return (
-		<div>
-			<h1 className='text-5xl sm:text-6xl   md:text-7xl mb-6'>TIK-TAK-TOE</h1>
-		</div>
-	);
-};
+		<nav className='py-2 px-4 md:px-10'>
+			<h1 className='text-2xl font-bold '>TIK-TAK-TOE</h1>
+		</nav>
+	)
+}
 
-export default Title;
+export default Title

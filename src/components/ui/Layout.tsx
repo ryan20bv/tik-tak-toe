@@ -1,16 +1,16 @@
-import React from "react";
-import Title from "./Title";
+import React from 'react'
+import Title from './Title'
 
 interface propsTypes {
-	children: React.ReactNode;
+	children: React.ReactNode
 }
-const Layout: React.FC<propsTypes> = (props) => {
+const Layout: React.FC<propsTypes> = props => {
 	return (
-		<main className='h-screen w-screen pt-10 overflow-hidden flex items-center  flex-col '>
+		<main>
 			<Title />
-			{props.children}
+			<section className='p-10'>{props.children}</section>
 		</main>
-	);
-};
+	)
+}
 
-export default Layout;
+export default Layout
