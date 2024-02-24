@@ -1,3 +1,4 @@
+import axios from 'axios'
 import {ISaveGame} from '@/data/modelTypes'
 import {
 	getAllSavedGamesRed,
@@ -127,12 +128,27 @@ export const deleteFromSavedGamesAction =
 
 export const updateDataAsPageChangeAction =
 	(value: number) => async (dispatch: any, getState: any) => {
-		const {savedGames, totalSavedGames} = getState().tikTakToeReducer
+		try {
+			// get all games
+			const response = await axios.post(
+				process.env.NEXT_PUBLIC_BACK_END_URL + '/api/tiktaktoe/game/pagination',
+				{page: value}
+			)
+
+			const {savedGames, totalSavedGames} = response.data
+			if (response.status !== 200) {
+				return
+			}
+			dispatch(
+				updateDataAsPageChangeRed({currPage: value, savedGames, totalSavedGames})
+			)
+		} catch (err) {
+			console.log(err)
+		}
+
 		// const copyOfSavedGames = savedGames.map((eachGame: ISaveGame) => eachGame)
 		// const updatedTotalSavedGames = totalSavedGames - 1
 		// const filteredSavedGames = copyOfSavedGames.filter(
 		// 	(eachGame: ISaveGame) => eachGame._id !== gameToDelete._id
 		// )
-
-		dispatch(updateDataAsPageChangeRed({currPage: value}))
 	}

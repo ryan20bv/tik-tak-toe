@@ -7,7 +7,6 @@ const handler = async (req, res) => {
 	}
 
 	const {page} = req.body
-	console.log('req per Page: ', page)
 	try {
 		// get all games
 		const response = await axios.post(
@@ -15,7 +14,6 @@ const handler = async (req, res) => {
 			{page}
 		)
 
-		console.log('### response, ', response)
 		if (response.status !== 200) {
 			return
 		}

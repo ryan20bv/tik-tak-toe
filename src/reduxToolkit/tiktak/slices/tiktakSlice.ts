@@ -40,6 +40,7 @@ const tikTakToeSlice = createSlice({
 		},
 		// !included
 		resetTikTakRed(state, action) {
+			state.currPage = 1
 			state.isLoadingSavedGame = false
 			state.isSendingData = {
 				status: false,
@@ -53,6 +54,8 @@ const tikTakToeSlice = createSlice({
 		},
 		updateDataAsPageChangeRed(state, action) {
 			state.currPage = action.payload.currPage
+			state.savedGames = action.payload.savedGames
+			state.totalSavedGames = action.payload.totalSavedGames
 		}
 	}
 })
