@@ -15,7 +15,8 @@ const handler = async (req, res) => {
 			return
 		}
 
-		res.status(200).json({data: response.data})
+		const {totalSavedGames, allSavedGames} = response.data
+		res.status(response.status).json({totalSavedGames, allSavedGames})
 	} catch (err) {
 		console.log(err)
 	}
