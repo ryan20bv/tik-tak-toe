@@ -50,6 +50,9 @@ const tikTakToeSlice = createSlice({
 		// !included
 		updateSendingDataRed(state, action) {
 			state.isSendingData = action.payload.sendingDataStatus
+		},
+		updateDataAsPageChangeRed(state, action) {
+			state.currPage = action.payload.currPage
 		}
 	}
 })
@@ -59,6 +62,7 @@ export const {
 	getAllSavedGamesRed,
 	resetTikTakRed,
 	setSelectedGameRed,
-	updateSendingDataRed
+	updateSendingDataRed,
+	updateDataAsPageChangeRed
 } = tikTakToeSlice.actions
 export default tikTakToeSlice

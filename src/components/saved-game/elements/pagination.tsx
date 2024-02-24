@@ -7,15 +7,19 @@ import {
 	useAppSelector,
 	RootState
 } from '@/reduxToolkit/indexStore/indexStore'
+
+import {updateDataAsPageChangeAction} from '@/reduxToolkit/tiktak/actions/tiktakAction'
 // ==================================
 
 export default function Pagination() {
+	const dispatch = useAppDispatch()
 	const {currPage, totalSavedGames} = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	)
 	const [maxPage, setMaxPage] = useState<number>(10)
 	const handleUpdateCurrentPage = (value: number) => {
 		// setCurrPage(value)
+		dispatch(updateDataAsPageChangeAction(value))
 	}
 	const [pageList, setPageList] = useState<string[]>([])
 

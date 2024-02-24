@@ -2,7 +2,8 @@ import {ISaveGame} from '@/data/modelTypes'
 import {
 	getAllSavedGamesRed,
 	resetTikTakRed,
-	setSelectedGameRed
+	setSelectedGameRed,
+	updateDataAsPageChangeRed
 } from '../slices/tiktakSlice'
 import {resetIsSendingDataAction} from './newGameAction'
 
@@ -122,4 +123,16 @@ export const deleteFromSavedGamesAction =
 		)
 
 		dispatch(getAllSavedGamesAction(filteredSavedGames, updatedTotalSavedGames))
+	}
+
+export const updateDataAsPageChangeAction =
+	(value: number) => async (dispatch: any, getState: any) => {
+		const {savedGames, totalSavedGames} = getState().tikTakToeReducer
+		// const copyOfSavedGames = savedGames.map((eachGame: ISaveGame) => eachGame)
+		// const updatedTotalSavedGames = totalSavedGames - 1
+		// const filteredSavedGames = copyOfSavedGames.filter(
+		// 	(eachGame: ISaveGame) => eachGame._id !== gameToDelete._id
+		// )
+
+		dispatch(updateDataAsPageChangeRed({currPage: value}))
 	}
