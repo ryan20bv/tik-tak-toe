@@ -101,21 +101,32 @@ const SpecificGame = () => {
 	if (!isFetchingData) {
 		return (
 			<main className=' mt-6'>
-				<section className='text-right md:w-3/6 m-auto max-w-xl'>
-					<button
-						className='border border-[#2C91DA] bg-[#2C91DA] text-gray-100 px-4 rounded-lg text-lg'
-						onClick={stopGameHandler}
-					>
-						Save
-					</button>
-				</section>
-				<section className='my-6 flex justify-center items-end border-b-2 border-black w-min m-auto'>
-					{renderedIcon}
-					<h1 className='text-2xl font-semibold ml-4'> TURN</h1>
-				</section>
+				{!selectedGame.gameIsDone && (
+					<>
+						<section className='text-right md:w-3/6 m-auto max-w-xl'>
+							<button
+								className='border border-[#2C91DA] bg-[#2C91DA] text-gray-100 px-4 rounded-lg text-lg'
+								onClick={stopGameHandler}
+							>
+								Save
+							</button>
+						</section>
+						<section className='my-6 flex justify-center items-end border-b-2 border-black w-min m-auto'>
+							{renderedIcon}
+							<h1 className='text-2xl font-semibold ml-4'> TURN</h1>
+						</section>
+					</>
+				)}
+				{selectedGame.gameIsDone && (
+					<div>
+						<h1>{selectedGame.gameMessage.replace(/"([^"]*)"/, '').trim()}</h1>
+					</div>
+				)}
+
 				<div className='m-auto'>
 					<GameBoard selectedGame={selectedGame} nextSession={nextSession} />
 				</div>
+
 				{/* {!selectedGame.gameIsDone && (
 					<div className=' my-4 flex justify-center'>
 						<button className='bg-red-400 ' onClick={stopGameHandler}>
