@@ -20,7 +20,7 @@ const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
 		<section className='flex items-center flex-col  '>
 			<div className=' mb-4'>
 				<button
-					className='bg-green-300 border border-green-300'
+					className='border border-[#8FF57E] bg-[#8FF57E] px-4 text-lg font-bold shadow-md m-6 w-max'
 					onClick={stateNewGameHandler}
 				>
 					Start New Game

@@ -1,25 +1,22 @@
-import React from "react";
-import GameTile from "../game/GameTile";
-import UiPortal from "../ui/UiPortal";
-import { IGameTileData } from "@/data/modelTypes";
-import InfoForm from "./InfoForm";
-import {
-	useAppSelector,
-	RootState,
-} from "@/reduxToolkit/indexStore/indexStore";
+import React from 'react'
+import GameTile from '../game/GameTile'
+import UiPortal from '../ui/UiPortal'
+import {IGameTileData} from '@/data/modelTypes'
+import InfoForm from './InfoForm'
+import {useAppSelector, RootState} from '@/reduxToolkit/indexStore/indexStore'
 
 interface PropsType {
-	startGameData: IGameTileData[];
+	startGameData: IGameTileData[]
 }
 
-const StartNewGame: React.FC<PropsType> = ({ startGameData }) => {
-	const { isSendingData } = useAppSelector(
+const StartNewGame: React.FC<PropsType> = ({startGameData}) => {
+	const {isSendingData} = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
-	);
+	)
 
 	return (
 		<main>
-			<section className='border-2 border-black max-w-max mt-20'>
+			{/* <section className='border-2 border-black max-w-max mt-20'>
 				<div className='flex w-[12rem] flex-wrap'>
 					{startGameData.map((tileData: IGameTileData) => (
 						<GameTile
@@ -30,7 +27,7 @@ const StartNewGame: React.FC<PropsType> = ({ startGameData }) => {
 						/>
 					))}
 				</div>
-			</section>
+			</section> */}
 			<UiPortal>
 				{!isSendingData.status && <InfoForm />}
 
@@ -39,7 +36,7 @@ const StartNewGame: React.FC<PropsType> = ({ startGameData }) => {
 				)}
 			</UiPortal>
 		</main>
-	);
-};
+	)
+}
 
-export default StartNewGame;
+export default StartNewGame
