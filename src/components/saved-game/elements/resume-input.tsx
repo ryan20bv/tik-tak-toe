@@ -85,6 +85,7 @@ const ResumeInput = ({
 					</div>
 				)}
 				{isSendingData.status && <LoadingSpinner />}
+				{/* <LoadingSpinner /> */}
 			</div>
 		</section>
 	)
