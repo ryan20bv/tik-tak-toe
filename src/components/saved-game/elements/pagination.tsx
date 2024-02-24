@@ -1,28 +1,33 @@
 import {useState, useEffect} from 'react'
 // =========== Components =============
 import {pageMaker} from '@/utils/helper/page-maker'
+
+import {
+	useAppDispatch,
+	useAppSelector,
+	RootState
+} from '@/reduxToolkit/indexStore/indexStore'
 // ==================================
 
-interface PropsTypes {
-	currPage: number
-	maxPage: number
-	handleUpdateCurrentPage: (value: number) => void
-}
-
-export default function Pagination({
-	currPage,
-	maxPage,
-	handleUpdateCurrentPage
-}: PropsTypes) {
+export default function Pagination() {
+	const {currPage, totalSavedGames} = useAppSelector(
+		(state: RootState) => state.tikTakToeReducer
+	)
+	const [maxPage, setMaxPage] = useState<number>(10)
+	const handleUpdateCurrentPage = (value: number) => {
+		// setCurrPage(value)
+	}
 	const [pageList, setPageList] = useState<string[]>([])
 
 	useEffect(() => {
-		const uniquePages = pageMaker(currPage, maxPage)
+		const totalPages = Math.ceil(totalSavedGames / 10)
+		setMaxPage(totalPages)
+		const uniquePages = pageMaker(currPage, totalPages)
 
 		if (uniquePages) {
 			setPageList(Array.from(uniquePages))
 		}
-	}, [currPage, maxPage]) // useEffect will run whenever currPage changes
+	}, [currPage, totalSavedGames]) // useEffect will run whenever currPage changes
 
 	const handleButtonClick = (value: string) => {
 		if (value === 'Prev') {

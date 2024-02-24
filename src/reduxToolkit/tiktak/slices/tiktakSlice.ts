@@ -2,6 +2,7 @@ import {createSlice} from '@reduxjs/toolkit'
 import {ISaveGame, ISendingData} from '@/data/modelTypes'
 
 interface ITikTakToeState {
+	currPage: number
 	totalSavedGames: number
 	isLoadingSavedGame: boolean
 	savedGames: ISaveGame[]
@@ -10,6 +11,7 @@ interface ITikTakToeState {
 }
 
 const initialTikTakState: ITikTakToeState = {
+	currPage: 1,
 	totalSavedGames: 0,
 	isLoadingSavedGame: false,
 	savedGames: [],

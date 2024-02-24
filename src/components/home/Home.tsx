@@ -12,11 +12,6 @@ interface PropsType {
 }
 
 const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
-	const [currPage, setCurrPage] = useState<number>(1)
-	const [maxPage, setMaxPage] = useState<number>(10)
-	const handleUpdateCurrentPage = (value: number) => {
-		setCurrPage(value)
-	}
 	const router = useRouter()
 	const stateNewGameHandler = () => {
 		router.push('/game')
@@ -40,11 +35,7 @@ const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
 				<>
 					{/* <Table savedGames={savedGames} totalSavedGames={totalSavedGames} /> */}
 					<GameList />
-					<Pagination
-						currPage={currPage}
-						maxPage={maxPage}
-						handleUpdateCurrentPage={handleUpdateCurrentPage}
-					/>
+					<Pagination />
 				</>
 			)}
 		</section>
