@@ -34,7 +34,7 @@ export default function GameList() {
 				<h1 className='font-medium'>List</h1>
 			</div>
 
-			<section className='px-1 py-2 overflow-y-scroll '>
+			<section className='px-1 py-2 overflow-y-scroll lg:overflow-y-hidden'>
 				<div className='max-h-[65vh] grid  grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-4  '>
 					{savedGames.map((eachGame: ISaveGame, index: number) => (
 						<ListItem

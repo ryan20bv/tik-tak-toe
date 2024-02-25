@@ -110,7 +110,7 @@ const SpecificGame = () => {
 		)
 	if (!isFetchingData) {
 		return (
-			<main className=' mt-6 w-max m-auto'>
+			<main className=' w-max m-auto pt-16'>
 				{!selectedGame.gameIsDone && (
 					<>
 						<section className='flex justify-end items-center'>

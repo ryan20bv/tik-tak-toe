@@ -6,7 +6,7 @@ interface propsTypes {
 }
 const Layout: React.FC<propsTypes> = props => {
 	return (
-		<main>
+		<main className='flex flex-col'>
 			<Title />
 			{props.children}
 		</main>

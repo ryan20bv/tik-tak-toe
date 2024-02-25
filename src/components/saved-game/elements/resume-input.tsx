@@ -12,7 +12,6 @@ interface PropsType {
 	goToGamePageHandler: (game: ISaveGame, enteredPassword: string) => void
 	passwordErrorMessage: string
 	updatePasswordErrorMessage: (message: string) => void
-	addedClass: string
 }
 
 const ResumeInput = ({
@@ -21,8 +20,7 @@ const ResumeInput = ({
 	eachGame,
 	passwordErrorMessage,
 	updatePasswordErrorMessage,
-	index,
-	addedClass
+	index
 }: PropsType) => {
 	const {handlerInputPasswordSanitizer} = useSanitizeHook()
 	const {isSendingData} = useAppSelector(
@@ -54,7 +52,7 @@ const ResumeInput = ({
 	}
 	return (
 		<section className='w-full'>
-			<div className='flex justify-center items-center m-auto py-2 border-b-2 border-black'>
+			<div className='flex justify-center items-center m-auto py-2 border-b-2 border-black bg-blue-100'>
 				<h1 className='font-semibold'>{eachGame.player1.name}</h1>{' '}
 				<span className='text-red-600 font-bold text-xs p-0 px-2 m-0'>VS</span>
 				<h1 className='font-semibold'>{eachGame.player2.name}</h1>

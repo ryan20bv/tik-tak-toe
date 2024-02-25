@@ -5,7 +5,7 @@ import {IGameTileData} from '@/data/modelTypes'
 // ==================================
 interface IPropsType {
 	tileData: IGameTileData
-	updateGameHistory: (tileData: IGameTileData) => void
+	updateGameHistory?: (tileData: IGameTileData) => void
 	gameIsDone: boolean
 }
 
@@ -18,7 +18,9 @@ export default function Box({
 		if (tileData.filled || gameIsDone) {
 			return
 		}
-		updateGameHistory(tileData)
+		if (updateGameHistory) {
+			updateGameHistory(tileData)
+		}
 	}
 
 	let renderedChildren
@@ -37,7 +39,7 @@ export default function Box({
 	return (
 		<button
 			disabled={gameIsDone}
-			className={`border border-gray-400  text-center w-24 h-24 md:h-28 md:w-32 shadow-xl rounded-lg flex justify-center items-center ${
+			className={`border border-gray-400  text-center w-24 h-24 sm:h-28 sm:w-32 shadow-xl rounded-lg flex justify-center items-center ${
 				renderedChildren !== '' && 'bg-gray-200'
 			}`}
 			onClick={toggleTileHandler}

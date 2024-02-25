@@ -80,7 +80,7 @@ export default function ListItem({
 	let isOpenInputWithSameId =
 		selectedGame._id === eachGame._id ? showInput : false
 
-	const addedClass = index % 2 === 0 ? 'bg-blue-100' : 'bg-white'
+	// const addedClass = index % 2 === 0 ? 'bg-blue-100' : 'bg-white'
 	const updatePasswordErrorMessage = (message: string) => {
 		setPasswordErrorMessage(message)
 	}
@@ -125,11 +125,11 @@ export default function ListItem({
 	return (
 		<>
 			<div
-				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden  max-w-sm  min-w-[330px] ${addedClass}`}
+				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden  max-w-sm  min-w-[330px] `}
 			>
 				{!isOpenInputWithSameId && (
 					<>
-						<div className='relative w-[50%] '>
+						<div className='relative w-[50%] bg-blue-100'>
 							<div className='px-4 border-b-2 border-solid border-black py-2'>
 								<h1 className=' font-semibold'>{player1.name}</h1>
 							</div>
@@ -184,7 +184,6 @@ export default function ListItem({
 						goToGamePageHandler={goToGamePageHandler}
 						passwordErrorMessage={passwordErrorMessage}
 						updatePasswordErrorMessage={updatePasswordErrorMessage}
-						addedClass={addedClass}
 					/>
 				)}
 			</div>

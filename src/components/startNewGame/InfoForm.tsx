@@ -9,6 +9,7 @@ import {
 	startNewGameAction,
 	addNewGameToSavedGamesAction
 } from '@/reduxToolkit/tiktak/actions/newGameAction'
+import LoadingSpinner from '../ui/LoadingSpinner'
 import {setSelectedGameAction} from '@/reduxToolkit/tiktak/actions/tiktakAction'
 
 // for custom hooks
@@ -16,8 +17,12 @@ import {setSelectedGameAction} from '@/reduxToolkit/tiktak/actions/tiktakAction'
 import useSanitizeHook from '@/customhooks/use-input'
 // for next authentication
 import {getSession} from 'next-auth/react'
+import {useAppSelector, RootState} from '@/reduxToolkit/indexStore/indexStore'
 
 const InfoForm = () => {
+	const {isSendingData} = useAppSelector(
+		(state: RootState) => state.tikTakToeReducer
+	)
 	const router = useRouter()
 	const dispatch = useAppDispatch()
 	const {handlerInputNameSanitizer, handlerInputPasswordSanitizer} =
@@ -109,7 +114,7 @@ const InfoForm = () => {
 	}
 
 	return (
-		<section className='border border-black p-4 rounded-2xl w-full'>
+		<section className='border border-black p-4 rounded-2xl w-[350px] absolute z-10 bg-white opacity-90 md:relative'>
 			<button onClick={cancelStartGameHandler} className='ml-0 p-0 '>
 				<ArrowLeftCircleIcon className='text-red-500 h-8 mr-2' />
 				<p>Back</p>
@@ -147,9 +152,13 @@ const InfoForm = () => {
 					hasError={passwordError}
 					errorMessage='*Min of 4 characters'
 				/>
-				<div className='flex justify-between'>
-					<button className='bg-green-400 border border-green-400 font-semibold'>
-						Submit
+				<div className='flex justify-end'>
+					<button
+						className='bg-green-400 border border-green-400 font-semibold'
+						disabled={isSendingData.status}
+					>
+						{isSendingData.status && 'Sending...'}
+						{!isSendingData.status && 'Submit'}
 					</button>
 				</div>
 			</form>
