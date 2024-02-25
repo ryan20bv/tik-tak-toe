@@ -13,7 +13,7 @@ import {
 // ==================================
 export default function GameList() {
 	const [showInput, setShowInput] = useState<boolean>(false)
-	const {savedGames} = useAppSelector(
+	const {savedGames, totalSavedGames} = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	)
 
@@ -32,6 +32,7 @@ export default function GameList() {
 			</div> */}
 			<div className='flex justify-between items-center'>
 				<h1 className='font-medium'>List</h1>
+				<h1 className='font-medium'>Total: {totalSavedGames}</h1>
 			</div>
 
 			<section className='px-1 py-2 overflow-y-scroll lg:overflow-y-hidden'>

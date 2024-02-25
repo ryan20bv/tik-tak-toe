@@ -23,7 +23,8 @@ import {
 	unSetSelectedGameAction,
 	confirmDeleteGameAction,
 	deleteFromSavedGamesAction,
-	resetTikTakToeReducerAction
+	resetTikTakToeReducerAction,
+	updateDataAsPageChangeAction
 } from '@/reduxToolkit/tiktak/actions/tiktakAction'
 import {
 	accessGameAction,
@@ -49,7 +50,7 @@ export default function ListItem({
 }: PropsType) {
 	const router = useRouter()
 	const dispatch = useAppDispatch()
-	const {selectedGame, isSendingData} = useAppSelector(
+	const {selectedGame, isSendingData, currPage} = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	)
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('')
@@ -112,10 +113,12 @@ export default function ListItem({
 		password: string
 	) => {
 		dispatch(updateIsSendingDataAction({status: true, message: 'Deleting...'}))
+		setIsPortalOpen(false)
 		const result = await dispatch(confirmDeleteGameAction(gameToDelete, password))
 		if (result?.message === 'Delete Game') {
 			dispatch(resetTikTakToeReducerAction())
-			dispatch(deleteFromSavedGamesAction(gameToDelete))
+			// dispatch(deleteFromSavedGamesAction(gameToDelete))
+			dispatch(updateDataAsPageChangeAction(currPage))
 		}
 		dispatch(resetIsSendingDataAction())
 

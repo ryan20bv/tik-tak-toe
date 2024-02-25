@@ -39,7 +39,7 @@ const PlayersInfo: React.FC<PropsType> = ({gameDetail}) => {
 			</div>
 			<div>
 				<div className='border bg-[#49CF33] rounded-lg p-2 text-center shadow-lg'>
-					<h3 className='text-xl'>{player1.name}</h3>
+					<h3 className='text-xl'>{player2.name}</h3>
 					<h1 className='text-3xl font-bold'>{player2.win}</h1>
 				</div>
 				<p className='text-center'>Player 2 - O</p>

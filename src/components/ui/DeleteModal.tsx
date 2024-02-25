@@ -58,7 +58,7 @@ const DeleteModal: React.FC<PropsType> = ({
 					<h1 className='text-lg '>{`${game.player2.name}`}</h1>
 				</div>
 
-				<div className='flex justify-center items-center'>
+				<div className='flex justify-center items-center flex-col'>
 					<input
 						type='text'
 						placeholder='enter password'
@@ -82,10 +82,10 @@ const DeleteModal: React.FC<PropsType> = ({
 							</button>
 						</>
 					)}
-					{isSendingData.status && (
-						<p className='text-center'>{isSendingData.message}</p>
-					)}
 				</div>
+				{isSendingData.status && (
+					<p className='text-center m-4'>{isSendingData.message}</p>
+				)}
 			</section>
 		</main>
 	)
