@@ -109,9 +109,9 @@ const InfoForm = () => {
 	}
 
 	return (
-		<section className='border border-black p-4 rounded-2xl'>
-			<button onClick={cancelStartGameHandler} className='ml-0 p-0'>
-				<ArrowLeftCircleIcon className='text-red-500 h-8 ' />
+		<section className='border border-black p-4 rounded-2xl w-full'>
+			<button onClick={cancelStartGameHandler} className='ml-0 p-0 '>
+				<ArrowLeftCircleIcon className='text-red-500 h-8 mr-2' />
 				<p>Back</p>
 			</button>
 

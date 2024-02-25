@@ -2,7 +2,7 @@ import React, {useEffect, useRef, useState} from 'react'
 import ReactDOM from 'react-dom'
 
 interface PropsType {
-	children: any
+	children: React.ReactNode
 }
 
 const UiPortal: React.FC<PropsType> = ({children}) => {
