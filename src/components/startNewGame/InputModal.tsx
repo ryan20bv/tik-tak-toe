@@ -1,15 +1,15 @@
-import React, { useEffect, useRef, useState } from "react";
-import ReactDOM from "react-dom";
+import React, {useEffect, useRef, useState} from 'react'
+import ReactDOM from 'react-dom'
 
 interface PropsType {
-	children: React.ReactNode;
+	children: React.ReactNode
 }
 
-const InputModal: React.FC<PropsType> = ({ children }) => {
-	const [inputPortal, setInputPortal] = useState<any>();
+const InputModal: React.FC<PropsType> = ({children}) => {
+	const [inputPortal, setInputPortal] = useState<any>()
 	useEffect(() => {
-		setInputPortal(document?.getElementById("overlays"));
-	}, []);
+		setInputPortal(document?.getElementById('overlays'))
+	}, [])
 	return (
 		<>
 			{inputPortal &&
@@ -23,7 +23,7 @@ const InputModal: React.FC<PropsType> = ({ children }) => {
 					inputPortal
 				)}
 		</>
-	);
-};
+	)
+}
 
-export default InputModal;
+export default InputModal

@@ -1,94 +1,94 @@
-import React, { useRef, useState } from "react";
-import { ISaveGame, ISendingData } from "@/data/modelTypes";
+import React, {useRef, useState} from 'react'
+import {ISaveGame, ISendingData} from '@/data/modelTypes'
 interface PropsType {
-	game: ISaveGame;
-	onCancel: () => void;
+	game: ISaveGame
+	onCancel: () => void
 	confirmDeleteHandler: (
 		gameToDelete: ISaveGame,
 		password: string
-	) => Promise<any>;
-	isSendingData: ISendingData;
+	) => Promise<any>
+	isSendingData: ISendingData
 }
-import useSanitizeHook from "@/customhooks/use-input";
+import useSanitizeHook from '@/customhooks/use-input'
 
 const DeleteModal: React.FC<PropsType> = ({
 	game,
 	onCancel,
 	confirmDeleteHandler,
-	isSendingData,
+	isSendingData
 }) => {
-	const { handlerInputPasswordSanitizer } = useSanitizeHook();
-	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>("");
-	const passwordRef = useRef<HTMLInputElement>(null);
+	const {handlerInputPasswordSanitizer} = useSanitizeHook()
+	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('')
+	const passwordRef = useRef<HTMLInputElement>(null)
 
 	const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
-		const { value } = e.currentTarget;
-		setPasswordErrorMessage("");
-		const validatedValue = handlerInputPasswordSanitizer(value);
+		const {value} = e.currentTarget
+		setPasswordErrorMessage('')
+		const validatedValue = handlerInputPasswordSanitizer(value)
 		if (!passwordRef.current) {
-			return;
+			return
 		}
-		passwordRef.current.value = validatedValue;
-	};
+		passwordRef.current.value = validatedValue
+	}
 
 	const onConfirmDeleteGame = async (gameToDelete: ISaveGame) => {
 		if (!passwordRef.current) {
-			return;
+			return
 		}
-		const enteredPassword = passwordRef.current.value;
+		const enteredPassword = passwordRef.current.value
 		if (!enteredPassword || enteredPassword.trim().length < 4) {
-			setPasswordErrorMessage("min 4 characters");
-			return;
+			setPasswordErrorMessage('min 4 characters')
+			return
 		}
 
-		const promise = await confirmDeleteHandler(gameToDelete, enteredPassword);
+		const promise = await confirmDeleteHandler(gameToDelete, enteredPassword)
 
-		setPasswordErrorMessage(promise?.message);
-	};
+		setPasswordErrorMessage(promise?.message)
+	}
 
 	return (
-		<section className='flex flex-col items-center'>
-			<header className='bg-blue-400 px-4 py-2 rounded-t-2xl'>
+		<main>
+			<header className='bg-blue-400 px-4 py-2 rounded-t-2xl font-medium'>
 				<p>Are you sure you want to delete?</p>
 			</header>
+			<section className='bg-white'>
+				<div className='flex justify-center items-center font-medium my-2'>
+					<h1 className=' text-lg'>{`${game.player1.name} `}</h1>
+					<p className='mx-4 text-red-500'>vs</p>
+					<h1 className='text-lg '>{`${game.player2.name}`}</h1>
+				</div>
 
-			<p className='text-center my-4'>{`${game.player1.name} VS ${game.player2.name}`}</p>
-			<div>
-				<input
-					type='text'
-					placeholder='enter password'
-					className='px-4 border-2 border-black bg-gray-200 h-8 w-[180px] '
-					ref={passwordRef}
-					onChange={inputHandler}
-				/>
-				{passwordErrorMessage && passwordErrorMessage.trim().length > 0 && (
-					<p className='text-red-500 text-xs '>*{passwordErrorMessage}</p>
-				)}
-			</div>
+				<div className='flex justify-center items-center flex-col'>
+					<input
+						type='text'
+						placeholder='enter password'
+						className='px-4 border-2 border-black bg-gray-200 h-8  rounded-md'
+						ref={passwordRef}
+						onChange={inputHandler}
+					/>
+					{passwordErrorMessage && passwordErrorMessage.trim().length > 0 && (
+						<p className='text-red-500 text-xs '>*{passwordErrorMessage}</p>
+					)}
+				</div>
 
-			<div className='flex my-4 w-[80%] items-center justify-center'>
-				{!isSendingData.status && (
-					<>
-						<button
-							className='bg-red-400'
-							onClick={() => onConfirmDeleteGame(game)}
-						>
-							Yes
-						</button>
-						<button
-							className='border border-black'
-							onClick={onCancel}
-						>
-							No
-						</button>
-					</>
-				)}
+				<div className='flex m-4 items-center justify-between '>
+					{!isSendingData.status && (
+						<>
+							<button className='border border-black' onClick={onCancel}>
+								No
+							</button>
+							<button className='bg-red-400' onClick={() => onConfirmDeleteGame(game)}>
+								Yes
+							</button>
+						</>
+					)}
+				</div>
 				{isSendingData.status && (
-					<p className='text-center'>{isSendingData.message}</p>
+					<p className='text-center m-4'>{isSendingData.message}</p>
 				)}
-			</div>
-		</section>
-	);
-};
+			</section>
+		</main>
+	)
+}
 
-export default DeleteModal;
+export default DeleteModal
