@@ -125,32 +125,32 @@ export default function ListItem({
 	return (
 		<>
 			<div
-				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden  max-w-sm h-14 min-w-[330px] ${addedClass}`}
+				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden  max-w-sm  min-w-[330px] ${addedClass}`}
 			>
 				{!isOpenInputWithSameId && (
 					<>
 						<div className='relative w-[50%] '>
-							<div className='px-4 border-b-2 border-solid border-black'>
+							<div className='px-4 border-b-2 border-solid border-black py-2'>
 								<h1 className=' font-semibold'>{player1.name}</h1>
 							</div>
 							<div className='absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full'>
 								<h1 className='text-red-600 font-bold text-xs p-1 '>VS</h1>
 							</div>
-							<div className='px-4'>
+							<div className='px-4 py-2'>
 								<h1 className='text-base font-semibold'>{player2.name}</h1>
 							</div>
 						</div>
 						<div className='border-l-2 border-r-2 border-solid border-black w-[20%] text-center'>
-							<div className='border-b-2  border-solid border-black px-2'>
+							<div className='border-b-2  border-solid border-black p-2'>
 								<h1>{player1.win}-W</h1>
 							</div>
-							<div className='px-2'>
+							<div className='p-2'>
 								<h1>{player2.win}-W</h1>
 							</div>
 						</div>
 						{!isWithTheSameId && (
 							<>
-								<div className='border-r-2 border-solid border-black w-[15%] flex items-center justify-center'>
+								<div className='border-r-2 border-solid border-black w-[15%] flex items-center justify-center py-2'>
 									<h1>{draw}-D</h1>
 								</div>
 								<div className=' w-[15%] flex items-center justify-center'>

@@ -11,13 +11,13 @@ interface PropsType {
 	totalSavedGames: number
 }
 
-const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
+const Home: React.FC<PropsType> = ({savedGames = [], totalSavedGames}) => {
 	const router = useRouter()
 	const startNewGameHandler = () => {
 		router.push('/game')
 	}
 	return (
-		<section className='flex items-center flex-col justify-center border border-red-500 max-w-max m-auto p-4 h-screen'>
+		<section className='flex items-center flex-col justify-start  max-w-max mx-auto px-4 py-10 h-screen'>
 			<div className=' '>
 				<button
 					className='border border-[#8FF57E] bg-[#8FF57E] px-4 text-lg font-bold shadow-md m-6 w-max rounded-lg hover:bg-green-400'

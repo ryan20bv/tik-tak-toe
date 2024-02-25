@@ -54,18 +54,18 @@ const ResumeInput = ({
 	}
 	return (
 		<section className='w-full'>
-			<div className='flex justify-center items-center m-auto '>
+			<div className='flex justify-center items-center m-auto py-2 border-b-2 border-black'>
 				<h1 className='font-semibold'>{eachGame.player1.name}</h1>{' '}
 				<span className='text-red-600 font-bold text-xs p-0 px-2 m-0'>VS</span>
 				<h1 className='font-semibold'>{eachGame.player2.name}</h1>
 			</div>
-			<div className='flex items-center justify-center'>
+			<div className='flex items-center justify-center py-2'>
 				<form action='' className='flex' onSubmit={submitFormHandler}>
 					<div>
 						<input
 							type='text'
 							placeholder='enter password'
-							className='px-4 border-2 border-black bg-gray-200 h-6 w-[180px] rounded-md'
+							className='px-4 border border-black bg-gray-200 h-6 w-[180px] rounded-md'
 							ref={passwordRef}
 							onChange={inputHandler}
 						/>
