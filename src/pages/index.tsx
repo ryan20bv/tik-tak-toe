@@ -56,8 +56,8 @@ export const getServerSideProps = async () => {
 		// console.log('### resPerPage: ', await resPerPage.json())
 		const data = await resPerPage.json()
 		const {totalSavedGames: total, savedGames} = data
-		totalSavedGames = total || 0
-		allSavedGames = savedGames || []
+		totalSavedGames = total
+		allSavedGames = savedGames
 		// this is for all saved games
 		/* const res = await fetch(
 			process.env.NEXT_PUBLIC_FRONT_END_URL + '/api/game/getSavedGames'
