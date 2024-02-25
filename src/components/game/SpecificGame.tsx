@@ -93,17 +93,27 @@ const SpecificGame = () => {
 
 	const renderedIcon =
 		selectedGame.playerTurn === '1' ? (
-			<Icon icon='icomoon-free:cross' className='h-10 w-10 text-[#2C91DA]' />
+			<Icon icon='icomoon-free:cross' className='h-8 w-8 text-[#2C91DA]' />
 		) : (
-			<Icon icon='fa-solid:dot-circle' className='h-10 w-10 text-[#49CF33]' />
+			<Icon icon='fa-solid:dot-circle' className='h-8 w-8 text-[#49CF33]' />
 		)
 
+	const addedMessage =
+		selectedGame.gameMessage.replace(/"([^"]*)"/, '').trim() ===
+		'Player 1 WIN' ? (
+			<Icon icon='icomoon-free:cross' className='h-8 w-8 text-[#2C91DA]' />
+		) : selectedGame.gameMessage.replace(/"([^"]*)"/, '').trim() ===
+		  'Player 2 WIN' ? (
+			<Icon icon='fa-solid:dot-circle' className='h-8 w-8 text-[#49CF33]' />
+		) : (
+			''
+		)
 	if (!isFetchingData) {
 		return (
-			<main className=' mt-6'>
+			<main className=' mt-6 w-max m-auto'>
 				{!selectedGame.gameIsDone && (
 					<>
-						<section className='text-right md:w-3/6 m-auto max-w-xl'>
+						<section className='flex justify-end items-center'>
 							<button
 								className='border border-[#2C91DA] bg-[#2C91DA] text-gray-100 px-4 rounded-lg text-lg'
 								onClick={stopGameHandler}
@@ -111,21 +121,38 @@ const SpecificGame = () => {
 								Save
 							</button>
 						</section>
-						<section className='my-6 flex justify-center items-end border-b-2 border-black w-min m-auto'>
+						<section className='my-4 flex justify-center items-end border-b-2 border-black w-min m-auto'>
 							{renderedIcon}
 							<h1 className='text-2xl font-semibold ml-4'> TURN</h1>
 						</section>
 					</>
 				)}
 				{selectedGame.gameIsDone && (
-					<div>
-						<h1>{selectedGame.gameMessage.replace(/"([^"]*)"/, '').trim()}</h1>
-					</div>
+					<>
+						<section className='flex justify-between items-center'>
+							<button
+								className='border border-[#2C91DA]  text-[#2C91DA] px-4 rounded-lg text-lg hover:bg-blue-300 hover:text-black'
+								onClick={stopGameHandler}
+							>
+								Home
+							</button>
+							<button
+								className='border border-[#2C91DA] bg-[#2C91DA] text-gray-100 px-4 rounded-lg text-lg hover:bg-blue-700 hover:text-white'
+								onClick={resetBoardHandler}
+							>
+								Another Game
+							</button>
+						</section>
+						<div className='flex justify-center items-end my-4'>
+							<h1 className='mr-6 text-lg font-medium'>
+								{selectedGame.gameMessage.replace(/"([^"]*)"/, '').trim()}
+							</h1>
+							{addedMessage}
+						</div>
+					</>
 				)}
 
-				<div className='m-auto'>
-					<GameBoard selectedGame={selectedGame} nextSession={nextSession} />
-				</div>
+				<GameBoard selectedGame={selectedGame} nextSession={nextSession} />
 
 				{/* {!selectedGame.gameIsDone && (
 					<div className=' my-4 flex justify-center'>
@@ -135,7 +162,7 @@ const SpecificGame = () => {
 					</div>
 				)} */}
 				<PlayersInfo gameDetail={selectedGame} />
-				{selectedGame.gameIsDone && (
+				{/* {selectedGame.gameIsDone && (
 					<UiPortal>
 						<GameNotification
 							gameMessage={selectedGame.gameMessage}
@@ -143,7 +170,7 @@ const SpecificGame = () => {
 							goBackHandler={stopGameHandler}
 						/>
 					</UiPortal>
-				)}
+				)} */}
 				{isSendingData.status && (
 					<UiPortal>
 						<div className='px-10 py-2'>{isSendingData.message}</div>

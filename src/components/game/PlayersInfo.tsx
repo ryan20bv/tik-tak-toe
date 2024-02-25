@@ -24,18 +24,25 @@ const PlayersInfo: React.FC<PropsType> = ({gameDetail}) => {
 		// 		infoTitle='Player-2'
 		// 	/>
 		// </section>
-		<section className='flex justify-center items-center mt-4'>
-			<div className='border bg-[#2C91DA] rounded-lg p-2 text-center shadow-lg'>
-				<h3 className='text-xl'>X ({player1.name})</h3>
-				<h1 className='text-3xl font-bold'>{player1.win}</h1>
+		<section className='flex justify-between items-end '>
+			<div>
+				<div className='border bg-[#2C91DA] rounded-lg p-2 text-center shadow-lg'>
+					<h3 className='text-xl'>{player1.name}</h3>
+					<h1 className='text-3xl font-bold'>{player1.win}</h1>
+				</div>
+				<p className='text-center'>Player 1 - X</p>
 			</div>
+
 			<div className='border bg-gray-200 rounded-lg p-2 text-center m-6 shadow-lg'>
 				<h3 className='text-xl'>DRAW</h3>
 				<h1 className='text-3xl font-bold'>{draw}</h1>
 			</div>
-			<div className='border bg-[#49CF33] rounded-lg p-2 text-center shadow-lg'>
-				<h3 className='text-xl'>O ({player2.name})</h3>
-				<h1 className='text-3xl font-bold'>{player2.win}</h1>
+			<div>
+				<div className='border bg-[#49CF33] rounded-lg p-2 text-center shadow-lg'>
+					<h3 className='text-xl'>{player1.name}</h3>
+					<h1 className='text-3xl font-bold'>{player2.win}</h1>
+				</div>
+				<p className='text-center'>Player 2 - O</p>
 			</div>
 		</section>
 	)

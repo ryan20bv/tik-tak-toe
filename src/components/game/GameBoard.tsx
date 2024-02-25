@@ -22,7 +22,7 @@ const GameBoard: React.FC<PropsType> = ({selectedGame, nextSession}) => {
 	}
 
 	return (
-		<section className=' grid grid-cols-3 gap-4 max-w-xl  m-auto'>
+		<section className=' grid grid-cols-3 gap-4 '>
 			{selectedGame.history.gameHistory.map((rowTile: IGameTileData[]) =>
 				rowTile.map((tileData: IGameTileData) => (
 					<Box

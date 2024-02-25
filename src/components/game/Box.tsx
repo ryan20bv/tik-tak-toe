@@ -36,6 +36,7 @@ export default function Box({
 
 	return (
 		<button
+			disabled={gameIsDone}
 			className={`border border-gray-400  text-center w-24 h-24 md:h-28 md:w-32 shadow-xl rounded-lg flex justify-center items-center ${
 				renderedChildren !== '' && 'bg-gray-200'
 			}`}
