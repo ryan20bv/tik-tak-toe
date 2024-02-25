@@ -125,7 +125,7 @@ export default function ListItem({
 	return (
 		<>
 			<div
-				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden my-2 max-w-sm h-14 min-w-[330px] ${addedClass}`}
+				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden  max-w-sm h-14 min-w-[330px] ${addedClass}`}
 			>
 				{!isOpenInputWithSameId && (
 					<>

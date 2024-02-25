@@ -13,17 +13,17 @@ interface PropsType {
 
 const Home: React.FC<PropsType> = ({savedGames, totalSavedGames}) => {
 	const router = useRouter()
-	const stateNewGameHandler = () => {
+	const startNewGameHandler = () => {
 		router.push('/game')
 	}
 	return (
-		<section className='flex items-center flex-col  '>
-			<div className=' mb-4'>
+		<section className='flex items-center flex-col justify-center border border-red-500 max-w-max m-auto p-4 h-screen'>
+			<div className=' '>
 				<button
-					className='border border-[#8FF57E] bg-[#8FF57E] px-4 text-lg font-bold shadow-md m-6 w-max'
-					onClick={stateNewGameHandler}
+					className='border border-[#8FF57E] bg-[#8FF57E] px-4 text-lg font-bold shadow-md m-6 w-max rounded-lg hover:bg-green-400'
+					onClick={startNewGameHandler}
 				>
-					Start New Game
+					Create New Game
 				</button>
 			</div>
 

@@ -25,7 +25,7 @@ export default function GameList() {
 	}
 
 	return (
-		<main className=' w-full my-4 '>
+		<main className='border'>
 			{/* <h1 className='font-medium'>Recent</h1>
 			<div className=' my-2'>
 				<ListItem />
@@ -35,7 +35,7 @@ export default function GameList() {
 			</div>
 
 			<section className='p-1 overflow-y-scroll'>
-				<div className='h-[45vh]  grid  grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3 gap-min-4 gap-max-8'>
+				<div className='h-[45vh]  grid  grid-cols-1 place-items-center md:grid-cols-2 lg:grid-cols-3 gap-4'>
 					{savedGames.map((eachGame: ISaveGame, index: number) => (
 						<ListItem
 							key={eachGame._id}
