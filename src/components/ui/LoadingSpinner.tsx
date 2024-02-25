@@ -1,15 +1,12 @@
-import React from "react";
-import Image from "next/image";
+import React from 'react'
+import Image from 'next/image'
+import {Icon} from '@iconify/react'
 const LoadingSpinner = () => {
 	return (
-		<Image
-			src='/static/Loading_icon.gif'
-			alt='loading...'
-			width={100}
-			height={100}
-			className='w-20 ml-4 '
-		/>
-	);
-};
+		<div className='mx-4'>
+			<Icon icon='eos-icons:bubble-loading' />
+		</div>
+	)
+}
 
-export default LoadingSpinner;
+export default LoadingSpinner

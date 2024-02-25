@@ -1,83 +1,88 @@
-import React, { useRef, useState } from "react";
-import InputUI from "../ui/InputUI";
-import { useRouter } from "next/router";
-import { ArrowLeftCircleIcon } from "@heroicons/react/24/solid";
-import { INewGameUser } from "@/data/modelTypes";
+import React, {useRef, useState} from 'react'
+import InputUI from '../ui/InputUI'
+import {useRouter} from 'next/router'
+import {ArrowLeftCircleIcon} from '@heroicons/react/24/solid'
+import {INewGameUser} from '@/data/modelTypes'
 // for redux purposes
-import { useAppDispatch } from "@/reduxToolkit/indexStore/indexStore";
+import {useAppDispatch} from '@/reduxToolkit/indexStore/indexStore'
 import {
 	startNewGameAction,
-	addNewGameToSavedGamesAction,
-} from "@/reduxToolkit/tiktak/actions/newGameAction";
-import { setSelectedGameAction } from "@/reduxToolkit/tiktak/actions/tiktakAction";
+	addNewGameToSavedGamesAction
+} from '@/reduxToolkit/tiktak/actions/newGameAction'
+import LoadingSpinner from '../ui/LoadingSpinner'
+import {setSelectedGameAction} from '@/reduxToolkit/tiktak/actions/tiktakAction'
 
 // for custom hooks
 
-import useSanitizeHook from "@/customhooks/use-input";
+import useSanitizeHook from '@/customhooks/use-input'
 // for next authentication
-import { getSession } from "next-auth/react";
+import {getSession} from 'next-auth/react'
+import {useAppSelector, RootState} from '@/reduxToolkit/indexStore/indexStore'
 
 const InfoForm = () => {
-	const router = useRouter();
-	const dispatch = useAppDispatch();
-	const { handlerInputNameSanitizer, handlerInputPasswordSanitizer } =
-		useSanitizeHook();
+	const {isSendingData} = useAppSelector(
+		(state: RootState) => state.tikTakToeReducer
+	)
+	const router = useRouter()
+	const dispatch = useAppDispatch()
+	const {handlerInputNameSanitizer, handlerInputPasswordSanitizer} =
+		useSanitizeHook()
 
-	const player1Ref = useRef<HTMLInputElement>(null);
-	const player2Ref = useRef<HTMLInputElement>(null);
-	const passwordRef = useRef<HTMLInputElement>(null);
-	const [player1Error, setPlayer1Error] = useState<boolean>(false);
-	const [player2Error, setPlayer2Error] = useState<boolean>(false);
-	const [passwordError, setPasswordError] = useState<boolean>(false);
+	const player1Ref = useRef<HTMLInputElement>(null)
+	const player2Ref = useRef<HTMLInputElement>(null)
+	const passwordRef = useRef<HTMLInputElement>(null)
+	const [player1Error, setPlayer1Error] = useState<boolean>(false)
+	const [player2Error, setPlayer2Error] = useState<boolean>(false)
+	const [passwordError, setPasswordError] = useState<boolean>(false)
 
 	const cancelStartGameHandler = () => {
-		router.push("/");
-	};
+		router.push('/')
+	}
 	const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
-		const { value, id } = e.currentTarget;
+		const {value, id} = e.currentTarget
 
-		if (id === "player 1") {
-			const validatedValue = handlerInputNameSanitizer(value);
+		if (id === 'player 1') {
+			const validatedValue = handlerInputNameSanitizer(value)
 			if (!player1Ref.current) {
-				return;
+				return
 			}
-			setPlayer1Error(false);
-			player1Ref.current.value = validatedValue;
-		} else if (id === "player 2") {
-			const validatedValue = handlerInputNameSanitizer(value);
+			setPlayer1Error(false)
+			player1Ref.current.value = validatedValue
+		} else if (id === 'player 2') {
+			const validatedValue = handlerInputNameSanitizer(value)
 			if (!player2Ref.current) {
-				return;
+				return
 			}
-			setPlayer2Error(false);
-			player2Ref.current.value = validatedValue;
-		} else if (id === "password") {
-			const validatedValue = handlerInputNameSanitizer(value);
+			setPlayer2Error(false)
+			player2Ref.current.value = validatedValue
+		} else if (id === 'password') {
+			const validatedValue = handlerInputNameSanitizer(value)
 			if (!passwordRef.current) {
-				return;
+				return
 			}
-			setPasswordError(false);
-			passwordRef.current.value = validatedValue;
+			setPasswordError(false)
+			passwordRef.current.value = validatedValue
 		}
-	};
+	}
 
 	const submitGameHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
+		e.preventDefault()
 
-		const player1_Name = player1Ref.current?.value;
-		const player2_Name = player2Ref.current?.value;
-		const enteredPassword = passwordRef.current?.value;
+		const player1_Name = player1Ref.current?.value
+		const player2_Name = player2Ref.current?.value
+		const enteredPassword = passwordRef.current?.value
 		if (!player1_Name || player1_Name.trim().length === 0) {
-			setPlayer1Error(true);
+			setPlayer1Error(true)
 		}
 		if (!player2_Name || player2_Name.trim().length === 0) {
-			setPlayer2Error(true);
+			setPlayer2Error(true)
 		}
 		if (
 			!enteredPassword ||
 			enteredPassword.trim().length === 0 ||
 			enteredPassword.trim().length < 4
 		) {
-			setPasswordError(true);
+			setPasswordError(true)
 		}
 		if (
 			!player1_Name ||
@@ -88,39 +93,41 @@ const InfoForm = () => {
 			enteredPassword.trim().length === 0 ||
 			enteredPassword.trim().length < 4
 		) {
-			return;
+			return
 		}
 		// submit to redux
 		const newUser: INewGameUser = {
 			player1_Name,
 			player2_Name,
-			password: enteredPassword,
-		};
-		await dispatch(startNewGameAction(newUser));
-
-		const session = await getSession();
-
-		let dataSession: any = session?.user?.name;
-		await dispatch(setSelectedGameAction(dataSession?.newGame));
-		await dispatch(addNewGameToSavedGamesAction(dataSession?.newGame));
-		if (dataSession?.message === "New Game Created") {
-			router.push(`/game/${player1_Name}vs${player2_Name}`);
+			password: enteredPassword
 		}
-	};
+		await dispatch(startNewGameAction(newUser))
+
+		const session = await getSession()
+
+		let dataSession: any = session?.user?.name
+		await dispatch(setSelectedGameAction(dataSession?.newGame))
+		await dispatch(addNewGameToSavedGamesAction(dataSession?.newGame))
+		if (dataSession?.message === 'New Game Created') {
+			router.push(`/game/${player1_Name}vs${player2_Name}`)
+		}
+	}
 
 	return (
-		<section className='border border-black p-4 rounded-2xl'>
-			<div className='flex '>
-				<p onClick={cancelStartGameHandler}>
-					<ArrowLeftCircleIcon className='text-red-500 h-8 mr-4' />
-				</p>
-				<p className='text-center mb-6'>Enter Player Details</p>
+		<section className='border border-black p-4 rounded-2xl w-[350px] absolute z-10 bg-white opacity-90 md:relative'>
+			<button onClick={cancelStartGameHandler} className='ml-0 p-0 '>
+				<ArrowLeftCircleIcon className='text-red-500 h-8 mr-2' />
+				<p>Back</p>
+			</button>
+
+			<div className='m-auto'>
+				<p className='text-center text-lg my-2 font-medium'>Enter Player Details</p>
 			</div>
 
 			<form onSubmit={submitGameHandler}>
 				<InputUI
-					type={"text"}
-					info={"player 1"}
+					type={'text'}
+					info={'player 1'}
 					placeholderInfo='Player 1 name'
 					inputRef={player1Ref}
 					inputHandler={inputHandler}
@@ -128,8 +135,8 @@ const InfoForm = () => {
 					errorMessage='*Please enter name max 8 characters'
 				/>
 				<InputUI
-					type={"text"}
-					info={"player 2"}
+					type={'text'}
+					info={'player 2'}
 					placeholderInfo='Player 2 name'
 					inputRef={player2Ref}
 					inputHandler={inputHandler}
@@ -137,20 +144,26 @@ const InfoForm = () => {
 					errorMessage='*Please enter name max 8 characters'
 				/>
 				<InputUI
-					type={"text"}
-					info={"password"}
+					type={'text'}
+					info={'password'}
 					placeholderInfo='Password'
 					inputRef={passwordRef}
 					inputHandler={inputHandler}
 					hasError={passwordError}
 					errorMessage='*Min of 4 characters'
 				/>
-				<div className='flex justify-between'>
-					<button className='bg-green-400 border border-green-400'>submit</button>
+				<div className='flex justify-end'>
+					<button
+						className='bg-green-400 border border-green-400 font-semibold'
+						disabled={isSendingData.status}
+					>
+						{isSendingData.status && 'Sending...'}
+						{!isSendingData.status && 'Submit'}
+					</button>
 				</div>
 			</form>
 		</section>
-	);
-};
+	)
+}
 
-export default InfoForm;
+export default InfoForm

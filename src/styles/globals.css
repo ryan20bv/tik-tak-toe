@@ -20,13 +20,13 @@ body {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
-	color: rgb(var(--foreground-rgb));
+	/* color: rgb(var(--foreground-rgb));
 	background: linear-gradient(
 			to bottom,
 			transparent,
 			rgb(var(--background-end-rgb))
 		)
-		rgb(var(--background-start-rgb));
+		rgb(var(--background-start-rgb)); */
 }
 table,
 th,
@@ -42,5 +42,5 @@ button {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: auto;
+	/* margin: auto; */
 }

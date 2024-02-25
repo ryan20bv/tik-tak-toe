@@ -1,14 +1,16 @@
 import React, {useState} from 'react'
 import {useRouter} from 'next/router'
 import {IAccessData, ISaveGame} from '@/data/modelTypes'
-import PasswordInput from '../home/PasswordInput'
-import UiPortal from '../ui/UiPortal'
-import DeleteModal from '../ui/DeleteModal'
+import PasswordInput from '@/components/home/PasswordInput'
+import UiPortal from '@/components/ui/UiPortal'
+import DeleteModal from '@/components/ui/DeleteModal'
+import ResumeInput from './resume-input'
 
 import {
 	TrashIcon,
 	EllipsisHorizontalCircleIcon,
-	ArrowRightEndOnRectangleIcon
+	ArrowRightEndOnRectangleIcon,
+	EllipsisHorizontalIcon
 } from '@heroicons/react/24/solid'
 // for redux
 import {
@@ -21,13 +23,15 @@ import {
 	unSetSelectedGameAction,
 	confirmDeleteGameAction,
 	deleteFromSavedGamesAction,
-	resetTikTakToeReducerAction
+	resetTikTakToeReducerAction,
+	updateDataAsPageChangeAction
 } from '@/reduxToolkit/tiktak/actions/tiktakAction'
 import {
 	accessGameAction,
 	updateIsSendingDataAction,
 	resetIsSendingDataAction
 } from '@/reduxToolkit/tiktak/actions/newGameAction'
+// ==================================
 
 interface PropsType {
 	eachGame: ISaveGame
@@ -37,23 +41,22 @@ interface PropsType {
 	closeInputHandler: () => void
 }
 
-const TableBody: React.FC<PropsType> = ({
+export default function ListItem({
 	eachGame,
 	index,
-
 	showInput,
 	showInputHandler,
 	closeInputHandler
-}) => {
+}: PropsType) {
 	const router = useRouter()
 	const dispatch = useAppDispatch()
-	const {selectedGame, isSendingData} = useAppSelector(
+	const {selectedGame, isSendingData, currPage} = useAppSelector(
 		(state: RootState) => state.tikTakToeReducer
 	)
 	const [passwordErrorMessage, setPasswordErrorMessage] = useState<string>('')
 	const [isPortalOpen, setIsPortalOpen] = useState<boolean>(false)
 
-	const {player1, player2, _id, draw} = eachGame
+	const {player1, player2, draw} = eachGame
 	const goToGamePageHandler = async (
 		game: ISaveGame,
 		enteredPassword: string
@@ -78,7 +81,7 @@ const TableBody: React.FC<PropsType> = ({
 	let isOpenInputWithSameId =
 		selectedGame._id === eachGame._id ? showInput : false
 
-	const addedClass = index % 2 === 0 ? 'bg-blue-100' : 'bg-white'
+	// const addedClass = index % 2 === 0 ? 'bg-blue-100' : 'bg-white'
 	const updatePasswordErrorMessage = (message: string) => {
 		setPasswordErrorMessage(message)
 	}
@@ -110,63 +113,83 @@ const TableBody: React.FC<PropsType> = ({
 		password: string
 	) => {
 		dispatch(updateIsSendingDataAction({status: true, message: 'Deleting...'}))
+		setIsPortalOpen(false)
 		const result = await dispatch(confirmDeleteGameAction(gameToDelete, password))
 		if (result?.message === 'Delete Game') {
 			dispatch(resetTikTakToeReducerAction())
-			dispatch(deleteFromSavedGamesAction(gameToDelete))
+			// dispatch(deleteFromSavedGamesAction(gameToDelete))
+			dispatch(updateDataAsPageChangeAction(currPage))
 		}
 		dispatch(resetIsSendingDataAction())
 
 		return result
 	}
+
 	return (
 		<>
-			{!isOpenInputWithSameId && (
-				<>
-					<tr className={`${addedClass}`}>
-						<td rowSpan={2}>{index + 1}</td>
-						<td>{player1.name}</td>
-						<td>{player1.win}</td>
-						<td>{player2.win}</td>
-						<td rowSpan={2}>{draw}</td>
-						<td rowSpan={2}>
-							{!isWithTheSameId && (
-								<>
-									<button onClick={() => moreActionHandler(eachGame)}>
-										<EllipsisHorizontalCircleIcon className='text-green-500 h-8 ' />
-									</button>
-								</>
-							)}
-							{isWithTheSameId && (
-								<div className='flex'>
-									<div onClick={openInputHandler}>
-										<ArrowRightEndOnRectangleIcon className='text-blue-500 h-8 ' />
-									</div>
-									<div onClick={deleteIconHandler}>
-										<TrashIcon className='text-red-500 h-8 ' />
-									</div>
+			<div
+				className={`border border-solid border-gray-400 flex shadow-md rounded-lg overflow-hidden  max-w-sm  min-w-[330px] `}
+			>
+				{!isOpenInputWithSameId && (
+					<>
+						<div className='relative w-[50%] bg-blue-100'>
+							<div className='px-4 border-b-2 border-solid border-black py-2'>
+								<h1 className=' font-semibold'>{player1.name}</h1>
+							</div>
+							<div className='absolute bg-white top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-full'>
+								<h1 className='text-red-600 font-bold text-xs p-1 '>VS</h1>
+							</div>
+							<div className='px-4 py-2'>
+								<h1 className='text-base font-semibold'>{player2.name}</h1>
+							</div>
+						</div>
+						<div className='border-l-2 border-r-2 border-solid border-black w-[20%] text-center'>
+							<div className='border-b-2  border-solid border-black p-2'>
+								<h1>{player1.win}-W</h1>
+							</div>
+							<div className='p-2'>
+								<h1>{player2.win}-W</h1>
+							</div>
+						</div>
+						{!isWithTheSameId && (
+							<>
+								<div className='border-r-2 border-solid border-black w-[15%] flex items-center justify-center py-2'>
+									<h1>{draw}-D</h1>
 								</div>
-							)}
-						</td>
-					</tr>
-					<tr className={`${addedClass}`}>
-						<td>{player2.name}</td>
-						<td>{player2.win}</td>
-						<td>{player1.win}</td>
-					</tr>
-				</>
-			)}
-			{isOpenInputWithSameId && (
-				<PasswordInput
-					index={index}
-					eachGame={eachGame}
-					onCloseInput={onCloseInputHandler}
-					goToGamePageHandler={goToGamePageHandler}
-					passwordErrorMessage={passwordErrorMessage}
-					updatePasswordErrorMessage={updatePasswordErrorMessage}
-					addedClass={addedClass}
-				/>
-			)}
+								<div className=' w-[15%] flex items-center justify-center'>
+									<button
+										className='bg-[#8FF57E] shadow-md px-0 py-0'
+										onClick={() => moreActionHandler(eachGame)}
+									>
+										<EllipsisHorizontalIcon className='h-6 w-6' />
+									</button>
+								</div>
+							</>
+						)}
+						{isWithTheSameId && (
+							<div className='flex justify-between items-center m-auto'>
+								<button onClick={openInputHandler} className='p-0 m-2'>
+									<ArrowRightEndOnRectangleIcon className='text-blue-500 h-8' />
+								</button>
+
+								<button onClick={deleteIconHandler} className='p-0 m-2'>
+									<TrashIcon className='text-red-500 h-8' />
+								</button>
+							</div>
+						)}
+					</>
+				)}
+				{isOpenInputWithSameId && (
+					<ResumeInput
+						index={index}
+						eachGame={eachGame}
+						onCloseInput={onCloseInputHandler}
+						goToGamePageHandler={goToGamePageHandler}
+						passwordErrorMessage={passwordErrorMessage}
+						updatePasswordErrorMessage={updatePasswordErrorMessage}
+					/>
+				)}
+			</div>
 			{isPortalOpen && (
 				<UiPortal>
 					<DeleteModal
@@ -180,5 +203,3 @@ const TableBody: React.FC<PropsType> = ({
 		</>
 	)
 }
-
-export default TableBody
